@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Assistant', system-ui, -apple-system, sans-serif;
+    background-color: #121110;
+    color: #f3eee6;
+  }
+
+  h1, h2, h3, .font-serif-luxury {
+    font-family: 'Cormorant Garamond', 'Assistant', serif;
+  }
+
+  .font-cinzel {
+    font-family: 'Cinzel', serif;
+  }
+}
+
+/* Custom scrollbar in warm champagne style */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #121110;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2521;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3d352e;
+}
+
+/* Glassmorphism card utility with warm amber/champagne tint */
+.glass-panel {
+  background: rgba(28, 25, 23, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.18);
+}
+
+.glass-panel-light {
+  background: rgba(255, 248, 235, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(229, 193, 88, 0.2);
+}
+
+.subtle-border {
+  border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.subtle-border-hover:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+/* Warm golden glows and overlays */
+.gradient-overlay-bottom {
+  background: linear-gradient(to top, rgba(18, 17, 16, 1) 0%, rgba(18, 17, 16, 0.7) 50%, rgba(18, 17, 16, 0) 100%);
+}
+
+.gradient-overlay-radial {
+  background: radial-gradient(circle at center, rgba(212, 175, 55, 0.08) 0%, rgba(18, 17, 16, 0) 70%);
+}
+
+/* Warm accent colors */
+.text-gold {
+  color: #e5c158;
+}
+
+.bg-gold {
+  background-color: #d4af37;
+}
+
+.border-gold {
+  border-color: rgba(212, 175, 55, 0.3);
+}
