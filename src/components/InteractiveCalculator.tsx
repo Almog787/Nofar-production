@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Sparkles, Users, Check, ArrowLeft, Sliders, ShieldCheck, HeartHandshake } from 'lucide-react';
+import { Users, Check, ArrowLeft, Sliders, ShieldCheck } from 'lucide-react';
 
 interface InteractiveCalculatorProps {
   onOpenContact: (customSubject?: string) => void;
@@ -10,7 +10,6 @@ export const InteractiveCalculator: React.FC<InteractiveCalculatorProps> = ({ on
   const [guests, setGuests] = useState<number>(250);
   const [style, setStyle] = useState<'monochrome' | 'classic' | 'nature' | 'urban'>('monochrome');
   
-  // Selected add-ons
   const [addons, setAddons] = useState<{ [key: string]: boolean }>({
     catering: true,
     design: true,
@@ -26,9 +25,9 @@ export const InteractiveCalculator: React.FC<InteractiveCalculatorProps> = ({ on
 
   const conceptSummary = useMemo(() => {
     const activeAddonsCount = Object.values(addons).filter(Boolean).length;
-    let atmosphereTier = 'יוקרתית, חמה ועוטפת';
-    if (guests > 400) atmosphereTier = 'אירוע ענק, מרשים ועוצמתי';
-    if (guests < 150) atmosphereTier = 'אירוע בוטיק אינטימי ומרגש';
+    let atmosphereTier = 'יוקרה חמה ועוטפת';
+    if (guests > 400) atmosphereTier = 'אירוע ענק ומרשים';
+    if (guests < 150) atmosphereTier = 'אינטימיות יוקרתית';
 
     return {
       activeAddonsCount,
@@ -41,52 +40,48 @@ export const InteractiveCalculator: React.FC<InteractiveCalculatorProps> = ({ on
       wedding: 'חתונה',
       corporate: 'אירוע חברה',
       barmitzvah: 'בר/בת מצווה',
-      boutique: 'מסיבת VIP פרטית'
+      boutique: 'מסיבת VIP'
     };
     const styleNameMap = {
-      monochrome: 'יוקרה חמה וזהובה',
-      classic: 'קלאסיקה אלגנטית',
+      monochrome: 'זהב חם ויוקרה',
+      classic: 'קלאסיקה מאופקת',
       nature: 'טבע כפרי וחמים',
-      urban: 'אורבני מודרני'
+      urban: 'אורבני עדכני'
     };
 
-    const configSummary = `בדיקת מפרט במתכנן האירוע עבור ${eventNameMap[eventType]} ל-${guests} אורחים בסגנון ${styleNameMap[style]}. אריזת שירותים: ${conceptSummary.activeAddonsCount} מרכיבים נבחרים.`;
+    const configSummary = `אפיון מתכנן עבור ${eventNameMap[eventType]} ל-${guests} אורחים בסגנון ${styleNameMap[style]} (${conceptSummary.activeAddonsCount} מרכיבים).`;
     onOpenContact(configSummary);
   };
 
   return (
-    <section id="calculator" className="py-24 bg-[#121110] relative border-t border-[#d4af37]/20">
-      
-      {/* Background Subtle Accent Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-[#d4af37]/5 rounded-full blur-3xl pointer-events-none" />
-
+    <section id="calculator" className="py-20 bg-[#121110] relative border-t border-[#d4af37]/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#e5c158] mb-3">
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#e5c158] mb-2.5">
             <Sliders className="w-3.5 h-3.5" />
-            <span>מתכנן הקונספט והחוויה</span>
+            <span>מתכנן קונספט אישי</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[#fdfbf7] tracking-tight leading-tight">
-            תכנון מפרט האירוע האישי שלכם
+            הגדרת מפרט האירוע
           </h2>
-          <p className="text-base sm:text-lg text-[#d8cfc4] font-light mt-4">
-            בחרו את המרכיבים והסגנון המועדף עליכם לבניית קונספט אירוע מושלם ומותאם אישית.
+          <p className="text-sm sm:text-base text-[#d8cfc4] font-light mt-3">
+            בחרו את המאפיינים העיקריים לבניית קונספט מדויק לאירוע שלכם.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Form Options (8 cols) */}
-          <div className="lg:col-span-7 space-y-8 bg-[#1c1917]/80 p-6 sm:p-8 rounded-2xl border border-[#d4af37]/20 shadow-xl">
+          {/* Form Options */}
+          <div className="lg:col-span-7 space-y-6 bg-[#1c1917]/80 p-6 rounded-2xl border border-[#d4af37]/20 shadow-xl">
             
             {/* Step 1: Event Type */}
-            <div className="space-y-3">
-              <label className="block text-sm font-bold text-[#fdfbf7]">
+            <div className="space-y-2.5">
+              <label className="block text-xs font-bold text-[#fdfbf7] uppercase tracking-wider">
                 1. סוג האירוע
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                 {[
                   { id: 'wedding', label: 'חתונה' },
                   { id: 'corporate', label: 'אירוע חברה' },
@@ -97,7 +92,7 @@ export const InteractiveCalculator: React.FC<InteractiveCalculatorProps> = ({ on
                     key={type.id}
                     type="button"
                     onClick={() => setEventType(type.id as any)}
-                    className={`p-3 text-xs font-semibold rounded-xl border transition-all cursor-pointer ${
+                    className={`p-2.5 text-xs font-semibold rounded-xl border transition-all cursor-pointer ${
                       eventType === type.id
                         ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] border-[#e5c158] shadow-md font-bold'
                         : 'bg-[#121110] text-[#d8cfc4] border-[#d4af37]/20 hover:border-[#d4af37]/50'
@@ -110,13 +105,13 @@ export const InteractiveCalculator: React.FC<InteractiveCalculatorProps> = ({ on
             </div>
 
             {/* Step 2: Guest Count Slider */}
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               <div className="flex justify-between items-center">
-                <label className="text-sm font-bold text-[#fdfbf7] flex items-center gap-2">
-                  <Users className="w-4 h-4 text-[#e5c158]" />
-                  <span>2. מספר אורחים מוערך</span>
+                <label className="text-xs font-bold text-[#fdfbf7] uppercase tracking-wider flex items-center gap-1.5">
+                  <Users className="w-3.5 h-3.5 text-[#e5c158]" />
+                  <span>2. מספר אורחים</span>
                 </label>
-                <span className="text-lg font-serif font-bold text-[#e5c158] bg-[#2a2521] px-3.5 py-1 rounded-lg border border-[#d4af37]/30 tabular-nums">
+                <span className="text-base font-serif font-bold text-[#e5c158] bg-[#2a2521] px-3 py-0.5 rounded-lg border border-[#d4af37]/30 tabular-nums">
                   {guests} אורחים
                 </span>
               </div>
@@ -129,7 +124,7 @@ export const InteractiveCalculator: React.FC<InteractiveCalculatorProps> = ({ on
                 onChange={(e) => setGuests(Number(e.target.value))}
                 className="w-full h-2 bg-[#2a2521] rounded-lg appearance-none cursor-pointer accent-[#e5c158]"
               />
-              <div className="flex justify-between text-[11px] text-[#d8cfc4] font-mono">
+              <div className="flex justify-between text-[10px] text-[#d8cfc4] font-mono">
                 <span>50</span>
                 <span>250</span>
                 <span>500</span>
@@ -138,63 +133,63 @@ export const InteractiveCalculator: React.FC<InteractiveCalculatorProps> = ({ on
             </div>
 
             {/* Step 3: Event Style */}
-            <div className="space-y-3">
-              <label className="block text-sm font-bold text-[#fdfbf7]">
-                3. קונספט ועיצוב מועדף
+            <div className="space-y-2.5">
+              <label className="block text-xs font-bold text-[#fdfbf7] uppercase tracking-wider">
+                3. שפה עיצובית
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2.5">
                 {[
-                  { id: 'monochrome', label: 'יוקרה חמה וזהובה', desc: 'תאורה זהובה, אסתטיקה עוטפת ודרמטית' },
-                  { id: 'classic', label: 'קלאסיקה אלגנטית', desc: 'גוונים נקיים, קריסטל ואינטימיות' },
-                  { id: 'urban', label: 'אורבני מודרני', desc: 'בטון חשוף, ניאון ואווירה תל אביבית' },
-                  { id: 'nature', label: 'טבע כפרי וחמים', desc: 'צמחיה עשירה, עץ מלא ותאורה רכה' },
+                  { id: 'monochrome', label: 'יוקרה חמה וזהובה', desc: 'תאורה רומנטית וטקסטורות עשירות' },
+                  { id: 'classic', label: 'קלאסיקה מאופקת', desc: 'קווים נקיים ואלגנטיות נצחית' },
+                  { id: 'urban', label: 'אורבני עדכני', desc: 'אווירה תל-אביבית מודרנית' },
+                  { id: 'nature', label: 'טבע כפרי', desc: 'חיבור פתוח ועץ טבעי' },
                 ].map((s) => (
                   <button
                     key={s.id}
                     type="button"
                     onClick={() => setStyle(s.id as any)}
-                    className={`p-3.5 text-right rounded-xl border transition-all cursor-pointer ${
+                    className={`p-3 text-right rounded-xl border transition-all cursor-pointer ${
                       style === s.id
-                        ? 'bg-[#2a2521] text-[#fdfbf7] border-[#e5c158] shadow-lg'
+                        ? 'bg-[#2a2521] text-[#fdfbf7] border-[#e5c158] shadow-md'
                         : 'bg-[#121110] text-[#d8cfc4] border-[#d4af37]/20 hover:border-[#d4af37]/40'
                     }`}
                   >
-                    <div className="text-xs font-bold text-[#fdfbf7] mb-0.5">{s.label}</div>
-                    <div className="text-[10px] text-[#d8cfc4]">{s.desc}</div>
+                    <div className="text-xs font-bold text-[#fdfbf7]">{s.label}</div>
+                    <div className="text-[10px] text-[#d8cfc4] mt-0.5">{s.desc}</div>
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Step 4: Included Services Addons */}
-            <div className="space-y-3 pt-2">
-              <label className="block text-sm font-bold text-[#fdfbf7]">
-                4. שירותים ומרכיבים מבוקשים
+            {/* Step 4: Included Services */}
+            <div className="space-y-2.5">
+              <label className="block text-xs font-bold text-[#fdfbf7] uppercase tracking-wider">
+                4. מרכיבי הפקה
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {[
-                  { id: 'catering', label: 'קייטרינג שף & בר קוקטיילים' },
-                  { id: 'design', label: 'עיצוב קונספט מלא & פרחים' },
-                  { id: 'soundLight', label: 'מערכות הגברה ותאורת אווירה חמה' },
-                  { id: 'djArtist', label: 'דיג\'יי מוביל & אמנים אורחים' },
-                  { id: 'photography', label: 'צוות צילום סטילס & וידאו 4K' },
-                  { id: 'dayOfManagement', label: 'ניהול וצוות מפיקים ביום האירוע' },
+                  { id: 'catering', label: 'קולינריה עילית ובר' },
+                  { id: 'design', label: 'עיצוב קונספט ופרחים' },
+                  { id: 'soundLight', label: 'הגברה ותאורת אווירה' },
+                  { id: 'djArtist', label: 'מוזיקה ואמנים' },
+                  { id: 'photography', label: 'צילום ותיעוד' },
+                  { id: 'dayOfManagement', label: 'ניהול האירוע בשטח' },
                 ].map((addon) => (
                   <button
                     key={addon.id}
                     type="button"
                     onClick={() => toggleAddon(addon.id)}
-                    className={`flex items-center justify-between p-3 rounded-xl border text-xs font-medium transition-all cursor-pointer ${
+                    className={`flex items-center justify-between p-2.5 rounded-xl border text-xs font-medium transition-all cursor-pointer ${
                       addons[addon.id]
                         ? 'bg-[#2a2521] text-[#fdfbf7] border-[#e5c158]'
                         : 'bg-[#121110] text-[#d8cfc4] border-[#d4af37]/20 opacity-60'
                     }`}
                   >
                     <span>{addon.label}</span>
-                    <div className={`w-4 h-4 rounded flex items-center justify-center border ${
+                    <div className={`w-3.5 h-3.5 rounded flex items-center justify-center border ${
                       addons[addon.id] ? 'bg-[#e5c158] text-[#121110] border-[#e5c158]' : 'border-[#d4af37]/30'
                     }`}>
-                      {addons[addon.id] && <Check className="w-3 h-3 stroke-[3]" />}
+                      {addons[addon.id] && <Check className="w-2.5 h-2.5 stroke-[3]" />}
                     </div>
                   </button>
                 ))}
@@ -203,35 +198,35 @@ export const InteractiveCalculator: React.FC<InteractiveCalculatorProps> = ({ on
 
           </div>
 
-          {/* Results Box (5 cols) */}
+          {/* Results Box */}
           <div className="lg:col-span-5 sticky top-24">
-            <div className="p-8 rounded-2xl glass-panel border border-[#d4af37]/30 shadow-2xl space-y-6 relative overflow-hidden">
+            <div className="p-6 rounded-2xl glass-panel border border-[#d4af37]/30 shadow-2xl space-y-5 relative overflow-hidden">
               <div className="absolute top-0 right-0 left-0 h-1 bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059]" />
 
-              <div className="flex items-center justify-between border-b border-[#d4af37]/20 pb-4">
-                <span className="text-xs uppercase font-mono tracking-wider text-[#e5c158]">
-                  סיכום מפרט הקונספט
+              <div className="flex items-center justify-between border-b border-[#d4af37]/20 pb-3">
+                <span className="text-[11px] uppercase font-mono tracking-wider text-[#e5c158]">
+                  סיכום מפרט
                 </span>
-                <span className="text-xs text-[#e5c158] bg-[#2a2521] px-2.5 py-1 rounded border border-[#d4af37]/30">
-                  התאמה אישית מלאה
+                <span className="text-[11px] text-[#e5c158] bg-[#2a2521] px-2.5 py-0.5 rounded border border-[#d4af37]/30">
+                  התאמה אישית
                 </span>
               </div>
 
-              {/* Display Concept Summary */}
-              <div className="space-y-3 py-2 text-center">
+              {/* Concept Summary */}
+              <div className="space-y-1.5 py-1 text-center">
                 <div className="text-xs text-[#d8cfc4]">אווירת האירוע המתוכננת:</div>
-                <div className="text-2xl font-serif font-bold text-[#fdfbf7]">
+                <div className="text-xl font-serif font-bold text-[#fdfbf7]">
                   {conceptSummary.atmosphereTier}
                 </div>
-                <div className="text-xs text-[#e5c158] bg-[#121110] p-3 rounded-lg border border-[#d4af37]/20 mt-2">
-                  מעטפת הפקה מלאה הכוללת {conceptSummary.activeAddonsCount} מרכיבי פרימיום
+                <div className="text-xs text-[#e5c158] bg-[#121110] p-2.5 rounded-lg border border-[#d4af37]/20 mt-2">
+                  נבחרו {conceptSummary.activeAddonsCount} מרכיבי הפקה
                 </div>
               </div>
 
-              {/* Breakdown Summary */}
-              <div className="space-y-3 pt-4 border-t border-[#d4af37]/20 text-xs text-[#d8cfc4]">
+              {/* Summary lines */}
+              <div className="space-y-2 pt-3 border-t border-[#d4af37]/20 text-xs text-[#d8cfc4]">
                 <div className="flex justify-between">
-                  <span className="text-[#d8cfc4]">סוג אירוע:</span>
+                  <span>סוג אירוע:</span>
                   <span className="font-semibold text-[#fdfbf7]">
                     {eventType === 'wedding' && 'חתונה'}
                     {eventType === 'corporate' && 'אירוע חברה'}
@@ -241,24 +236,17 @@ export const InteractiveCalculator: React.FC<InteractiveCalculatorProps> = ({ on
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-[#d8cfc4]">כמות מוזמנים:</span>
-                  <span className="font-semibold text-[#fdfbf7]">{guests} אורחים</span>
+                  <span>אורחים:</span>
+                  <span className="font-semibold text-[#fdfbf7]">{guests}</span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-[#d8cfc4]">סגנון עיצוב:</span>
+                  <span>סגנון:</span>
                   <span className="font-semibold text-[#fdfbf7]">
                     {style === 'monochrome' && 'יוקרה חמה וזהובה'}
-                    {style === 'classic' && 'קלאסי אלגנטי'}
-                    {style === 'urban' && 'אורבני מודרני'}
-                    {style === 'nature' && 'טבע כפרי וחמים'}
-                  </span>
-                </div>
-
-                <div className="flex justify-between">
-                  <span className="text-[#d8cfc4]">שירותים נבחרים:</span>
-                  <span className="font-semibold text-[#fdfbf7]">
-                    {conceptSummary.activeAddonsCount} מתוך 6
+                    {style === 'classic' && 'קלאסיקה מאופקת'}
+                    {style === 'urban' && 'אורבני עדכני'}
+                    {style === 'nature' && 'טבע כפרי'}
                   </span>
                 </div>
               </div>
@@ -266,15 +254,15 @@ export const InteractiveCalculator: React.FC<InteractiveCalculatorProps> = ({ on
               {/* Submit Action */}
               <button
                 onClick={handleSendConfig}
-                className="w-full py-4 px-6 text-xs font-bold uppercase tracking-wider text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-110 rounded-xl shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer mt-6"
+                className="w-full py-3.5 px-5 text-xs font-bold uppercase tracking-wider text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-110 rounded-xl shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer mt-4"
               >
-                <span>קבלת תוכנית מפורטת ושיחת ייעוץ</span>
-                <ArrowLeft className="w-4 h-4" />
+                <span>תיאום שיחה על המפרט</span>
+                <ArrowLeft className="w-3.5 h-3.5" />
               </button>
 
-              <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#e5c158] mt-3">
+              <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#e5c158] pt-1">
                 <ShieldCheck className="w-3.5 h-3.5" />
-                <span>פגישת היכרות ואפיון ללא שום התחייבות</span>
+                <span>פגישת אפיון ללא שום התחייבות</span>
               </div>
 
             </div>
