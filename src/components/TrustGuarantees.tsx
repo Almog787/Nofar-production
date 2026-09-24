@@ -1,6 +1,7 @@
 import React from 'react';
 import { TRUST_GUARANTEES } from '../data/eventData';
-import { ShieldCheck, Lock, Users, HeartHandshake, Sparkles, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Lock, Users, HeartHandshake, CheckCircle2 } from 'lucide-react';
+import { SpotlightCard } from './react-bits/SpotlightCard';
 
 interface TrustGuaranteesProps {
   onOpenContact: (customSubject?: string) => void;
@@ -31,21 +32,22 @@ export const TrustGuarantees: React.FC<TrustGuaranteesProps> = ({ onOpenContact 
           </p>
         </div>
 
-        {/* Guarantees Grid */}
+        {/* Guarantees Grid with React Bits SpotlightCard */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {TRUST_GUARANTEES.map((item, idx) => {
             const IconComponent = icons[idx % icons.length];
             return (
-              <div
+              <SpotlightCard
                 key={idx}
-                className="p-8 rounded-2xl bg-[#1c1917]/90 border border-[#d4af37]/20 hover:border-[#d4af37]/50 transition-all duration-300 flex flex-col justify-between space-y-6 shadow-xl relative group"
+                spotlightColor="rgba(229, 193, 88, 0.18)"
+                className="flex flex-col justify-between space-y-6 shadow-xl group border-[#d4af37]/25 hover:border-[#d4af37]/50 transition-all duration-300"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="w-12 h-12 rounded-xl bg-[#2a2521] border border-[#d4af37]/30 flex items-center justify-center text-[#e5c158] group-hover:scale-110 transition-transform">
                       <IconComponent className="w-6 h-6" />
                     </div>
-                    <span className="text-[11px] font-bold text-[#121110] bg-[#e5c158] px-2.5 py-1 rounded-md uppercase tracking-wider">
+                    <span className="text-[11px] font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] to-[#c5a059] px-2.5 py-1 rounded-md uppercase tracking-wider">
                       {item.badge}
                     </span>
                   </div>
@@ -63,7 +65,7 @@ export const TrustGuarantees: React.FC<TrustGuaranteesProps> = ({ onOpenContact 
                   <CheckCircle2 className="w-4 h-4" />
                   <span>אחריות מלאה מנופר</span>
                 </div>
-              </div>
+              </SpotlightCard>
             );
           })}
         </div>
@@ -72,7 +74,7 @@ export const TrustGuarantees: React.FC<TrustGuaranteesProps> = ({ onOpenContact 
         <div className="mt-12 p-6 rounded-2xl bg-[#2a2521]/60 border border-[#d4af37]/30 text-center flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-right space-y-1">
             <span className="text-base font-bold text-[#fdfbf7]">רוצים להרגיש בטוחים ורגועים לקראת האירוע?</span>
-            <p className="text-xs text-[#d8cfc4]">נשמח להציג לכם המלצות חמות מדוקמנטטיביות, דוגמאות לחוזים שקופים וקובצי תקציב לדוגמה.</p>
+            <p className="text-xs text-[#d8cfc4]">נשמח להציג לכם המלצות חמות מדוקמנטטיביות, דוגמאות למפרטי אירוע מפורטים ותוכניות לדוגמה.</p>
           </div>
           <button
             onClick={() => onOpenContact('שיחת היכרות ובדיקת זמינות אישית')}
