@@ -5,19 +5,13 @@ interface ParticlesProps {
   particleSpread?: number;
   speed?: number;
   particleColors?: string[];
-  moveParticlesOnHover?: boolean;
-  particleHoverFactor?: number;
-  alphaParticles?: boolean;
-  particleBaseSize?: number;
-  sizeRandomness?: number;
-  cameraDistance?: number;
   className?: string;
 }
 
 export const Particles: React.FC<ParticlesProps> = ({
-  particleCount = 40,
+  particleCount = 30,
   particleColors = ['#e5c158', '#d4af37', '#ffffff', '#f5d77f'],
-  speed = 0.3,
+  speed = 0.25,
   className = '',
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -26,12 +20,27 @@ export const Particles: React.FC<ParticlesProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
     let animationFrameId: number;
+    let isVisible = true;
     let width = (canvas.width = canvas.parentElement?.clientWidth || window.innerWidth);
     let height = (canvas.height = canvas.parentElement?.clientHeight || window.innerHeight);
+
+    // Pause canvas animation when off-screen to save 100% GPU/CPU for scrolling
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          render();
+        } else {
+          cancelAnimationFrame(animationFrameId);
+        }
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(canvas);
 
     const handleResize = () => {
       if (!canvas || !canvas.parentElement) return;
@@ -39,7 +48,7 @@ export const Particles: React.FC<ParticlesProps> = ({
       height = canvas.height = canvas.parentElement.clientHeight;
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
 
     const particles: Array<{
       x: number;
@@ -49,26 +58,27 @@ export const Particles: React.FC<ParticlesProps> = ({
       vx: number;
       vy: number;
       alpha: number;
-      targetAlpha: number;
     }> = [];
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        radius: Math.random() * 2 + 1,
+        radius: Math.random() * 1.5 + 0.8,
         color: particleColors[Math.floor(Math.random() * particleColors.length)],
         vx: (Math.random() - 0.5) * speed,
-        vy: (Math.random() - 0.5) * speed - 0.1,
-        alpha: Math.random() * 0.6 + 0.2,
-        targetAlpha: Math.random() * 0.6 + 0.2,
+        vy: (Math.random() - 0.5) * speed - 0.08,
+        alpha: Math.random() * 0.5 + 0.25,
       });
     }
 
     const render = () => {
+      if (!isVisible) return;
       ctx.clearRect(0, 0, width, height);
 
-      particles.forEach((p) => {
+      // Lightweight, buttery smooth particle drawing without expensive shadowBlur
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
         p.x += p.vx;
         p.y += p.vy;
 
@@ -77,16 +87,12 @@ export const Particles: React.FC<ParticlesProps> = ({
         if (p.y < 0) p.y = height;
         if (p.y > height) p.y = 0;
 
-        ctx.save();
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         ctx.globalAlpha = p.alpha;
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = p.color;
         ctx.fill();
-        ctx.restore();
-      });
+      }
 
       animationFrameId = requestAnimationFrame(render);
     };
@@ -94,6 +100,7 @@ export const Particles: React.FC<ParticlesProps> = ({
     render();
 
     return () => {
+      observer.disconnect();
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameId);
     };
@@ -102,7 +109,7 @@ export const Particles: React.FC<ParticlesProps> = ({
   return (
     <canvas
       ref={canvasRef}
-      className={`pointer-events-none absolute inset-0 z-0 ${className}`}
+      className={`pointer-events-none absolute inset-0 z-0 will-change-transform ${className}`}
     />
   );
 };

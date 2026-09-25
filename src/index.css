@@ -1,10 +1,46 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------- */
+/* LOCAL FONTS DEFINITION & ZERO-DELAY SYSTEM FALLBACKS         */
+/* Eliminates layout shifts (CLS = 0) and eliminates FOIT       */
+/* ------------------------------------------------------------- */
+@font-face {
+  font-family: 'Assistant';
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+  src: local('Assistant'), local('Heebo'), local('Segoe UI'), system-ui, -apple-system, sans-serif;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: local('Cormorant Garamond'), local('David Libre'), local('Georgia'), serif;
+}
+
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: local('Cinzel'), local('Times New Roman'), serif;
+}
+
 @layer base {
+  html {
+    scroll-behavior: auto; /* Handled smoothly by Lenis */
+  }
+
   body {
     font-family: 'Assistant', system-ui, -apple-system, sans-serif;
-    background-color: #121110;
+    background-color: #0c0b0a;
     color: #f3eee6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, .font-serif-luxury {
@@ -16,12 +52,50 @@
   }
 }
 
+/* ------------------------------------------------------------- */
+/* LENIS SMOOTH MOMENTUM SCROLLING STYLES                       */
+/* ------------------------------------------------------------- */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------- */
+/* GPU ACCELERATION & PERFORMANCE UTILITIES                     */
+/* ------------------------------------------------------------- */
+.will-change-transform {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.gpu-accelerated {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
 /* Custom scrollbar in warm champagne style */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #121110;
+  background: #0c0b0a;
 }
 ::-webkit-scrollbar-thumb {
   background: #2a2521;
@@ -33,10 +107,10 @@
 
 /* Glassmorphism card utility with warm amber/champagne tint */
 .glass-panel {
-  background: rgba(28, 25, 23, 0.85);
+  background: rgba(24, 21, 19, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 175, 55, 0.18);
+  border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .glass-panel-light {
@@ -55,14 +129,36 @@
 
 /* Warm golden glows and overlays */
 .gradient-overlay-bottom {
-  background: linear-gradient(to top, rgba(18, 17, 16, 1) 0%, rgba(18, 17, 16, 0.7) 50%, rgba(18, 17, 16, 0) 100%);
+  background: linear-gradient(to top, rgba(12, 11, 10, 1) 0%, rgba(12, 11, 10, 0.7) 50%, rgba(12, 11, 10, 0) 100%);
 }
 
 .gradient-overlay-radial {
-  background: radial-gradient(circle at center, rgba(212, 175, 55, 0.08) 0%, rgba(18, 17, 16, 0) 70%);
+  background: radial-gradient(circle at center, rgba(212, 175, 55, 0.08) 0%, rgba(12, 11, 10, 0) 70%);
 }
 
-/* React Bits custom keyframes & animation utilities */
+/* ------------------------------------------------------------- */
+/* LOCAL REPOSITORY HARDWARE-ACCELERATED KEYFRAMES              */
+/* ------------------------------------------------------------- */
+@keyframes float-smooth {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -6px, 0);
+  }
+}
+
+@keyframes glow-breathe {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale3d(1, 1, 1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale3d(1.05, 1.05, 1);
+  }
+}
+
 @keyframes shine {
   0% {
     background-position: 100%;
@@ -72,36 +168,48 @@
   }
 }
 
+.animate-float-smooth {
+  animation: float-smooth 5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-glow-breathe {
+  animation: glow-breathe 4s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
 .animate-shine {
   animation: shine 4s linear infinite;
 }
 
 @keyframes star-movement-bottom {
   0% {
-    transform: translate(0%, 0%);
+    transform: translate3d(0%, 0%, 0);
     opacity: 1;
   }
   100% {
-    transform: translate(-100%, 0%);
+    transform: translate3d(-100%, 0%, 0);
     opacity: 0;
   }
 }
 
 @keyframes star-movement-top {
   0% {
-    transform: translate(0%, 0%);
+    transform: translate3d(0%, 0%, 0);
     opacity: 1;
   }
   100% {
-    transform: translate(100%, 0%);
+    transform: translate3d(100%, 0%, 0);
     opacity: 0;
   }
 }
 
 .animate-star-movement-bottom {
   animation: star-movement-bottom linear infinite alternate;
+  will-change: transform;
 }
 
 .animate-star-movement-top {
   animation: star-movement-top linear infinite alternate;
+  will-change: transform;
 }

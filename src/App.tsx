@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { AboutSection } from './components/AboutSection';
@@ -39,12 +40,32 @@ export function App() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
+  const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
+    // 1. Initialize Lenis for luxury 60fps smooth momentum scrolling
+    const lenis = new Lenis({
+      duration: 1.1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.2,
+    });
+    lenisRef.current = lenis;
+
+    // Sync Lenis scroll with GSAP ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update);
+
+    const tickerCallback = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(tickerCallback);
+    gsap.ticker.lagSmoothing(0);
+
     const ctx = gsap.context(() => {
-      // 1. Global Scroll Progress Bar (Top)
+      // Global Scroll Progress Bar (Top)
       gsap.to(progressBarRef.current, {
         scaleX: 1,
         ease: 'none',
@@ -56,7 +77,7 @@ export function App() {
         },
       });
 
-      // 2. Track Active Chapter dynamically based on scroll position
+      // Track Active Chapter dynamically based on scroll position
       CHAPTERS.forEach((ch, idx) => {
         ScrollTrigger.create({
           trigger: `#${ch.id}`,
@@ -67,7 +88,7 @@ export function App() {
         });
       });
 
-      // 3. Staggered gentle editorial reveal of sections
+      // Staggered gentle editorial reveal of sections with GPU acceleration
       const animatedSections = [
         '#about',
         '#trust',
@@ -83,16 +104,17 @@ export function App() {
       animatedSections.forEach((secId) => {
         gsap.fromTo(
           `${secId} h2, ${secId} p`,
-          { opacity: 0.25, y: 18 },
+          { opacity: 0.2, y: 16 },
           {
             opacity: 1,
             y: 0,
-            duration: 0.8,
+            duration: 0.7,
             ease: 'power2.out',
-            stagger: 0.12,
+            stagger: 0.1,
+            force3D: true,
             scrollTrigger: {
               trigger: secId,
-              start: 'top 75%',
+              start: 'top 78%',
               toggleActions: 'play none none none',
             },
           }
@@ -100,7 +122,11 @@ export function App() {
       });
     }, containerRef);
 
-    return () => ctx.revert();
+    return () => {
+      gsap.ticker.remove(tickerCallback);
+      lenis.destroy();
+      ctx.revert();
+    };
   }, []);
 
   const handleOpenContact = (customSubject?: string) => {
@@ -109,9 +135,13 @@ export function App() {
   };
 
   const scrollToChapter = (chapterId: string) => {
-    const el = document.getElementById(chapterId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(`#${chapterId}`, { duration: 1.1 });
+    } else {
+      const el = document.getElementById(chapterId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 

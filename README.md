@@ -71,6 +71,9 @@
 * **Build Tool:** Vite 6
 * **Styling:** Tailwind CSS v4 + PostCSS
 * **Animation & Motion:** GSAP 3.15 + ScrollTrigger (Pinned scrubbing, Parallax, Clip-path wipes)
+* **Smooth Scrolling Engine:** Lenis Momentum Smooth Scroll (60fps / 120fps fluid interpolation synced with GSAP ticker)
+* **Typography & Fonts:** הגדרת פונטים מקומיים עם `font-display: swap` ומערך Fallback אפס-השהיה (`Assistant`, `Cormorant Garamond`, `Cinzel`)
+* **Hardware Acceleration:** אנימציות מקומיות במאגר מבוססות GPU (`transform3d`, `will-change`) למניעת Layout Thrashing
 * **Icons:** Lucide React
 * **Micro-Interactions & UI:** React Bits (SpotlightCard, ShinyText, CountUp, StarBorder, Particles)
 * **SEO & GEO:** Schema.org JSON-LD Structured Data, OpenGraph, Web Vitals Optimization (LCP < 1.2s, Zero CLS).

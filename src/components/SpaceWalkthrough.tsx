@@ -129,14 +129,15 @@ export const SpaceWalkthrough: React.FC = () => {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // Pinned GSAP scrub timeline
+      // Pinned GSAP scrub timeline with GPU acceleration and anticipatePin
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=130%',
+          end: '+=120%',
           pin: true,
-          scrub: 0.8,
+          anticipatePin: 1,
+          scrub: 1,
           onUpdate: (self) => {
             // Automatically sync active tab based on scroll progress
             const progress = self.progress;
@@ -151,10 +152,11 @@ export const SpaceWalkthrough: React.FC = () => {
         },
       });
 
-      // Pan the panoramic image smoothly
+      // Pan the panoramic image smoothly with force3D
       tl.to(panImgRef.current, {
-        xPercent: 22,
+        xPercent: 20,
         ease: 'none',
+        force3D: true,
       });
 
       // Stagger animate cards on desktop
