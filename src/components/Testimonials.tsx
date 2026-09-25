@@ -4,55 +4,55 @@ import { Star, Sparkles, Quote } from 'lucide-react';
 
 export const Testimonials: React.FC = () => {
   return (
-    <section id="testimonials" className="py-20 bg-[#121110] relative border-t border-[#d4af37]/20">
+    <section id="testimonials" className="py-24 theme-bg-section relative border-t border-theme-gold transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#e5c158] mb-2.5">
-            <Sparkles className="w-3.5 h-3.5" />
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-widest text-[#9e751d] dark:text-[#e5c158] mb-3">
+            <Sparkles className="w-4 h-4" />
             <span>עדויות לקוחות</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[#fdfbf7] tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-5xl font-serif font-bold theme-text-head tracking-tight leading-tight">
             רגעים שדיברו בעד עצמם
           </h2>
-          <p className="text-sm sm:text-base text-[#d8cfc4] font-light mt-3">
+          <p className="text-base sm:text-lg theme-text-body font-normal mt-3">
             מילים חמות מזוגות וממנהלי שיווק שחגגו איתנו בלב שקט.
           </p>
         </div>
 
         {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
           {TESTIMONIALS.map((testimonial) => (
             <div
               key={testimonial.id}
-              className="p-6 rounded-2xl bg-[#1c1917]/80 border border-[#d4af37]/20 hover:border-[#d4af37]/45 transition-all duration-300 flex flex-col justify-between space-y-5 shadow-xl relative"
+              className="p-7 rounded-3xl theme-bg-card border border-theme-gold hover:border-theme-gold-strong transition-all duration-300 flex flex-col justify-between space-y-6 shadow-xl relative theme-shadow-warm"
             >
-              <Quote className="w-7 h-7 text-[#e5c158]/20 absolute top-5 left-5" />
+              <Quote className="w-8 h-8 text-[#9e751d]/15 dark:text-[#e5c158]/20 absolute top-6 left-6" />
 
-              <div className="space-y-3 relative z-10">
+              <div className="space-y-4 relative z-10">
                 {/* Rating Stars */}
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1.5">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-[#e5c158] text-[#e5c158]" />
+                    <Star key={i} className="w-4 h-4 fill-[#e5c158] text-[#e5c158]" />
                   ))}
                 </div>
 
-                <p className="text-xs sm:text-sm text-[#f3eee6] font-light leading-relaxed italic">
+                <p className="text-sm sm:text-base theme-text-body font-normal leading-relaxed italic">
                   &quot;{testimonial.quote}&quot;
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-[#d4af37]/15 flex items-center justify-between">
+              <div className="pt-5 border-t border-theme-gold flex items-center justify-between">
                 <div>
-                  <h3 className="text-sm font-serif font-bold text-[#fdfbf7]">
+                  <h3 className="text-base font-serif font-bold theme-text-head">
                     {testimonial.name}
                   </h3>
-                  <p className="text-[11px] text-[#d8cfc4]">
+                  <p className="text-xs sm:text-sm theme-text-muted font-medium">
                     {testimonial.role}
                   </p>
                 </div>
-                <span className="text-[10px] text-[#e5c158] font-mono">
+                <span className="text-xs text-[#9e751d] dark:text-[#e5c158] font-mono font-bold">
                   {testimonial.date}
                 </span>
               </div>

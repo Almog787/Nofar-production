@@ -36,13 +36,13 @@ export const SensoryReveal: React.FC = () => {
     <section
       id="sensory"
       ref={containerRef}
-      className="py-24 bg-[#0c0b0a] relative border-t border-[#d4af37]/20 overflow-hidden"
+      className="py-24 theme-bg-page relative border-t border-theme-gold overflow-hidden transition-colors duration-300"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           
           {/* Left Visual: Masked Curtain Image */}
-          <div className="lg:col-span-6 relative rounded-2xl overflow-hidden border border-[#d4af37]/35 shadow-2xl h-[420px] bg-[#121110]">
+          <div className="lg:col-span-6 relative rounded-3xl overflow-hidden border border-theme-gold shadow-2xl h-[440px] bg-neutral-900">
             <img
               src={IMAGES.corporate}
               alt="קולינריה עילית ואירוח"
@@ -56,49 +56,50 @@ export const SensoryReveal: React.FC = () => {
               className="absolute inset-0 bg-gradient-to-l from-[#e5c158]/35 via-transparent to-transparent pointer-events-none"
             />
 
-            <div className="absolute bottom-4 right-4 bg-[#121110]/90 backdrop-blur-md px-3.5 py-1.5 rounded-lg border border-[#d4af37]/35 text-xs font-mono text-[#e5c158] shadow-lg">
+            <div className="absolute bottom-5 right-5 bg-black/85 backdrop-blur-md px-4 py-2 rounded-xl border border-[#d4af37]/50 text-xs sm:text-sm font-mono font-bold text-[#f5d77f] shadow-lg">
               // חוויה קולינרית בתפירה אישית
             </div>
           </div>
 
-          {/* Right Text: Sensory Editorial */}
-          <div className="lg:col-span-6 space-y-6 text-right">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#e5c158]">
-              <Utensils className="w-3.5 h-3.5" />
-              <span>מסע החושים // קולינריה ואווירה</span>
+          {/* Right Narrative */}
+          <div className="lg:col-span-6 space-y-6">
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-widest text-[#9e751d] dark:text-[#e5c158]">
+                <Utensils className="w-4 h-4" />
+                <span>קולינריה, טעם וחושים</span>
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-serif font-bold theme-text-head tracking-tight leading-tight">
+                טוטאל דיזיין קולינרי שמחבר בין כל החושים
+              </h2>
             </div>
 
-            <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[#fdfbf7] tracking-tight leading-tight">
-              אירוח שלא שוכחים: <br />
-              <span className="text-[#e5c158]">טעם, ניחוח ונגיעה.</span>
-            </h2>
-
-            <p className="text-sm sm:text-base text-[#d8cfc4] font-light leading-relaxed">
-              האירוח באירוע של נופר מתוכנן כחוויה קולינרית רב-חושית. תפריט שף מדויק שנבנה לפי האופי הייחודי שלכם, מוגש בתזמון מושלם כדי לרומם את האווירה לאורך כל הערב.
+            <p className="text-base sm:text-lg theme-text-body font-normal leading-relaxed">
+              התפריט והמשקאות אינם רק אוכל ושתייה – הם חלק בלתי נפרד מסיפור האירוע. אנחנו מתאימים את סגנון ההגשה, עיצוב השולחן וקצב המנות כך שיתכתבו במדויק עם שעת השקיעה והאווירה המבוקשת.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <div className="p-4 rounded-xl bg-[#171513]/90 border border-[#d4af37]/20 flex items-start gap-3">
-                <Wine className="w-5 h-5 text-[#e5c158] shrink-0 mt-0.5" />
+            <div className="space-y-3.5 pt-2">
+              <div className="p-4 sm:p-5 rounded-2xl theme-bg-card border border-theme-gold flex items-center gap-4 theme-shadow-warm">
+                <Wine className="w-6 h-6 text-[#9e751d] dark:text-[#e5c158] shrink-0" />
                 <div>
-                  <h3 className="text-sm font-serif font-bold text-[#fdfbf7]">מיקסולוגיה ויין</h3>
-                  <p className="text-xs text-[#d8cfc4] mt-0.5 font-light">קוקטיילים מותאמים אישית ליינות בוטיק ישראליים.</p>
+                  <h4 className="text-sm sm:text-base font-bold theme-text-head">תפריט משקאות מותאם</h4>
+                  <p className="text-xs sm:text-sm theme-text-body font-normal mt-0.5">קוקטיילים בעיצוב אישי ויינות נבחרים המותאמים למנות.</p>
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-[#171513]/90 border border-[#d4af37]/20 flex items-start gap-3">
-                <Flame className="w-5 h-5 text-[#e5c158] shrink-0 mt-0.5" />
+              <div className="p-4 sm:p-5 rounded-2xl theme-bg-card border border-theme-gold flex items-center gap-4 theme-shadow-warm">
+                <Flame className="w-6 h-6 text-[#9e751d] dark:text-[#e5c158] shrink-0" />
                 <div>
-                  <h3 className="text-sm font-serif font-bold text-[#fdfbf7]">חומרי גלם עילית</h3>
-                  <p className="text-xs text-[#d8cfc4] mt-0.5 font-light">עבודה בלעדית עם שפים ומגדלים מהשורה הראשונה.</p>
+                  <h4 className="text-sm sm:text-base font-bold theme-text-head">עמדות שף חיות ופרשיות</h4>
+                  <p className="text-xs sm:text-sm theme-text-body font-normal mt-0.5">אינטראקציה קולינרית מול האורחים, ללא תורים ובעידון מקסימלי.</p>
                 </div>
               </div>
             </div>
 
-            <div className="pt-2 flex items-center gap-2 text-xs font-mono text-[#e5c158]">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>שירות אישי, קשוב ומסביר פנים לכל אורח</span>
+            <div className="flex items-center gap-2.5 text-sm sm:text-base font-medium text-[#9e751d] dark:text-[#e5c158] pt-2">
+              <CheckCircle2 className="w-5 h-5 shrink-0" />
+              <span>התאמה מלאה לרגישויות, צמחונות, טבעונות וכשרות</span>
             </div>
+
           </div>
 
         </div>

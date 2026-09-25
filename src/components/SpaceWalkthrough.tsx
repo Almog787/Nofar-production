@@ -189,7 +189,7 @@ export const SpaceWalkthrough: React.FC = () => {
     <section
       id="space-walkthrough"
       ref={sectionRef}
-      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-[#0c0b0a] border-t border-[#d4af37]/20"
+      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden theme-bg-page border-t border-theme-gold transition-colors duration-300"
     >
       {/* Panning Panoramic Image (Scrubbed with GSAP) */}
       <div className="absolute inset-0 z-0 overflow-hidden flex items-center justify-center pointer-events-none">
@@ -197,26 +197,27 @@ export const SpaceWalkthrough: React.FC = () => {
           ref={panImgRef}
           src={IMAGES.wedding}
           alt="ארכיטקטורת חלל האירוע"
-          className="min-w-[150vw] sm:min-w-[140vw] h-full object-cover object-center contrast-105 brightness-[0.72] scale-110 -translate-x-[12%]"
+          className="min-w-[150vw] sm:min-w-[140vw] h-full object-cover object-center contrast-105 brightness-90 scale-110 -translate-x-[12%]"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0c0b0a] via-[#0c0b0a]/50 to-[#0c0b0a]/90" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0c0b0a]/85 via-transparent to-[#0c0b0a]/85" />
+        {/* Solid luminous veil to eliminate any text clash in light and dark mode */}
+        <div className="absolute inset-0 bg-[var(--bg-page)]/85 dark:bg-black/75 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-page)] via-transparent to-[var(--bg-page)]" />
       </div>
 
       {/* Floating Storyline Content Overlay */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-between py-14 sm:py-16">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-between py-12 sm:py-16">
         
-        {/* Top Header - Compact and accessible */}
-        <div className="text-right space-y-1 sm:space-y-1.5 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#171513]/90 border border-[#d4af37]/35 text-xs text-[#e5c158] backdrop-blur-md shadow-lg">
-            <Compass className="w-3.5 h-3.5" />
+        {/* Top Header - Protected inside an elegant card */}
+        <div className="text-right p-5 sm:p-7 rounded-3xl theme-bg-card backdrop-blur-xl border border-theme-gold shadow-xl max-w-2xl space-y-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full theme-bg-card-subtle border border-theme-gold text-xs font-bold text-[#9e751d] dark:text-[#e5c158]">
+            <Compass className="w-4 h-4" />
             <span>מסע בחלל האירוע // ארכיטקטורה וזרימה</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#fdfbf7] tracking-tight leading-tight">
+          <h2 className="text-2xl sm:text-4xl font-serif font-bold theme-text-head tracking-tight leading-tight">
             זרימה מושלמת בין רגעי השיא
           </h2>
-          <p className="text-xs sm:text-sm text-[#d8cfc4] font-light leading-relaxed">
+          <p className="text-sm sm:text-base theme-text-body font-normal leading-relaxed">
             תכנון מדויק של שלושת המתחמים מבטיח חוויית אורחים רציפה, אינטימית ומלאת התרגשות.
           </p>
         </div>
@@ -227,95 +228,95 @@ export const SpaceWalkthrough: React.FC = () => {
         <div className="lg:hidden w-full mt-4 sm:mt-6 space-y-3 pointer-events-auto">
           
           {/* Segmented Pill Selector (Touch Friendly min 44px) */}
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#171513]/95 border border-[#d4af37]/35 backdrop-blur-xl shadow-xl overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-1.5 p-1.5 rounded-2xl theme-bg-card border border-theme-gold backdrop-blur-xl shadow-lg overflow-x-auto no-scrollbar">
             {SPACES_DATA.map((space, idx) => (
               <button
                 key={space.id}
                 onClick={() => setActiveMobileSpace(idx)}
-                className={`flex-1 min-h-[42px] px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap ${
+                className={`flex-1 min-h-[44px] px-3 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap ${
                   activeMobileSpace === idx
-                    ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] font-bold shadow-md'
-                    : 'text-[#d8cfc4] hover:text-[#fdfbf7] hover:bg-[#24201c]'
+                    ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] shadow-md'
+                    : 'theme-text-muted hover:theme-text-head hover:bg-theme-card-subtle'
                 }`}
               >
-                <span className="font-mono text-[10px] opacity-80">{`0${idx + 1}`}</span>
-                <span className="truncate">{space.title.split(' ')[0]} {space.title.split(' ')[1]}</span>
+                <span className="font-mono text-xs opacity-90">{`0${idx + 1}`}</span>
+                <span>{space.title.split(' ')[0]} {space.title.split(' ')[1]}</span>
               </button>
             ))}
           </div>
 
           {/* Active Mobile Space Card */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-[#171513]/95 border border-[#d4af37]/40 shadow-2xl backdrop-blur-2xl text-right space-y-3 animate-in fade-in zoom-in-95 duration-200">
+          <div className="p-5 sm:p-6 rounded-3xl theme-bg-card border border-theme-gold shadow-2xl backdrop-blur-2xl text-right space-y-4 animate-in fade-in zoom-in-95 duration-200">
             
             {/* Header row: Number + Timing */}
-            <div className="flex items-center justify-between border-b border-[#d4af37]/15 pb-2.5">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-[#2a2521] border border-[#d4af37]/30 flex items-center justify-center text-[#e5c158]">
-                  <currentSpace.icon className="w-4 h-4" />
+            <div className="flex items-center justify-between border-b border-theme-gold pb-3">
+              <div className="flex items-center gap-2.5">
+                <div className="w-10 h-10 rounded-xl theme-bg-card-subtle border border-theme-gold flex items-center justify-center text-[#9e751d] dark:text-[#e5c158]">
+                  <currentSpace.icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="text-[11px] font-mono font-bold text-[#e5c158] block">
+                  <span className="text-xs font-mono font-bold text-[#9e751d] dark:text-[#e5c158] block">
                     {currentSpace.number}
                   </span>
-                  <h3 className="text-base font-serif font-bold text-[#fdfbf7] leading-tight">
+                  <h3 className="text-lg font-serif font-bold theme-text-head leading-tight">
                     {currentSpace.title}
                   </h3>
                 </div>
               </div>
 
-              <div className="flex items-center gap-1 text-[10px] text-[#d8cfc4] font-mono bg-[#121110] px-2 py-1 rounded-md border border-[#d4af37]/20">
-                <Clock className="w-3 h-3 text-[#e5c158]" />
-                <span className="truncate max-w-[120px]">{currentSpace.timing.split('//')[0]}</span>
+              <div className="flex items-center gap-1 text-xs theme-text-muted font-mono theme-bg-card-subtle px-2.5 py-1 rounded-lg border border-theme-gold">
+                <Clock className="w-3.5 h-3.5 text-[#9e751d] dark:text-[#e5c158]" />
+                <span className="truncate max-w-[130px] font-semibold">{currentSpace.timing.split('//')[0]}</span>
               </div>
             </div>
 
             {/* Description */}
-            <p className="text-xs text-[#d8cfc4] font-light leading-relaxed">
+            <p className="text-sm theme-text-body font-normal leading-relaxed">
               {currentSpace.description}
             </p>
 
-            {/* Specs Grid (Compact 3 rows) */}
-            <div className="space-y-1.5 pt-1">
+            {/* Specs Grid */}
+            <div className="space-y-2 pt-1">
               {currentSpace.specs.map((spec, sIdx) => (
                 <div
                   key={sIdx}
-                  className="p-2 rounded-lg bg-[#121110]/80 border border-[#d4af37]/15 flex items-start gap-2 text-right"
+                  className="p-3 rounded-xl theme-bg-card-subtle border border-theme-gold flex items-start gap-2.5 text-right"
                 >
-                  <spec.icon className="w-3.5 h-3.5 text-[#e5c158] shrink-0 mt-0.5" />
-                  <div className="text-[11px] leading-tight">
-                    <span className="font-semibold text-[#fdfbf7] ml-1">{spec.label}:</span>
-                    <span className="text-[#d8cfc4] font-light">{spec.value}</span>
+                  <spec.icon className="w-4 h-4 text-[#9e751d] dark:text-[#e5c158] shrink-0 mt-0.5" />
+                  <div className="text-xs sm:text-sm leading-relaxed">
+                    <span className="font-bold theme-text-head ml-1">{spec.label}:</span>
+                    <span className="theme-text-muted font-medium">{spec.value}</span>
                   </div>
                 </div>
               ))}
             </div>
 
             {/* Key Highlight Pill */}
-            <div className="pt-2 border-t border-[#d4af37]/15 flex items-center justify-between text-[11px]">
-              <div className="flex items-center gap-1.5 text-[#e5c158]">
-                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                <span className="font-medium truncate">{currentSpace.highlight}</span>
+            <div className="pt-3 border-t border-theme-gold flex items-center justify-between text-xs sm:text-sm">
+              <div className="flex items-center gap-1.5 text-[#9e751d] dark:text-[#e5c158] font-bold">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span className="truncate">{currentSpace.highlight}</span>
               </div>
 
               {/* Prev / Next Chevrons for Mobile */}
-              <div className="flex items-center gap-1 shrink-0">
+              <div className="flex items-center gap-1.5 shrink-0">
                 <button
                   onClick={() =>
                     setActiveMobileSpace((prev) => (prev === 0 ? SPACES_DATA.length - 1 : prev - 1))
                   }
-                  className="p-1 rounded bg-[#24201c] hover:bg-[#2e2924] text-[#d8cfc4] border border-[#d4af37]/20 cursor-pointer"
+                  className="p-1.5 rounded-lg theme-bg-card-subtle hover:opacity-80 theme-text-body border border-theme-gold cursor-pointer"
                   aria-label="המתחם הקודם"
                 >
-                  <ChevronRight className="w-3.5 h-3.5" />
+                  <ChevronRight className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() =>
                     setActiveMobileSpace((prev) => (prev === SPACES_DATA.length - 1 ? 0 : prev + 1))
                   }
-                  className="p-1 rounded bg-[#24201c] hover:bg-[#2e2924] text-[#d8cfc4] border border-[#d4af37]/20 cursor-pointer"
+                  className="p-1.5 rounded-lg theme-bg-card-subtle hover:opacity-80 theme-text-body border border-theme-gold cursor-pointer"
                   aria-label="המתחם הבא"
                 >
-                  <ChevronLeft className="w-3.5 h-3.5" />
+                  <ChevronLeft className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -327,38 +328,38 @@ export const SpaceWalkthrough: React.FC = () => {
         {/* ======================================================== */}
         {/* DESKTOP VIEW: RICH 3-COLUMN ARCHITECTURAL BREAKDOWN      */}
         {/* ======================================================== */}
-        <div className="hidden lg:grid grid-cols-3 gap-5 mt-6 pointer-events-auto">
+        <div className="hidden lg:grid grid-cols-3 gap-6 mt-8 pointer-events-auto">
           {SPACES_DATA.map((space, idx) => {
             const IconComp = space.icon;
             return (
               <div
                 key={space.id}
-                className={`space-card-desktop-${idx} p-5 rounded-2xl bg-[#171513]/95 border border-[#d4af37]/35 shadow-2xl backdrop-blur-xl text-right flex flex-col justify-between space-y-4 hover:border-[#e5c158] hover:shadow-[#e5c158]/10 transition-all duration-300 group`}
+                className={`space-card-desktop-${idx} p-6 rounded-3xl theme-bg-card border border-theme-gold theme-shadow-warm backdrop-blur-2xl text-right flex flex-col justify-between space-y-4 hover:border-theme-gold-strong transition-all duration-300 group`}
               >
                 {/* Header */}
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between border-b border-[#d4af37]/15 pb-2.5">
+                <div className="space-y-3.5">
+                  <div className="flex items-center justify-between border-b border-theme-gold pb-3">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-9 h-9 rounded-xl bg-[#2a2521] border border-[#d4af37]/30 flex items-center justify-center text-[#e5c158] group-hover:scale-105 transition-transform">
-                        <IconComp className="w-4 h-4" />
+                      <div className="w-10 h-10 rounded-xl theme-bg-card-subtle border border-theme-gold flex items-center justify-center text-[#9e751d] dark:text-[#e5c158] group-hover:scale-105 transition-transform">
+                        <IconComp className="w-5 h-5" />
                       </div>
                       <div>
-                        <span className="text-xs font-mono font-bold text-[#e5c158] block">
+                        <span className="text-xs font-mono font-bold text-[#9e751d] dark:text-[#e5c158] block">
                           {space.number}
                         </span>
-                        <h3 className="text-lg font-serif font-bold text-[#fdfbf7]">
+                        <h3 className="text-xl font-serif font-bold theme-text-head">
                           {space.title}
                         </h3>
                       </div>
                     </div>
                   </div>
 
-                  <div className="inline-flex items-center gap-1.5 text-[11px] text-[#e5c158] font-mono bg-[#121110] px-2.5 py-1 rounded-lg border border-[#d4af37]/20">
-                    <Clock className="w-3 h-3 text-[#e5c158]" />
+                  <div className="inline-flex items-center gap-1.5 text-xs text-[#9e751d] dark:text-[#e5c158] font-mono theme-bg-card-subtle px-3 py-1 rounded-lg border border-theme-gold font-bold">
+                    <Clock className="w-3.5 h-3.5 text-[#9e751d] dark:text-[#e5c158]" />
                     <span>{space.timing}</span>
                   </div>
 
-                  <p className="text-xs text-[#d8cfc4] font-light leading-relaxed">
+                  <p className="text-sm theme-text-body font-normal leading-relaxed">
                     {space.description}
                   </p>
 
@@ -369,12 +370,12 @@ export const SpaceWalkthrough: React.FC = () => {
                       return (
                         <div
                           key={sIdx}
-                          className="p-2.5 rounded-xl bg-[#121110]/85 border border-[#d4af37]/15 flex items-start gap-2.5 text-right"
+                          className="p-3 rounded-xl theme-bg-card-subtle border border-theme-gold flex items-start gap-2.5 text-right"
                         >
-                          <SpecIcon className="w-3.5 h-3.5 text-[#e5c158] shrink-0 mt-0.5" />
-                          <div className="text-xs leading-relaxed">
-                            <span className="font-semibold text-[#fdfbf7] ml-1">{spec.label}:</span>
-                            <span className="text-[#d8cfc4] font-light">{spec.value}</span>
+                          <SpecIcon className="w-4 h-4 text-[#9e751d] dark:text-[#e5c158] shrink-0 mt-0.5" />
+                          <div className="text-xs sm:text-sm leading-relaxed">
+                            <span className="font-bold theme-text-head ml-1">{spec.label}:</span>
+                            <span className="theme-text-muted font-medium">{spec.value}</span>
                           </div>
                         </div>
                       );
@@ -383,8 +384,8 @@ export const SpaceWalkthrough: React.FC = () => {
                 </div>
 
                 {/* Bottom Highlight Guarantee */}
-                <div className="pt-3 border-t border-[#d4af37]/15 flex items-center gap-2 text-xs font-medium text-[#e5c158]">
-                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                <div className="pt-3.5 border-t border-theme-gold flex items-center gap-2 text-xs sm:text-sm font-bold text-[#9e751d] dark:text-[#e5c158]">
+                  <CheckCircle2 className="w-4 h-4 shrink-0" />
                   <span className="leading-tight">{space.highlight}</span>
                 </div>
               </div>

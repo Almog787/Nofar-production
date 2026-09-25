@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, MapPin, Camera, Globe, ArrowUp, MessageSquare, Lock } from 'lucide-react';
+import { Mail, MapPin, ArrowUp, MessageSquare } from 'lucide-react';
 import { getWhatsAppUrl } from '../utils/whatsapp';
 
 export const Footer: React.FC = () => {
@@ -8,46 +8,46 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-zinc-950 border-t border-zinc-900 text-zinc-400 py-16 relative">
+    <footer className="bg-[#141210] text-[#ded5cb] border-t border-theme-gold py-16 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-zinc-900">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-[#d4af37]/25">
           
           {/* Brand Col */}
           <div className="space-y-4 md:col-span-1">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#c5a059] to-[#e5c158] text-[#121110] flex items-center justify-center font-serif font-bold text-lg">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#c5a059] to-[#e5c158] text-[#121110] flex items-center justify-center font-serif font-bold text-xl shadow-md">
                 N
               </div>
-              <span className="text-xl font-serif font-bold text-white uppercase tracking-wider">
+              <span className="text-xl font-serif font-bold text-[#fdfbf7] uppercase tracking-wider">
                 נופר <span className="font-light text-[#e5c158]">| הפקות אירועים</span>
               </span>
             </div>
-            <p className="text-xs text-zinc-400 font-light leading-relaxed">
+            <p className="text-sm text-[#ded5cb] font-normal leading-relaxed">
               הפקת אירועי יוקרה, חתונות, כנסים ומסיבות קונספט. אסתטיקה מאופקת, חום אנושי וליווי אישי מקצה לקצה.
             </p>
-            <div className="text-[11px] font-mono text-[#e5c158]">
+            <div className="text-xs font-mono font-bold text-[#e5c158]">
               // בוטיק אקסקלוסיבי: עד 2 אירועים בחודש
             </div>
           </div>
 
           {/* Nav Links */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">ניווט במסע</h4>
-            <ul className="space-y-2 text-xs">
-              <li><a href="#about" className="hover:text-white transition-colors">החזון והסטנדרט</a></li>
-              <li><a href="#space-walkthrough" className="hover:text-white transition-colors">ארכיטקטורת החלל</a></li>
-              <li><a href="#trust" className="hover:text-white transition-colors">שקט נפשי מלא</a></li>
-              <li><a href="#event-types" className="hover:text-white transition-colors">סוגי אירועים</a></li>
-              <li><a href="#calculator" className="hover:text-white transition-colors">מתכנן קונספט</a></li>
-              <li><a href="#gallery" className="hover:text-white transition-colors">גלריה</a></li>
+          <div className="space-y-3.5">
+            <h4 className="text-sm font-bold text-[#fdfbf7] uppercase tracking-wider">ניווט במסע</h4>
+            <ul className="space-y-2.5 text-sm">
+              <li><a href="#about" className="hover:text-[#e5c158] transition-colors">החזון והסטנדרט</a></li>
+              <li><a href="#space-walkthrough" className="hover:text-[#e5c158] transition-colors">ארכיטקטורת החלל</a></li>
+              <li><a href="#trust" className="hover:text-[#e5c158] transition-colors">שקט נפשי מלא</a></li>
+              <li><a href="#event-types" className="hover:text-[#e5c158] transition-colors">סוגי אירועים</a></li>
+              <li><a href="#calculator" className="hover:text-[#e5c158] transition-colors">מתכנן קונספט</a></li>
+              <li><a href="#gallery" className="hover:text-[#e5c158] transition-colors">גלריה</a></li>
             </ul>
           </div>
 
           {/* Specializations */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">התמחויות</h4>
-            <ul className="space-y-2 text-xs">
+          <div className="space-y-3.5">
+            <h4 className="text-sm font-bold text-[#fdfbf7] uppercase tracking-wider">התמחויות</h4>
+            <ul className="space-y-2.5 text-sm text-[#ded5cb]">
               <li>חתונות יוקרה בטבע וגנים פרטיים</li>
               <li>אירועים עסקיים, השקות וגאלות</li>
               <li>מסיבות VIP ווילות יוקרה</li>
@@ -57,9 +57,9 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* WhatsApp & Contact Details */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">יצירת קשר ישירה</h4>
-            <ul className="space-y-2.5 text-xs">
+          <div className="space-y-3.5">
+            <h4 className="text-sm font-bold text-[#fdfbf7] uppercase tracking-wider">יצירת קשר ישירה</h4>
+            <ul className="space-y-3 text-sm">
               <li>
                 <a
                   href={getWhatsAppUrl('פנייה מה-Footer באתר')}
@@ -67,17 +67,17 @@ export const Footer: React.FC = () => {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-[#e5c158] hover:text-white transition-colors group"
                 >
-                  <MessageSquare className="w-3.5 h-3.5 fill-[#e5c158]" />
-                  <span className="font-semibold">WhatsApp עסקי רשמי</span>
-                  <span className="text-[10px] text-zinc-400 group-hover:text-zinc-300">(צ'אט ישיר)</span>
+                  <MessageSquare className="w-4 h-4 fill-[#e5c158]" />
+                  <span className="font-bold">WhatsApp עסקי רשמי</span>
+                  <span className="text-xs text-stone-400 group-hover:text-stone-300">(צ'אט ישיר)</span>
                 </a>
               </li>
-              <li className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-zinc-400" />
-                <span>office@nofar-events.co.il</span>
+              <li className="flex items-center gap-2 text-stone-300">
+                <Mail className="w-4 h-4 text-stone-400" />
+                <span className="font-mono">office@nofar-events.co.il</span>
               </li>
-              <li className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-zinc-400" />
+              <li className="flex items-center gap-2 text-stone-300">
+                <MapPin className="w-4 h-4 text-stone-400" />
                 <span>מגדלי עזריאלי, תל אביב</span>
               </li>
             </ul>
@@ -88,9 +88,9 @@ export const Footer: React.FC = () => {
                 href={getWhatsAppUrl('תיאום שיחת היכרות עם נופר')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#1c1917] border border-[#d4af37]/35 text-xs font-semibold text-[#e5c158] hover:bg-[#2a2521] transition-all"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#25211d] border border-theme-gold text-sm font-bold text-[#e5c158] hover:bg-[#2e2924] transition-all shadow-md"
               >
-                <MessageSquare className="w-3 h-3 fill-[#e5c158]" />
+                <MessageSquare className="w-4 h-4 fill-[#e5c158]" />
                 <span>שיחה ב-WhatsApp עכשיו</span>
               </a>
             </div>
@@ -99,17 +99,17 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-stone-400 font-medium">
           <div>
             © 2026 נופר הפקות אירועי יוקרה. כל הזכויות שמורות.
           </div>
 
           <button
             onClick={scrollToTop}
-            className="flex items-center gap-1.5 hover:text-white transition-colors cursor-pointer"
+            className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer"
           >
             <span>לראש הדף</span>
-            <ArrowUp className="w-3.5 h-3.5" />
+            <ArrowUp className="w-4 h-4" />
           </button>
         </div>
 

@@ -79,25 +79,25 @@ export const Gallery: React.FC = () => {
   };
 
   return (
-    <section id="gallery" className="py-24 bg-[#121110] relative border-t border-[#d4af37]/20">
+    <section id="gallery" className="py-24 theme-bg-section relative border-t border-theme-gold transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#e5c158] mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
+        <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-widest text-[#9e751d] dark:text-[#e5c158] mb-3">
+            <Sparkles className="w-4 h-4" />
             <span>גלריית אירועים בלתי נשכחת</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[#fdfbf7] tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-5xl font-serif font-bold theme-text-head tracking-tight leading-tight">
             הצצה לרגעים שהפכנו למציאות חמה
           </h2>
-          <p className="text-base sm:text-lg text-[#d8cfc4] font-light mt-4">
+          <p className="text-base sm:text-lg theme-text-body font-normal mt-4">
             כל תמונה מספרת סיפור של תשוקה, תאורת אווירה נעימה והפקה ללא תקלות.
           </p>
         </div>
 
         {/* Filters */}
-        <div className="flex justify-center gap-2 mb-12">
+        <div className="flex flex-wrap justify-center gap-2.5 mb-14">
           {[
             { id: 'all', label: 'כל הגלריה' },
             { id: 'wedding', label: 'חתונות' },
@@ -107,10 +107,10 @@ export const Gallery: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setFilter(tab.id)}
-              className={`px-4 py-2 text-xs font-medium uppercase tracking-wider rounded-lg transition-all cursor-pointer ${
+              className={`px-5 py-2.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
                 filter === tab.id
-                  ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] shadow-md font-bold'
-                  : 'bg-[#1c1917] text-[#d8cfc4] border border-[#d4af37]/20 hover:text-white'
+                  ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] shadow-md'
+                  : 'theme-bg-card theme-text-head border border-theme-gold hover:border-theme-gold-strong shadow-xs'
               }`}
             >
               {tab.label}
@@ -118,116 +118,110 @@ export const Gallery: React.FC = () => {
           ))}
         </div>
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredItems.map((item, idx) => (
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {filteredItems.map((item, index) => (
             <div
               key={item.id}
-              onClick={() => setActiveItemIndex(idx)}
-              className="group relative rounded-xl overflow-hidden bg-[#1c1917] border border-[#d4af37]/20 cursor-pointer h-80 sm:h-96 shadow-lg transition-all duration-300 hover:border-[#d4af37]/50"
+              onClick={() => setActiveItemIndex(index)}
+              className="group relative h-96 sm:h-[420px] rounded-3xl overflow-hidden border border-theme-gold cursor-pointer bg-neutral-900 shadow-xl"
             >
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 referrerPolicy="no-referrer"
               />
-              
-              {/* Dark Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#121110] via-[#121110]/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+              {/* Deep gradient so text is always 100% readable on light and dark backgrounds */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent transition-opacity duration-300" />
 
-              {/* Expand Icon */}
-              <div className="absolute top-4 left-4 w-9 h-9 rounded-full bg-[#121110]/80 border border-[#d4af37]/40 backdrop-blur-md flex items-center justify-center text-[#e5c158] opacity-0 group-hover:opacity-100 transition-opacity">
-                <Maximize2 className="w-4 h-4" />
+              <div className="absolute bottom-6 right-6 left-6 flex justify-between items-end">
+                <div className="space-y-1.5 text-right">
+                  <div className="flex items-center gap-2 text-xs sm:text-sm font-mono font-bold text-[#f5d77f]">
+                    <span>{item.categoryLabel}</span>
+                    <span>•</span>
+                    <span>{item.location}</span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white drop-shadow-md">
+                    {item.title}
+                  </h3>
+                </div>
+
+                <div className="w-12 h-12 rounded-full bg-black/70 backdrop-blur-md border border-white/30 flex items-center justify-center text-white group-hover:bg-[#e5c158] group-hover:text-[#121110] transition-colors shrink-0 shadow-lg">
+                  <Maximize2 className="w-5 h-5" />
+                </div>
               </div>
-
-              {/* Bottom Details */}
-              <div className="absolute bottom-6 right-6 left-6 space-y-1">
-                <span className="text-[10px] uppercase font-mono tracking-wider text-[#e5c158]">
-                  {item.categoryLabel} · {item.location}
-                </span>
-                <h3 className="text-lg font-serif font-bold text-white group-hover:text-[#e5c158]">
-                  {item.title}
-                </h3>
-                <p className="text-xs text-[#d8cfc4] line-clamp-2 pt-1 font-light">
-                  {item.details}
-                </p>
-              </div>
-
             </div>
           ))}
         </div>
 
-      </div>
+        {/* Lightbox Modal */}
+        {activeItem && (
+          <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+            <button
+              onClick={() => setActiveItemIndex(null)}
+              className="absolute top-6 left-6 text-white hover:text-[#e5c158] p-2.5 rounded-full bg-white/10 border border-white/20 transition-colors cursor-pointer"
+            >
+              <X className="w-6 h-6" />
+            </button>
 
-      {/* Lightbox Modal */}
-      {activeItem && (
-        <div className="fixed inset-0 z-50 bg-[#121110]/95 backdrop-blur-xl flex items-center justify-center p-4 sm:p-8 animate-in fade-in duration-200">
-          <button
-            onClick={() => setActiveItemIndex(null)}
-            className="absolute top-6 right-6 text-[#d8cfc4] hover:text-white p-2 rounded-full bg-[#1c1917] border border-[#d4af37]/30 cursor-pointer z-50"
-            aria-label="סגור"
-          >
-            <X className="w-6 h-6" />
-          </button>
+            <button
+              onClick={handlePrev}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-[#e5c158] p-3.5 rounded-full bg-white/10 border border-white/20 transition-colors cursor-pointer"
+              aria-label="תמונה קודמת"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
 
-          <div className="max-w-4xl w-full bg-[#1c1917] border border-[#d4af37]/30 rounded-2xl overflow-hidden shadow-2xl grid grid-cols-1 md:grid-cols-12 relative">
-            
-            {/* Image (7 cols) */}
-            <div className="md:col-span-7 relative h-72 md:h-[500px] bg-black">
-              <img
-                src={activeItem.image}
-                alt={activeItem.title}
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
-              />
-              <button
-                onClick={handlePrev}
-                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-[#121110]/80 border border-[#d4af37]/40 text-[#e5c158] hover:bg-[#1c1917] cursor-pointer"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-              <button
-                onClick={handleNext}
-                className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-[#121110]/80 border border-[#d4af37]/40 text-[#e5c158] hover:bg-[#1c1917] cursor-pointer"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-            </div>
+            <button
+              onClick={handleNext}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-[#e5c158] p-3.5 rounded-full bg-white/10 border border-white/20 transition-colors cursor-pointer"
+              aria-label="תמונה הבאה"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
 
-            {/* Info (5 cols) */}
-            <div className="md:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                <div className="text-xs font-mono uppercase text-[#e5c158]">
-                  {activeItem.categoryLabel} · {activeItem.year}
-                </div>
-                <h3 className="text-2xl font-serif font-bold text-[#fdfbf7]">
-                  {activeItem.title}
-                </h3>
-                <div className="text-xs font-medium text-[#e5c158] bg-[#121110] px-3 py-1.5 rounded-lg border border-[#d4af37]/20 inline-block">
-                  לוקיישן: {activeItem.location}
-                </div>
-                <p className="text-sm text-[#d8cfc4] font-light leading-relaxed pt-2">
-                  {activeItem.details}
-                </p>
+            <div className="max-w-4xl w-full theme-bg-card border border-theme-gold rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
+              <div className="md:w-3/5 h-80 md:h-[500px] relative bg-black">
+                <img
+                  src={activeItem.image}
+                  alt={activeItem.title}
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
               </div>
 
-              <div className="pt-6 border-t border-[#d4af37]/20 flex items-center justify-between">
-                <span className="text-xs text-[#d8cfc4]">תמונה {activeItemIndex! + 1} מתוך {filteredItems.length}</span>
-                <button
-                  onClick={() => setActiveItemIndex(null)}
-                  className="px-4 py-2 text-xs font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] to-[#c5a059] rounded-lg cursor-pointer"
-                >
-                  חזרה לגלריה
-                </button>
+              <div className="md:w-2/5 p-7 sm:p-8 flex flex-col justify-between text-right space-y-4">
+                <div className="space-y-3.5">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full theme-bg-card-subtle text-xs font-mono font-bold text-[#9e751d] dark:text-[#e5c158] border border-theme-gold">
+                    <span>{activeItem.categoryLabel}</span>
+                    <span>•</span>
+                    <span>{activeItem.year}</span>
+                  </div>
+
+                  <h3 className="text-2xl sm:text-3xl font-serif font-bold theme-text-head">
+                    {activeItem.title}
+                  </h3>
+
+                  <p className="text-sm text-[#9e751d] dark:text-[#e5c158] font-mono font-semibold">
+                    מיקום: {activeItem.location}
+                  </p>
+
+                  <p className="text-sm sm:text-base theme-text-body font-normal leading-relaxed">
+                    {activeItem.details}
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-theme-gold flex items-center justify-between">
+                  <span className="text-sm font-semibold theme-text-muted">אירוע בלעדי</span>
+                  <span className="text-sm font-serif font-bold theme-text-head">נופר הפקות</span>
+                </div>
               </div>
-
             </div>
-
           </div>
-        </div>
-      )}
+        )}
 
+      </div>
     </section>
   );
 };

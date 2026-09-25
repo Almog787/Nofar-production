@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
+import { useTheme } from './utils/theme';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { AboutSection } from './components/AboutSection';
@@ -34,6 +35,7 @@ const CHAPTERS = [
 ];
 
 export function App() {
+  const { theme, toggleTheme } = useTheme();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalSubject, setModalSubject] = useState<string | undefined>(undefined);
   const [activeChapterIndex, setActiveChapterIndex] = useState(0);
@@ -148,7 +150,7 @@ export function App() {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-[#121110] text-[#f3eee6] flex flex-col font-sans selection:bg-[#e5c158] selection:text-[#121110] relative overflow-x-hidden"
+      className="min-h-screen theme-bg-page theme-text-body flex flex-col font-sans selection:bg-[#e5c158] selection:text-[#121110] relative overflow-x-hidden transition-colors duration-300"
     >
       {/* GSAP Scroll Progress Bar (Top) */}
       <div
@@ -157,7 +159,7 @@ export function App() {
       />
 
       {/* Floating Storyline HUD Chapter Navigator (Bottom Corner) */}
-      <div className="fixed bottom-6 right-6 z-40 hidden md:flex items-center gap-1.5 p-1.5 rounded-full bg-[#171513]/90 backdrop-blur-xl border border-[#d4af37]/35 shadow-2xl">
+      <div className="fixed bottom-6 right-6 z-40 hidden md:flex items-center gap-1.5 p-1.5 rounded-full theme-bg-card backdrop-blur-xl border border-theme-gold shadow-xl">
         {CHAPTERS.map((ch, idx) => (
           <button
             key={ch.id}
@@ -165,7 +167,7 @@ export function App() {
             className={`px-3 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer flex items-center gap-1.5 ${
               activeChapterIndex === idx
                 ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] font-bold shadow-md scale-105'
-                : 'text-[#d8cfc4] hover:text-white hover:bg-[#2a2521]'
+                : 'theme-text-muted hover:theme-text-head hover:bg-theme-card-subtle'
             }`}
             title={ch.name}
           >
@@ -179,10 +181,12 @@ export function App() {
         ))}
       </div>
 
-      {/* Fixed Luxury Header */}
+      {/* Fixed Luxury Header with Theme Toggle */}
       <Header
         onOpenContact={handleOpenContact}
         activeChapterName={CHAPTERS[activeChapterIndex]?.name}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
 
       {/* The Unified Cinematic Journey Flow */}

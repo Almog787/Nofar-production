@@ -7,7 +7,7 @@ interface EventTypesProps {
   onOpenContact?: (customSubject?: string) => void;
 }
 
-export const EventTypes: React.FC<EventTypesProps> = ({ onOpenContact }) => {
+export const EventTypes: React.FC<EventTypesProps> = () => {
   const [selectedType, setSelectedType] = useState<string>('all');
 
   const filteredEvents = selectedType === 'all' 
@@ -15,31 +15,31 @@ export const EventTypes: React.FC<EventTypesProps> = ({ onOpenContact }) => {
     : EVENT_TYPES.filter(e => e.id === selectedType);
 
   return (
-    <section id="event-types" className="py-20 bg-[#121110] relative border-t border-[#d4af37]/20">
+    <section id="event-types" className="py-24 theme-bg-section relative border-t border-theme-gold transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#e5c158] mb-2.5">
-            <Sparkles className="w-3.5 h-3.5" />
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-widest text-[#9e751d] dark:text-[#e5c158] mb-3">
+            <Sparkles className="w-4 h-4" />
             <span>התמחויות ההפקה</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[#fdfbf7] tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-5xl font-serif font-bold theme-text-head tracking-tight leading-tight">
             אירועים בתפירה אישית
           </h2>
-          <p className="text-sm sm:text-base text-[#d8cfc4] font-light mt-3">
+          <p className="text-base sm:text-lg theme-text-body font-normal mt-3">
             קונספט ייחודי, הפקה מבוקרת וליווי אישי מקצה לקצה.
           </p>
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
+        <div className="flex flex-wrap items-center justify-center gap-2.5 mb-12">
           <button
             onClick={() => setSelectedType('all')}
-            className={`px-4 py-2 text-xs font-medium uppercase tracking-wider rounded-lg transition-all cursor-pointer ${
+            className={`px-5 py-2.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
               selectedType === 'all'
-                ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] shadow-lg font-bold'
-                : 'bg-[#1c1917] text-[#d8cfc4] hover:text-white border border-[#d4af37]/20'
+                ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] shadow-md'
+                : 'theme-bg-card theme-text-head border border-theme-gold hover:border-theme-gold-strong shadow-xs'
             }`}
           >
             כל האירועים
@@ -48,10 +48,10 @@ export const EventTypes: React.FC<EventTypesProps> = ({ onOpenContact }) => {
             <button
               key={event.id}
               onClick={() => setSelectedType(event.id)}
-              className={`px-4 py-2 text-xs font-medium uppercase tracking-wider rounded-lg transition-all cursor-pointer ${
+              className={`px-5 py-2.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
                 selectedType === event.id
-                  ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] shadow-lg font-bold'
-                  : 'bg-[#1c1917] text-[#d8cfc4] hover:text-white border border-[#d4af37]/20'
+                  ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] shadow-md'
+                  : 'theme-bg-card theme-text-head border border-theme-gold hover:border-theme-gold-strong shadow-xs'
               }`}
             >
               {event.title}
@@ -60,62 +60,63 @@ export const EventTypes: React.FC<EventTypesProps> = ({ onOpenContact }) => {
         </div>
 
         {/* Grid of Event Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {filteredEvents.map((event: EventType) => (
             <div
               key={event.id}
-              className="group bg-[#1c1917]/80 rounded-2xl border border-[#d4af37]/20 hover:border-[#d4af37]/45 transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-xl"
+              className="group theme-bg-card rounded-3xl border border-theme-gold hover:border-theme-gold-strong transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-xl"
             >
               <div>
                 {/* Image Header with Warm Scrim */}
-                <div className="relative h-60 sm:h-64 overflow-hidden bg-[#121110]">
+                <div className="relative h-64 sm:h-72 overflow-hidden bg-neutral-900">
                   <img
                     src={event.image}
                     alt={event.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#121110] via-[#121110]/40 to-transparent" />
+                  {/* High contrast gradient so title on image is always 100% readable */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                   
                   {/* Guest Count Badge */}
-                  <div className="absolute top-4 right-4 bg-[#121110]/90 backdrop-blur-md border border-[#d4af37]/30 px-3 py-1 rounded-full text-xs text-[#f3eee6] flex items-center gap-1.5 shadow-lg">
-                    <Users className="w-3 h-3 text-[#e5c158]" />
+                  <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-md border border-[#d4af37]/50 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold text-white flex items-center gap-1.5 shadow-lg">
+                    <Users className="w-3.5 h-3.5 text-[#e5c158]" />
                     <span>{event.guestRange}</span>
                   </div>
 
                   {/* Title Overlay */}
-                  <div className="absolute bottom-4 right-5 left-5">
-                    <span className="text-[11px] uppercase font-mono tracking-wider text-[#e5c158]">
+                  <div className="absolute bottom-5 right-6 left-6 space-y-1">
+                    <span className="text-xs sm:text-sm uppercase font-mono font-bold tracking-wider text-[#f5d77f]">
                       {event.subtitle}
                     </span>
-                    <h3 className="text-2xl font-serif font-bold text-[#fdfbf7] mt-0.5">
+                    <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white drop-shadow-md">
                       {event.title}
                     </h3>
                   </div>
                 </div>
 
                 {/* Card Content */}
-                <div className="p-5 sm:p-6 space-y-4">
-                  <p className="text-xs sm:text-sm text-[#d8cfc4] leading-relaxed font-light">
+                <div className="p-6 sm:p-7 space-y-5">
+                  <p className="text-sm sm:text-base theme-text-body leading-relaxed font-normal">
                     {event.description}
                   </p>
 
                   {/* Features List */}
-                  <div className="space-y-2">
+                  <div className="space-y-2.5">
                     {event.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-center gap-2 text-xs text-[#f3eee6]">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#e5c158] shrink-0" />
+                      <div key={idx} className="flex items-center gap-2.5 text-sm font-medium theme-text-head">
+                        <CheckCircle2 className="w-4 h-4 text-[#9e751d] dark:text-[#e5c158] shrink-0" />
                         <span>{feature}</span>
                       </div>
                     ))}
                   </div>
 
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-1.5 pt-1">
+                  <div className="flex flex-wrap gap-2 pt-2">
                     {event.tags.map((tag, idx) => (
                       <span
                         key={idx}
-                        className="text-[10px] font-medium text-[#e5c158] bg-[#121110] border border-[#d4af37]/20 px-2 py-0.5 rounded-md"
+                        className="text-xs font-semibold text-[#9e751d] dark:text-[#e5c158] theme-bg-card-subtle border border-theme-gold px-3 py-1 rounded-lg"
                       >
                         {tag}
                       </span>
@@ -125,17 +126,17 @@ export const EventTypes: React.FC<EventTypesProps> = ({ onOpenContact }) => {
               </div>
 
               {/* Action Footer */}
-              <div className="p-5 sm:p-6 pt-0 border-t border-[#d4af37]/15 mt-2 flex items-center justify-between">
-                <span className="text-xs text-[#d8cfc4]">התאמה מלאה</span>
+              <div className="p-6 sm:p-7 pt-0 border-t border-theme-gold mt-2 flex items-center justify-between">
+                <span className="text-sm font-semibold theme-text-muted">התאמה מלאה</span>
                 <a
                   href={getWhatsAppUrl(`בירור והתאמת קונספט עבור ${event.title}`)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#121110] bg-gradient-to-r from-[#e5c158] to-[#c5a059] hover:brightness-110 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-md"
+                  className="px-5 py-2.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-[#121110] bg-gradient-to-r from-[#e5c158] to-[#c5a059] hover:brightness-105 rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-md"
                 >
-                  <MessageSquare className="w-3.5 h-3.5 fill-[#121110]" />
+                  <MessageSquare className="w-4 h-4 fill-[#121110]" />
                   <span>תיאום ב-WhatsApp</span>
-                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <ArrowLeft className="w-4 h-4" />
                 </a>
               </div>
 
