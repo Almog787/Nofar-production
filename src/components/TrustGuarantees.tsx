@@ -7,14 +7,16 @@ interface TrustGuaranteesProps {
   onOpenContact: (customSubject?: string) => void;
 }
 
-export const TrustGuarantees: React.FC<TrustGuaranteesProps> = ({ onOpenContact }) => {
+export const TrustGuarantees: React.FC<TrustGuaranteesProps> = ({
+  onOpenContact,
+}) => {
   const icons = [Lock, Users, HeartHandshake, ShieldCheck];
 
   return (
-    <section id="trust" className="py-20 bg-[#171513] relative border-t border-[#d4af37]/20">
+    <section id="trust" className="py-24 bg-[#171513] relative border-t border-[#d4af37]/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Header - concise and elevated */}
+        {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#e5c158] mb-3">
             <ShieldCheck className="w-4 h-4" />
@@ -66,7 +68,7 @@ export const TrustGuarantees: React.FC<TrustGuaranteesProps> = ({ onOpenContact 
           })}
         </div>
 
-        {/* Confidence Callout - concise */}
+        {/* Confidence Callout */}
         <div className="mt-12 p-6 rounded-2xl bg-[#2a2521]/60 border border-[#d4af37]/25 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-right space-y-0.5">
             <span className="text-sm sm:text-base font-serif font-bold text-[#fdfbf7]">מעוניינים בשיחה אישית עם נופר?</span>

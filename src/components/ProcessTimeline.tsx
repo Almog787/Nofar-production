@@ -6,13 +6,15 @@ interface ProcessTimelineProps {
   onOpenContact: (customSubject?: string) => void;
 }
 
-export const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ onOpenContact }) => {
+export const ProcessTimeline: React.FC<ProcessTimelineProps> = ({
+  onOpenContact,
+}) => {
   return (
-    <section id="process" className="py-20 bg-[#121110] relative border-t border-[#d4af37]/20">
+    <section id="process" className="py-24 bg-[#121110] relative border-t border-[#d4af37]/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
+        <div className="text-center max-w-2xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#e5c158] mb-2.5">
             <Sparkles className="w-3.5 h-3.5" />
             <span>מתודולוגיית עבודה</span>
