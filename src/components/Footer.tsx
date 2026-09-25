@@ -1,6 +1,6 @@
 import React from 'react';
-import { Mail, MapPin, Camera, Globe, ArrowUp, MessageSquare } from 'lucide-react';
-import { NOFAR_WHATSAPP_DISPLAY, getWhatsAppUrl } from '../utils/whatsapp';
+import { Mail, MapPin, Camera, Globe, ArrowUp, MessageSquare, Lock } from 'lucide-react';
+import { getWhatsAppUrl } from '../utils/whatsapp';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -58,7 +58,7 @@ export const Footer: React.FC = () => {
 
           {/* WhatsApp & Contact Details */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider">יצירת קשר</h4>
+            <h4 className="text-xs font-bold text-white uppercase tracking-wider">יצירת קשר ישירה</h4>
             <ul className="space-y-2.5 text-xs">
               <li>
                 <a
@@ -68,8 +68,8 @@ export const Footer: React.FC = () => {
                   className="flex items-center gap-2 text-[#e5c158] hover:text-white transition-colors group"
                 >
                   <MessageSquare className="w-3.5 h-3.5 fill-[#e5c158]" />
-                  <span className="font-mono font-bold" dir="ltr">{NOFAR_WHATSAPP_DISPLAY}</span>
-                  <span className="text-[10px] text-zinc-400 group-hover:text-zinc-300">(WhatsApp)</span>
+                  <span className="font-semibold">WhatsApp עסקי רשמי</span>
+                  <span className="text-[10px] text-zinc-400 group-hover:text-zinc-300">(צ'אט ישיר)</span>
                 </a>
               </li>
               <li className="flex items-center gap-2">

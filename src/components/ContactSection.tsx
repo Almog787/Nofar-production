@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Mail, MapPin, Send, CheckCircle2, Sparkles, MessageSquare, ShieldCheck } from 'lucide-react';
-import { NOFAR_WHATSAPP_DISPLAY, getWhatsAppUrl } from '../utils/whatsapp';
+import { Mail, MapPin, CheckCircle2, Sparkles, MessageSquare, ShieldCheck, Lock } from 'lucide-react';
+import { getWhatsAppUrl } from '../utils/whatsapp';
 
 interface ContactSectionProps {
   initialSubject?: string;
@@ -19,7 +19,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const message = `היי נופר, שמי ${formData.fullName}. אשמח לתאם פגישה לגבי ${formData.eventType} (${formData.guestCount} מוזמנים${formData.eventDate ? `, תאריך משוער: ${formData.eventDate}` : ''}). ${formData.notes ? `פרטים נוספים: ${formData.notes}` : ''}`;
+    const message = `היי נופר, שמי ${formData.fullName}. אשמח לתאם שיחת היכרות לגבי ${formData.eventType} (${formData.guestCount} מוזמנים${formData.eventDate ? `, תאריך משוער: ${formData.eventDate}` : ''}). ${formData.notes ? `פרטים נוספים: ${formData.notes}` : ''}`;
     
     setSubmitted(true);
     const url = getWhatsAppUrl(message);
@@ -50,9 +50,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }
 
             {/* Direct Contact Cards */}
             <div className="space-y-3 pt-2">
-              {/* WhatsApp Business Concierge Card */}
+              {/* WhatsApp Business Concierge Card - Fully secured & obfuscated */}
               <a
-                href={getWhatsAppUrl('פנייה ישירה לתיאום פגישה')}
+                href={getWhatsAppUrl('פנייה ישירה לשיחת היכרות')}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3.5 p-4 rounded-xl bg-[#1c1917]/90 border border-[#e5c158]/50 hover:border-[#e5c158] transition-all group shadow-xl"
@@ -62,13 +62,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-[#e5c158] font-mono uppercase font-bold">WhatsApp עסק רשמי</span>
-                    <span className="px-1.5 py-0.2 rounded bg-[#e5c158] text-[#121110] text-[9px] font-bold">זמין עכשיו</span>
+                    <span className="text-[11px] text-[#e5c158] font-mono uppercase font-bold">WhatsApp עסקי רשמי</span>
+                    <span className="px-1.5 py-0.2 rounded bg-[#e5c158] text-[#121110] text-[9px] font-bold">מענה ישיר מנופר</span>
                   </div>
-                  <span className="text-base font-bold text-[#fdfbf7] font-mono mt-0.5 block" dir="ltr">
-                    {NOFAR_WHATSAPP_DISPLAY}
+                  <span className="text-sm sm:text-base font-bold text-[#fdfbf7] mt-0.5 block">
+                    שיחה ישירה ומאובטחת
                   </span>
-                  <span className="text-xs text-[#d8cfc4]">שליחת הודעה מוכנה מראש לנופר</span>
+                  <span className="text-xs text-[#d8cfc4]">לחיצה למעבר לצ'אט עם הודעה מוכנה</span>
                 </div>
               </a>
 
@@ -93,10 +93,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }
               </div>
             </div>
 
-            {/* Scarcity badge */}
+            {/* Scarcity & Privacy Guarantee badge */}
             <div className="p-3.5 rounded-xl bg-[#171513] border border-[#d4af37]/25 flex items-center gap-3 text-xs text-[#d8cfc4]">
-              <ShieldCheck className="w-4 h-4 text-[#e5c158] shrink-0" />
-              <span>תשומת לב מלאה: אירוע אחד ביום ועד שני אירועים בחודש.</span>
+              <Lock className="w-4 h-4 text-[#e5c158] shrink-0" />
+              <span>ערוץ מאובטח ומוגן מספאם · אירוע יחיד ביום ועד שני אירועים בחודש.</span>
             </div>
 
           </div>
@@ -130,10 +130,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialSubject }
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="border-b border-[#d4af37]/20 pb-3">
                   <h3 className="text-lg font-serif font-bold text-[#fdfbf7]">
-                    תיאום פגישה מהיר ב-WhatsApp
+                    תיאום שיחת היכרות ב-WhatsApp
                   </h3>
                   <p className="text-xs text-[#d8cfc4] mt-0.5">
-                    הפרטים יישלחו כהודעה מוכנה מראש ישירות לנופר.
+                    הפרטים יישלחו כהודעה מוכנה מראש ישירות לנופר ללא חשיפת הפרטים לספאם.
                   </p>
                 </div>
 

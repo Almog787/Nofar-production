@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { X, CheckCircle2, MessageSquare, ShieldCheck } from 'lucide-react';
-import { NOFAR_WHATSAPP_DISPLAY, getWhatsAppUrl } from '../utils/whatsapp';
+import { X, CheckCircle2, MessageSquare, ShieldCheck, Lock } from 'lucide-react';
+import { getWhatsAppUrl } from '../utils/whatsapp';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -54,7 +54,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, cus
               ההודעה מוכנה ב-WhatsApp!
             </h3>
             <p className="text-xs text-[#d8cfc4] font-light leading-relaxed">
-              השיחה נפתחה ישירות מול נופר ב-WhatsApp ({NOFAR_WHATSAPP_DISPLAY}) עם הפרטים שהזנתם.
+              השיחה נפתחה ישירות מול נופר ב-WhatsApp בערוץ מאובטח עם הפרטים שהזנתם.
             </p>
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2">
               <button
@@ -73,10 +73,10 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, cus
             <div className="border-b border-[#d4af37]/20 pb-3">
               <div className="flex items-center gap-2 text-xs font-bold text-[#e5c158] mb-1">
                 <MessageSquare className="w-4 h-4 fill-[#e5c158]" />
-                <span>WhatsApp עסק רשמי: {NOFAR_WHATSAPP_DISPLAY}</span>
+                <span>WhatsApp עסקי רשמי ומאובטח</span>
               </div>
               <h3 className="text-xl font-serif font-bold text-[#fdfbf7]">
-                תיאום פגישת היכרות
+                תיאום שיחת היכרות
               </h3>
               <p className="text-xs text-[#d8cfc4] mt-0.5">
                 מלאו את הפרטים וההודעה תיפתח ישירות ב-WhatsApp של נופר.
@@ -135,8 +135,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, cus
             </button>
 
             <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#d8cfc4]">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#e5c158]" />
-              <span>דיסקרטיות מלאה ושירות אישי מובטח</span>
+              <Lock className="w-3.5 h-3.5 text-[#e5c158]" />
+              <span>ערוץ ישיר ומאובטח · דיסקרטיות מלאה מובטחת</span>
             </div>
           </form>
         )}
