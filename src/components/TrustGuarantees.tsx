@@ -1,7 +1,8 @@
 import React from 'react';
 import { TRUST_GUARANTEES } from '../data/eventData';
-import { ShieldCheck, Lock, Users, HeartHandshake, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Lock, Users, HeartHandshake, CheckCircle2, MessageSquare } from 'lucide-react';
 import { SpotlightCard } from './react-bits/SpotlightCard';
+import { getWhatsAppUrl } from '../utils/whatsapp';
 
 interface TrustGuaranteesProps {
   onOpenContact: (customSubject?: string) => void;
@@ -74,12 +75,15 @@ export const TrustGuarantees: React.FC<TrustGuaranteesProps> = ({
             <span className="text-sm sm:text-base font-serif font-bold text-[#fdfbf7]">מעוניינים בשיחה אישית עם נופר?</span>
             <p className="text-xs text-[#d8cfc4]">נשמח להקשיב לחלום שלכם ולגבש מתווה הפקה מדויק.</p>
           </div>
-          <button
-            onClick={() => onOpenContact('שיחת היכרות אישית')}
-            className="px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] rounded-xl hover:brightness-110 transition-all cursor-pointer shrink-0 shadow-lg"
+          <a
+            href={getWhatsAppUrl('שיחת היכרות אישית עם נופר')}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] rounded-xl hover:brightness-110 transition-all cursor-pointer shrink-0 shadow-lg flex items-center gap-2"
           >
-            תיאום שיחת היכרות
-          </button>
+            <MessageSquare className="w-3.5 h-3.5 fill-[#121110]" />
+            <span>שיחה ב-WhatsApp עם נופר</span>
+          </a>
         </div>
 
       </div>

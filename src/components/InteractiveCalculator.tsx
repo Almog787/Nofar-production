@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import { Users, Check, ArrowLeft, Sliders, ShieldCheck } from 'lucide-react';
+import { Users, Check, ArrowLeft, Sliders, ShieldCheck, MessageSquare } from 'lucide-react';
+import { getWhatsAppUrl } from '../utils/whatsapp';
 
 interface InteractiveCalculatorProps {
-  onOpenContact: (customSubject?: string) => void;
+  onOpenContact?: (customSubject?: string) => void;
 }
 
 export const InteractiveCalculator: React.FC<InteractiveCalculatorProps> = ({ onOpenContact }) => {
@@ -50,7 +51,7 @@ export const InteractiveCalculator: React.FC<InteractiveCalculatorProps> = ({ on
     };
 
     const configSummary = `אפיון מתכנן עבור ${eventNameMap[eventType]} ל-${guests} אורחים בסגנון ${styleNameMap[style]} (${conceptSummary.activeAddonsCount} מרכיבים).`;
-    onOpenContact(configSummary);
+    onOpenContact?.(configSummary);
   };
 
   return (
@@ -252,13 +253,34 @@ export const InteractiveCalculator: React.FC<InteractiveCalculatorProps> = ({ on
               </div>
 
               {/* Submit Action */}
-              <button
-                onClick={handleSendConfig}
+              <a
+                href={getWhatsAppUrl(
+                  `אפיון מתכנן עבור ${
+                    eventType === 'wedding'
+                      ? 'חתונה'
+                      : eventType === 'corporate'
+                      ? 'אירוע חברה'
+                      : eventType === 'barmitzvah'
+                      ? 'בר/בת מצווה'
+                      : 'מסיבת VIP'
+                  } ל-${guests} אורחים בסגנון ${
+                    style === 'monochrome'
+                      ? 'יוקרה חמה וזהובה'
+                      : style === 'classic'
+                      ? 'קלאסיקה מאופקת'
+                      : style === 'urban'
+                      ? 'אורבני עדכני'
+                      : 'טבע כפרי'
+                  } (${conceptSummary.activeAddonsCount} מרכיבים)`
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full py-3.5 px-5 text-xs font-bold uppercase tracking-wider text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-110 rounded-xl shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer mt-4"
               >
-                <span>תיאום שיחה על המפרט</span>
+                <MessageSquare className="w-4 h-4 fill-[#121110]" />
+                <span>שליחת המפרט ותיאום ב-WhatsApp</span>
                 <ArrowLeft className="w-3.5 h-3.5" />
-              </button>
+              </a>
 
               <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#e5c158] pt-1">
                 <ShieldCheck className="w-3.5 h-3.5" />

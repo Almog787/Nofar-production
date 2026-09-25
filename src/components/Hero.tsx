@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Calendar, ArrowDown, ChevronLeft, ShieldCheck, Sparkles, ChevronDown } from 'lucide-react';
+import { Calendar, ArrowDown, ChevronLeft, ShieldCheck, Sparkles, ChevronDown, MessageSquare } from 'lucide-react';
 import { IMAGES } from '../data/eventData';
 import { Particles } from './react-bits/Particles';
 import { ShinyText } from './react-bits/ShinyText';
 import { CountUp } from './react-bits/CountUp';
 import { StarBorder } from './react-bits/StarBorder';
+import { getWhatsAppUrl } from '../utils/whatsapp';
 
 interface HeroProps {
   onOpenContact: (customSubject?: string) => void;
@@ -130,13 +131,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
             </StarBorder>
           </a>
 
-          <button
-            onClick={() => onOpenContact('תיאום שיחת היכרות ראשונית')}
+          <a
+            href={getWhatsAppUrl('תיאום שיחת היכרות ופגישה ראשונית')}
+            target="_blank"
+            rel="noopener noreferrer"
             className="w-full sm:w-auto px-7 py-3 text-xs font-semibold tracking-wider text-[#f3eee6] hover:text-white bg-[#1c1917]/90 hover:bg-[#2a2521] border border-[#d4af37]/35 hover:border-[#d4af37]/65 rounded-xl backdrop-blur-md transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg"
           >
-            <Calendar className="w-4 h-4 text-[#e5c158]" />
-            <span>תיאום פגישה אישית</span>
-          </button>
+            <MessageSquare className="w-4 h-4 text-[#e5c158]" />
+            <span>תיאום פגישה ב-WhatsApp</span>
+          </a>
         </div>
 
         {/* Boutique Scarcity Standards */}

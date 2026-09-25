@@ -1,9 +1,10 @@
 import React from 'react';
 import { PROCESS_STEPS } from '../data/eventData';
-import { Sparkles, CalendarCheck } from 'lucide-react';
+import { Sparkles, CalendarCheck, MessageSquare } from 'lucide-react';
+import { getWhatsAppUrl } from '../utils/whatsapp';
 
 interface ProcessTimelineProps {
-  onOpenContact: (customSubject?: string) => void;
+  onOpenContact?: (customSubject?: string) => void;
 }
 
 export const ProcessTimeline: React.FC<ProcessTimelineProps> = ({
@@ -69,13 +70,15 @@ export const ProcessTimeline: React.FC<ProcessTimelineProps> = ({
             </p>
           </div>
 
-          <button
-            onClick={() => onOpenContact('תיאום פגישת אפיון')}
+          <a
+            href={getWhatsAppUrl('תיאום פגישת אפיון ראשונית')}
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] rounded-xl transition-all shrink-0 cursor-pointer flex items-center gap-2 shadow-lg"
           >
-            <CalendarCheck className="w-3.5 h-3.5" />
-            <span>תיאום פגישת אפיון</span>
-          </button>
+            <MessageSquare className="w-3.5 h-3.5 fill-[#121110]" />
+            <span>תיאום פגישת אפיון ב-WhatsApp</span>
+          </a>
         </div>
 
       </div>

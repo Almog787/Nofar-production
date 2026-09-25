@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Calendar, Menu, X, Sparkles, HeartHandshake, Film } from 'lucide-react';
+import { Calendar, Menu, X, Sparkles, HeartHandshake, Film, MessageSquare } from 'lucide-react';
+import { getWhatsAppUrl } from '../utils/whatsapp';
 
 interface HeaderProps {
-  onOpenContact: (customSubject?: string) => void;
+  onOpenContact?: (customSubject?: string) => void;
   activeChapterName?: string;
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  onOpenContact,
   activeChapterName,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -157,26 +157,31 @@ export const Header: React.FC<HeaderProps> = ({
             </a>
           </nav>
 
-          {/* Zone 3: Direct Actions */}
+          {/* Zone 3: Direct WhatsApp Action (No phone calls, directly pre-filled WhatsApp) */}
           <div className="hidden sm:flex items-center gap-3">
             <a
-              href="tel:0541234567"
-              className="flex items-center gap-2 px-3.5 py-2 text-xs font-medium text-[#f3eee6] hover:text-[#e5c158] border border-[#d4af37]/20 hover:border-[#d4af37]/50 rounded-lg transition-all bg-[#1c1917]/60"
-            >
-              <Phone className="w-3.5 h-3.5 text-[#e5c158]" />
-              <span dir="ltr">054-123-4567</span>
-            </a>
-            <button
-              onClick={() => onOpenContact()}
+              href={getWhatsAppUrl('תיאום שיחת היכרות ופגישה')}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-110 rounded-lg shadow-lg hover:shadow-[#d4af37]/20 transition-all cursor-pointer"
             >
-              <Calendar className="w-3.5 h-3.5" />
-              <span>תיאום פגישה</span>
-            </button>
+              <MessageSquare className="w-3.5 h-3.5 fill-[#121110]" />
+              <span>תיאום פגישה ב-WhatsApp</span>
+            </a>
           </div>
 
           {/* Mobile Menu Toggle */}
           <div className="lg:hidden flex items-center gap-2">
+            <a
+              href={getWhatsAppUrl('תיאום שיחת היכרות')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1.5 text-xs font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] to-[#c5a059] rounded-lg flex items-center gap-1.5 shadow-md"
+            >
+              <MessageSquare className="w-3.5 h-3.5 fill-[#121110]" />
+              <span>WhatsApp</span>
+            </a>
+
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 text-[#d8cfc4] hover:text-white rounded-lg bg-[#1c1917] border border-[#d4af37]/20 focus:outline-none cursor-pointer"
@@ -274,23 +279,18 @@ export const Header: React.FC<HeaderProps> = ({
             שאלות נפוצות
           </a>
 
+          {/* Mobile CTA: Pre-filled WhatsApp button (no phone number) */}
           <div className="pt-4 border-t border-[#d4af37]/20 flex flex-col gap-3">
             <a
-              href="tel:0541234567"
-              className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-[#f3eee6] border border-[#d4af37]/30 rounded-lg bg-[#1c1917]"
+              href={getWhatsAppUrl('תיאום שיחת היכרות ופגישה')}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full py-3 text-sm font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] rounded-lg shadow-lg flex items-center justify-center gap-2"
             >
-              <Phone className="w-4 h-4 text-[#e5c158]" />
-              <span>054-123-4567</span>
+              <MessageSquare className="w-4 h-4 fill-[#121110]" />
+              <span>תיאום פגישה ב-WhatsApp</span>
             </a>
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenContact();
-              }}
-              className="w-full py-3 text-sm font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] rounded-lg shadow-lg cursor-pointer"
-            >
-              תיאום פגישת ייעוץ
-            </button>
           </div>
         </div>
       )}

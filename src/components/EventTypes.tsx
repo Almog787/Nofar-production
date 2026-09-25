@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { EVENT_TYPES, EventType } from '../data/eventData';
-import { Users, CheckCircle2, ArrowLeft, Sparkles } from 'lucide-react';
+import { Users, CheckCircle2, ArrowLeft, Sparkles, MessageSquare } from 'lucide-react';
+import { getWhatsAppUrl } from '../utils/whatsapp';
 
 interface EventTypesProps {
-  onOpenContact: (customSubject?: string) => void;
+  onOpenContact?: (customSubject?: string) => void;
 }
 
 export const EventTypes: React.FC<EventTypesProps> = ({ onOpenContact }) => {
@@ -126,13 +127,16 @@ export const EventTypes: React.FC<EventTypesProps> = ({ onOpenContact }) => {
               {/* Action Footer */}
               <div className="p-5 sm:p-6 pt-0 border-t border-[#d4af37]/15 mt-2 flex items-center justify-between">
                 <span className="text-xs text-[#d8cfc4]">התאמה מלאה</span>
-                <button
-                  onClick={() => onOpenContact(`בירור לגבי ${event.title}`)}
+                <a
+                  href={getWhatsAppUrl(`בירור והתאמת קונספט עבור ${event.title}`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#121110] bg-gradient-to-r from-[#e5c158] to-[#c5a059] hover:brightness-110 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-md"
                 >
-                  <span>תיאום קונספט</span>
+                  <MessageSquare className="w-3.5 h-3.5 fill-[#121110]" />
+                  <span>תיאום ב-WhatsApp</span>
                   <ArrowLeft className="w-3.5 h-3.5" />
-                </button>
+                </a>
               </div>
 
             </div>
