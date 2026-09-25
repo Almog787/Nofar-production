@@ -81,22 +81,23 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
           </button>
         </div>
 
-        {/* Quick Proof Metrics Row */}
+        {/* Quick Proof Metrics Row - Realistic & High-Impact Boutique Standards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 pt-6 border-t border-[#d4af37]/20 w-full max-w-3xl">
           <div className="flex flex-col items-center">
             <div className="flex items-center text-2xl sm:text-3xl font-bold font-serif text-[#e5c158] tabular-nums">
-              <CountUp to={15} duration={2} />
-              <span>+</span>
+              <CountUp to={1} duration={1.2} />
             </div>
-            <span className="text-xs text-[#d8cfc4] mt-0.5">שנות ניסיון</span>
+            <span className="text-xs text-[#fdfbf7] font-semibold mt-0.5">אירוע יחיד ביום</span>
+            <span className="text-[10px] text-[#d8cfc4]">100% פוקוס עליכם</span>
           </div>
           
           <div className="flex flex-col items-center">
             <div className="flex items-center text-2xl sm:text-3xl font-bold font-serif text-[#e5c158] tabular-nums">
-              <CountUp to={850} duration={2.5} />
-              <span>+</span>
+              <span className="text-sm font-sans font-normal ml-1">עד</span>
+              <CountUp to={2} duration={1.5} />
             </div>
-            <span className="text-xs text-[#d8cfc4] mt-0.5">אירועים נבחרים</span>
+            <span className="text-xs text-[#fdfbf7] font-semibold mt-0.5">אירועים בחודש</span>
+            <span className="text-[10px] text-[#d8cfc4]">בוטיק ללא פס ייצור</span>
           </div>
           
           <div className="flex flex-col items-center">
@@ -104,12 +105,16 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
               <CountUp to={100} duration={2} />
               <span>%</span>
             </div>
-            <span className="text-xs text-[#d8cfc4] mt-0.5">מחויבות לתוצאה</span>
+            <span className="text-xs text-[#fdfbf7] font-semibold mt-0.5">נוכחות אישית</span>
+            <span className="text-[10px] text-[#d8cfc4]">של נופר לאורך כל היום</span>
           </div>
           
           <div className="flex flex-col items-center">
-            <span className="text-2xl sm:text-3xl font-bold font-serif text-[#e5c158] tabular-nums">24/7</span>
-            <span className="text-xs text-[#d8cfc4] mt-0.5">זמינות וליווי</span>
+            <div className="flex items-center text-2xl sm:text-3xl font-bold font-serif text-[#e5c158] tabular-nums">
+              <span>0</span>
+            </div>
+            <span className="text-xs text-[#fdfbf7] font-semibold mt-0.5">הפתעות בתקציב</span>
+            <span className="text-[10px] text-[#d8cfc4]">שקיפות מלאה מול ספקים</span>
           </div>
         </div>
 
