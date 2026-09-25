@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Lenis from 'lenis';
-import { useTheme } from './utils/theme';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { AboutSection } from './components/AboutSection';
@@ -18,6 +16,7 @@ import { FAQSection } from './components/FAQSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { ContactModal } from './components/ContactModal';
+import { LandingPage } from './components/LandingPage';
 
 const CHAPTERS = [
   { id: 'hero', name: 'שער הפתיחה', short: '00' },
@@ -35,49 +34,63 @@ const CHAPTERS = [
 ];
 
 export function App() {
-  const { theme, toggleTheme } = useTheme();
+  // Page Mode: 'full' (Cinematic Full Site) or 'landing' (Fast-Conversion Landing Page)
+  const [currentPage, setCurrentPage] = useState<'full' | 'landing'>(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.toLowerCase();
+      const params = new URLSearchParams(window.location.search);
+      if (hash.includes('landing') || params.get('page') === 'landing') {
+        return 'landing';
+      }
+    }
+    return 'full';
+  });
+
   const [modalOpen, setModalOpen] = useState(false);
   const [modalSubject, setModalSubject] = useState<string | undefined>(undefined);
   const [activeChapterIndex, setActiveChapterIndex] = useState(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
-  const lenisRef = useRef<Lenis | null>(null);
+
+  // Sync hash changes
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash.includes('landing')) {
+        setCurrentPage('landing');
+      } else if (hash === '' || hash === '#/' || hash.startsWith('#hero')) {
+        setCurrentPage('full');
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Ensure root is strictly in the darkened warm alabaster light mode
+  useEffect(() => {
+    document.documentElement.classList.remove('dark');
+  }, []);
 
   useEffect(() => {
+    if (currentPage !== 'full') return;
+
     gsap.registerPlugin(ScrollTrigger);
-
-    // 1. Initialize Lenis for luxury 60fps smooth momentum scrolling
-    const lenis = new Lenis({
-      duration: 1.1,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      touchMultiplier: 1.2,
-    });
-    lenisRef.current = lenis;
-
-    // Sync Lenis scroll with GSAP ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update);
-
-    const tickerCallback = (time: number) => {
-      lenis.raf(time * 1000);
-    };
-
-    gsap.ticker.add(tickerCallback);
-    gsap.ticker.lagSmoothing(0);
 
     const ctx = gsap.context(() => {
       // Global Scroll Progress Bar (Top)
-      gsap.to(progressBarRef.current, {
-        scaleX: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: 0.15,
-        },
-      });
+      if (progressBarRef.current) {
+        gsap.to(progressBarRef.current, {
+          scaleX: 1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.15,
+          },
+        });
+      }
 
       // Track Active Chapter dynamically based on scroll position
       CHAPTERS.forEach((ch, idx) => {
@@ -102,7 +115,7 @@ export function App() {
         '#faq',
         '#contact',
       ];
-      
+
       animatedSections.forEach((secId) => {
         gsap.fromTo(
           `${secId} h2, ${secId} p`,
@@ -125,11 +138,9 @@ export function App() {
     }, containerRef);
 
     return () => {
-      gsap.ticker.remove(tickerCallback);
-      lenis.destroy();
       ctx.revert();
     };
-  }, []);
+  }, [currentPage]);
 
   const handleOpenContact = (customSubject?: string) => {
     setModalSubject(customSubject);
@@ -137,16 +148,30 @@ export function App() {
   };
 
   const scrollToChapter = (chapterId: string) => {
-    if (lenisRef.current) {
-      lenisRef.current.scrollTo(`#${chapterId}`, { duration: 1.1 });
-    } else {
-      const el = document.getElementById(chapterId);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
+    const el = document.getElementById(chapterId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  const switchToLanding = () => {
+    window.location.hash = '/landing';
+    setCurrentPage('landing');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const switchToFull = () => {
+    window.location.hash = '/';
+    setCurrentPage('full');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // If in Landing Page mode, render dedicated high-conversion Landing Page
+  if (currentPage === 'landing') {
+    return <LandingPage onSwitchToFullSite={switchToFull} />;
+  }
+
+  // Full Cinematic Journey
   return (
     <div
       ref={containerRef}
@@ -181,12 +206,11 @@ export function App() {
         ))}
       </div>
 
-      {/* Fixed Luxury Header with Theme Toggle */}
+      {/* Fixed Luxury Header */}
       <Header
         onOpenContact={handleOpenContact}
         activeChapterName={CHAPTERS[activeChapterIndex]?.name}
-        theme={theme}
-        onToggleTheme={toggleTheme}
+        onSwitchToLandingPage={switchToLanding}
       />
 
       {/* The Unified Cinematic Journey Flow */}
