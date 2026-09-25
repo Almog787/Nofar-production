@@ -162,20 +162,19 @@ export const Hero: React.FC<HeroProps> = () => {
             
             <div className="flex flex-col items-center">
               <div className="flex items-center text-2xl sm:text-3xl font-bold font-serif text-[#9e751d] dark:text-[#e5c158] tabular-nums">
-                <span className="text-sm font-sans font-bold ml-1">עד</span>
-                <CountUp to={2} duration={1.5} />
+                <CountUp to={100} duration={1.8} />
+                <span>%</span>
               </div>
-              <span className="text-sm theme-text-head font-bold mt-0.5">אירועים בחודש</span>
-              <span className="text-xs theme-text-muted font-medium">בוטיק ללא פס ייצור</span>
+              <span className="text-sm theme-text-head font-bold mt-0.5">ליווי אישי של נופר</span>
+              <span className="text-xs theme-text-muted font-medium">ללא מפיקי משנה</span>
             </div>
             
             <div className="flex flex-col items-center">
               <div className="flex items-center text-2xl sm:text-3xl font-bold font-serif text-[#9e751d] dark:text-[#e5c158] tabular-nums">
-                <CountUp to={100} duration={2} />
-                <span>%</span>
+                <CountUp to={1} duration={1.2} />
               </div>
-              <span className="text-sm theme-text-head font-bold mt-0.5">נוכחות אישית</span>
-              <span className="text-xs theme-text-muted font-medium">של נופר לאורך כל היום</span>
+              <span className="text-sm theme-text-head font-bold mt-0.5">כתובת לכל הספקים</span>
+              <span className="text-xs theme-text-muted font-medium">סנכרון וניהול מושלם</span>
             </div>
             
             <div className="flex flex-col items-center">
@@ -183,7 +182,7 @@ export const Hero: React.FC<HeroProps> = () => {
                 <span>0</span>
               </div>
               <span className="text-sm theme-text-head font-bold mt-0.5">הפתעות בתקציב</span>
-              <span className="text-xs theme-text-muted font-medium">שקיפות מלאה מול ספקים</span>
+              <span className="text-xs theme-text-muted font-medium">שקיפות מלאה מראש</span>
             </div>
           </div>
         </div>

@@ -262,15 +262,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
                 </div>
 
                 <div className="p-4 rounded-2xl theme-bg-card border border-theme-gold shadow-xs text-center">
-                  <div className="text-3xl font-serif font-bold text-[#9e751d]">עד 2</div>
-                  <div className="text-sm font-bold theme-text-head mt-1">אירועים בחודש</div>
-                  <div className="text-xs theme-text-muted">בוטיק ללא פס ייצור</div>
+                  <div className="text-3xl font-serif font-bold text-[#9e751d]">100%</div>
+                  <div className="text-sm font-bold theme-text-head mt-1">ליווי אישי של נופר</div>
+                  <div className="text-xs theme-text-muted">ללא מפיקי משנה</div>
                 </div>
 
                 <div className="p-4 rounded-2xl theme-bg-card border border-theme-gold shadow-xs text-center">
-                  <div className="text-3xl font-serif font-bold text-[#9e751d]">100%</div>
-                  <div className="text-sm font-bold theme-text-head mt-1">נוכחות אישית</div>
-                  <div className="text-xs theme-text-muted">של נופר בשטח</div>
+                  <div className="text-3xl font-serif font-bold text-[#9e751d]">1</div>
+                  <div className="text-sm font-bold theme-text-head mt-1">כתובת לכל הספקים</div>
+                  <div className="text-xs theme-text-muted">סנכרון וניהול מושלם</div>
                 </div>
 
                 <div className="p-4 rounded-2xl theme-bg-card border border-theme-gold shadow-xs text-center">
@@ -862,7 +862,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
             <span>office@nofar-events.co.il</span>
           </div>
           <div className="text-stone-400">
-            © 2026 כל הזכויות שמורות. בוטיק אירועים אקסקלוסיבי (עד 2 אירועים בחודש).
+            © 2026 כל הזכויות שמורות. בוטיק הפקות אירועי יוקרה בהתאמה אישית.
           </div>
         </div>
       </footer>
