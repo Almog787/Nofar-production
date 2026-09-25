@@ -149,10 +149,10 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 onClick={onSwitchToLandingPage}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-theme-gold theme-bg-card theme-text-head hover:border-theme-gold-strong transition-all cursor-pointer shadow-xs text-xs font-bold"
-                title="מעבר לגרסת מסע קצר ודף נחיתה"
+                title="מעבר לגרסת דף נחיתה מהיר"
               >
                 <Zap className="w-3.5 h-3.5 text-[#9e751d]" />
-                <span>דף נחיתה (מסע קצר)</span>
+                <span>דף נחיתה מהיר</span>
               </button>
             )}
 
@@ -167,19 +167,8 @@ export const Header: React.FC<HeaderProps> = ({
             </a>
           </div>
 
-          {/* Mobile Actions & Menu Trigger */}
+          {/* Mobile Actions: Clean WhatsApp & Menu Trigger */}
           <div className="lg:hidden flex items-center gap-2">
-            {onSwitchToLandingPage && (
-              <button
-                onClick={onSwitchToLandingPage}
-                className="px-2.5 py-1.5 rounded-lg border border-theme-gold theme-bg-card text-xs font-bold theme-text-head flex items-center gap-1 shadow-xs"
-                title="דף נחיתה"
-              >
-                <Zap className="w-3.5 h-3.5 text-[#9e751d]" />
-                <span>מסע קצר</span>
-              </button>
-            )}
-
             <a
               href={getWhatsAppUrl('תיאום שיחת היכרות מהירה')}
               target="_blank"
@@ -212,11 +201,11 @@ export const Header: React.FC<HeaderProps> = ({
                 setMobileMenuOpen(false);
                 onSwitchToLandingPage();
               }}
-              className="w-full p-3 rounded-xl border border-[#9e751d] bg-[#e5c158]/20 text-sm font-bold theme-text-head flex items-center justify-between cursor-pointer"
+              className="w-full p-3 rounded-xl border border-[#9e751d] bg-[#e5c158]/20 text-sm font-bold theme-text-head flex items-center justify-between cursor-pointer shadow-xs"
             >
               <div className="flex items-center gap-2">
                 <Zap className="w-4 h-4 text-[#9e751d]" />
-                <span>מעבר למסע קצר (דף נחיתה מהיר)</span>
+                <span>מעבר לדף נחיתה מהיר</span>
               </div>
               <ArrowLeft className="w-4 h-4 text-[#9e751d]" />
             </button>
