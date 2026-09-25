@@ -3,47 +3,41 @@ import {
   Sparkles,
   ShieldCheck,
   CheckCircle2,
-  Calendar,
   Users,
   MessageSquare,
   ArrowLeft,
   ChevronDown,
   Star,
-  Quote,
   Maximize2,
   X,
   Compass,
   ArrowUpRight,
   Clock,
   Award,
-  Sun,
-  Volume2,
   Utensils,
   Music,
   MapPin,
   Lock,
   ArrowDown,
   Check,
+  Sliders,
+  Phone,
 } from 'lucide-react';
-import { IMAGES, EVENT_TYPES, TESTIMONIALS, FAQ_ITEMS } from '../data/eventData';
+import { IMAGES, EVENT_TYPES, TESTIMONIALS } from '../data/eventData';
 import { getWhatsAppUrl } from '../utils/whatsapp';
 
 interface LandingPageProps {
   onSwitchToFullSite: () => void;
 }
 
-const JOURNEY_STATIONS = [
-  { id: 'station-0', num: '00', label: 'שער הפתיחה' },
-  { id: 'station-1', num: '01', label: 'זרימת החלל' },
-  { id: 'station-2', num: '02', label: 'מתכנן מפרט' },
-  { id: 'station-3', num: '03', label: 'רגעים ועדויות' },
-  { id: 'station-4', num: '04', label: 'עוגני השקט' },
-  { id: 'station-5', num: '05', label: 'תיאום אישי' },
+const SLIDES = [
+  { id: 'slide-1', num: '01', title: 'שער החזון' },
+  { id: 'slide-2', num: '02', title: 'אפיון ומתחמים' },
+  { id: 'slide-3', num: '03', title: 'ביטחון והגשמה' },
 ];
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) => {
-  // Active Station Tracking
-  const [activeStation, setActiveStation] = useState('station-0');
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   // Quick Lead Form State
   const [leadData, setLeadData] = useState({
@@ -55,8 +49,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  // Concept Selector state in landing page
-  const [selectedType, setSelectedType] = useState('wedding');
+  // Concept Selector state in Slide 2
+  const [selectedType, setSelectedType] = useState<'wedding' | 'corporate' | 'boutique'>('wedding');
   const [selectedGuests, setSelectedGuests] = useState(250);
   const [selectedStyle, setSelectedStyle] = useState('זהב ושמפניה חמה');
   const [selectedAddons, setSelectedAddons] = useState<{ [key: string]: boolean }>({
@@ -66,27 +60,24 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
     dayOfManagement: true,
   });
 
-  // Lightbox modal state
+  // Lightbox modal state for gallery in Slide 3
   const [activeGalleryImg, setActiveGalleryImg] = useState<{
     src: string;
     title: string;
     location: string;
   } | null>(null);
 
-  // FAQ open index
-  const [faqOpenIdx, setFaqOpenIdx] = useState<number | null>(0);
-
-  // Track active station on scroll
+  // Track active slide on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPos = window.scrollY + 200;
-      JOURNEY_STATIONS.forEach((st) => {
-        const el = document.getElementById(st.id);
+      const scrollY = window.scrollY + window.innerHeight * 0.35;
+      SLIDES.forEach((slide, idx) => {
+        const el = document.getElementById(slide.id);
         if (el) {
           const top = el.offsetTop;
           const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            setActiveStation(st.id);
+          if (scrollY >= top && scrollY < top + height) {
+            setCurrentSlideIndex(idx);
           }
         }
       });
@@ -95,7 +86,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToStation = (id: string) => {
+  const scrollToSlide = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
@@ -105,7 +96,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
   const handleLeadSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormSubmitted(true);
-    const msg = `היי נופר, הגעתי מדף המסע הקצר. שמי ${leadData.fullName}. אשמח לבדוק זמינות עבור ${leadData.eventType} (${leadData.guests} מוזמנים${leadData.eventDate ? `, תאריך משוער: ${leadData.eventDate}` : ''}). ${leadData.notes ? `פרטים נוספים: ${leadData.notes}` : ''}`;
+    const msg = `היי נופר, הגעתי מדף הנחיתה. שמי ${leadData.fullName}. אשמח לבדוק זמינות עבור ${leadData.eventType} (${leadData.guests} מוזמנים${leadData.eventDate ? `, תאריך משוער: ${leadData.eventDate}` : ''}). ${leadData.notes ? `פרטים נוספים: ${leadData.notes}` : ''}`;
     const url = getWhatsAppUrl(msg);
     window.open(url, '_blank', 'noopener,noreferrer');
   };
@@ -121,8 +112,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
         : selectedType === 'corporate'
         ? 'אירוע חברה'
         : 'מסיבת VIP';
-    const activeAddonsList = Object.keys(selectedAddons).filter((k) => selectedAddons[k]);
-    const msg = `היי נופר, בניתי מפרט במסע הקצר עבור ${typeLabel} ל-${selectedGuests} מוזמנים בסגנון ${selectedStyle} (${activeAddonsList.length} מרכיבים). אשמח לתאם שיחת היכרות ולבדוק תאריכים פנויים.`;
+    const activeCount = Object.values(selectedAddons).filter(Boolean).length;
+    const msg = `היי נופר, בניתי מפרט בדף הנחיתה עבור ${typeLabel} ל-${selectedGuests} מוזמנים בסגנון ${selectedStyle} (${activeCount} מרכיבי הפקה). אשמח לתאם שיחת היכרות ולבדוק תאריכים פנויים.`;
     const url = getWhatsAppUrl(msg);
     window.open(url, '_blank', 'noopener,noreferrer');
   };
@@ -131,64 +122,69 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
     <div className="min-h-screen theme-bg-page theme-text-body font-sans relative selection:bg-[#e5c158] selection:text-[#121110]">
       
       {/* ------------------------------------------------------------- */}
-      {/* HEADER & TOP CONTROLS                                         */}
+      {/* HEADER: WITH LOGO LINKED TO MAIN SITE & SLIDE NAVIGATION      */}
       {/* ------------------------------------------------------------- */}
       <header className="sticky top-0 z-50 bg-[var(--bg-page)]/95 backdrop-blur-md border-b border-theme-gold py-3 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           
-          {/* Brand Wordmark */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#c5a059] to-[#e5c158] text-[#121110] flex items-center justify-center font-serif font-bold text-xl shadow-md">
+          {/* Logo - Linked directly to the Main Home Page */}
+          <button
+            onClick={onSwitchToFullSite}
+            className="flex items-center gap-3 group text-right cursor-pointer bg-transparent border-0 p-0 text-inherit focus:outline-none"
+            title="חזרה לדף הבית הראשי של נופר הפקות אירועים"
+          >
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#c5a059] via-[#e5c158] to-[#f7f4ed] text-[#121110] flex items-center justify-center font-serif font-bold text-xl shadow-md group-hover:scale-105 transition-transform duration-300">
               N
             </div>
-            <div>
-              <span className="text-xl sm:text-2xl font-serif font-bold theme-text-head uppercase tracking-wider block leading-none">
+            <div className="flex flex-col">
+              <span className="text-xl sm:text-2xl font-serif tracking-wider font-bold theme-text-head uppercase leading-none group-hover:text-[#9e751d] transition-colors">
                 נופר <span className="font-light text-[#9e751d]">| הפקות אירועים</span>
               </span>
               <span className="text-[11px] font-semibold text-[#9e751d] uppercase font-mono hidden sm:block mt-1">
-                מסע קצר לאירוע מושלם
+                חזרה לדף הבית הראשי ↰
               </span>
             </div>
-          </div>
+          </button>
 
-          {/* Station Quick Tracker in Header (Desktop) */}
-          <nav className="hidden lg:flex items-center gap-1.5 p-1 rounded-full theme-bg-card border border-theme-gold shadow-xs text-xs font-bold">
-            {JOURNEY_STATIONS.map((st) => (
+          {/* 3-Slide Quick Navigator (Center) */}
+          <nav className="hidden md:flex items-center gap-1.5 p-1 rounded-full theme-bg-card border border-theme-gold shadow-xs text-xs font-bold">
+            {SLIDES.map((slide, idx) => (
               <button
-                key={st.id}
-                onClick={() => scrollToStation(st.id)}
-                className={`px-3 py-1.5 rounded-full transition-all cursor-pointer flex items-center gap-1.5 ${
-                  activeStation === st.id
-                    ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] font-bold shadow-xs'
+                key={slide.id}
+                onClick={() => scrollToSlide(slide.id)}
+                className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer flex items-center gap-1.5 ${
+                  currentSlideIndex === idx
+                    ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] font-bold shadow-xs scale-105'
                     : 'theme-text-muted hover:theme-text-head hover:bg-theme-card-subtle'
                 }`}
               >
-                <span className="font-mono text-[10px]">{st.num}</span>
-                <span>{st.label}</span>
+                <span className="font-mono text-[10px]">{slide.num}</span>
+                <span>{slide.title}</span>
               </button>
             ))}
           </nav>
 
-          {/* Actions: Switch to Full Site & WhatsApp CTA */}
+          {/* Actions: Full Site Button & WhatsApp CTA */}
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={onSwitchToFullSite}
               className="flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl border border-theme-gold theme-bg-card theme-text-head text-xs sm:text-sm font-bold hover:border-theme-gold-strong transition-all cursor-pointer shadow-xs"
-              title="מעבר לסיור המלא באתר"
+              title="מעבר לסיור המלא והמעמיק באתר"
             >
               <Compass className="w-4 h-4 text-[#9e751d]" />
-              <span className="hidden md:inline">האתר המלא</span>
+              <span className="hidden sm:inline">לאתר המלא</span>
               <ArrowUpRight className="w-3.5 h-3.5 text-[#9e751d]" />
             </button>
 
             <a
-              href={getWhatsAppUrl('פנייה מהירה ממסע דף הנחיתה')}
+              href={getWhatsAppUrl('פנייה מהירה מדף הנחיתה')}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-wider text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-105 rounded-xl shadow-md transition-all cursor-pointer"
             >
               <MessageSquare className="w-4 h-4 fill-[#121110]" />
-              <span className="hidden sm:inline">WhatsApp</span>
+              <span className="hidden sm:inline">שיחה ב-WhatsApp</span>
+              <span className="sm:hidden">WhatsApp</span>
             </a>
           </div>
 
@@ -196,54 +192,65 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
       </header>
 
       {/* ------------------------------------------------------------- */}
-      {/* FLOATING JOURNEY PROGRESS RIBBON (STICKY ON DESKTOP/TABLET)   */}
+      {/* FLOATING 3-SLIDE DOT INDICATOR                                */}
       {/* ------------------------------------------------------------- */}
-      <div className="hidden md:flex fixed bottom-6 left-1/2 -translate-x-1/2 z-40 items-center gap-2 p-2 rounded-full theme-bg-card backdrop-blur-xl border-2 border-theme-gold shadow-2xl">
-        <span className="text-xs font-mono font-bold text-[#9e751d] px-2.5">
-          מסע קצר //
-        </span>
-        {JOURNEY_STATIONS.map((st) => (
+      <div className="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-3 p-2 rounded-full theme-bg-card border border-theme-gold shadow-xl">
+        {SLIDES.map((slide, idx) => (
           <button
-            key={st.id}
-            onClick={() => scrollToStation(st.id)}
-            className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-              activeStation === st.id
-                ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] shadow-md scale-105'
-                : 'theme-text-muted hover:theme-text-head hover:bg-theme-card-subtle'
+            key={slide.id}
+            onClick={() => scrollToSlide(slide.id)}
+            className={`w-3.5 h-3.5 rounded-full transition-all cursor-pointer ${
+              currentSlideIndex === idx
+                ? 'bg-[#9e751d] scale-125 ring-2 ring-[#e5c158]'
+                : 'bg-neutral-300 hover:bg-[#9e751d]/60'
             }`}
-          >
-            <span className="font-mono text-[10px]">{st.num}</span>
-            <span>{st.label}</span>
-          </button>
+            title={`מעבר ל-${slide.title}`}
+          />
         ))}
       </div>
 
-      {/* ------------------------------------------------------------- */}
-      {/* STATION 00: שער הפתיחה והחזון                                 */}
-      {/* ------------------------------------------------------------- */}
-      <section id="station-0" className="relative pt-12 pb-20 lg:pt-16 lg:pb-24 border-b border-theme-gold">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+      {/* ============================================================= */}
+      {/* SLIDE 01: שער החזון ובדיקת זמינות מיידית                      */}
+      {/* ============================================================= */}
+      <section
+        id="slide-1"
+        className="relative min-h-[92vh] flex items-center justify-center py-16 lg:py-20 border-b border-theme-gold overflow-hidden"
+      >
+        {/* Background Image with Luminous Scrim */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <img
+            src={IMAGES.hero}
+            alt="אירוע יוקרה חם ומרגש"
+            className="w-full h-full object-cover object-center contrast-105 brightness-95"
+            referrerPolicy="no-referrer"
+          />
+          {/* Luminous Warm Scrim Layer */}
+          <div className="absolute inset-0 bg-[var(--bg-page)]/88 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-page)] via-transparent to-[var(--bg-page)]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             
-            {/* Right Column: Hero Proposition */}
+            {/* Right Column: Hero Narrative */}
             <div className="lg:col-span-7 space-y-6 text-right">
               
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full theme-bg-card border border-theme-gold shadow-xs">
                 <span className="w-2 h-2 rounded-full bg-[#9e751d] animate-ping" />
-                <span className="text-xs sm:text-sm font-bold theme-text-head">
-                  תחנה 00 // שער הפתיחה · שריון תאריכים ל-2026-2027
+                <span className="text-xs sm:text-sm font-bold theme-text-head font-sans">
+                  שקופית 01 // שער הפתיחה · שריון מוקדם לעונת 2026-2027
                 </span>
               </div>
 
-              <h1 className="text-4xl sm:text-6xl font-serif font-bold tracking-tight theme-text-head leading-[1.14]">
-                אירוע של פעם בחיים. <br />
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-bold tracking-tight theme-text-head leading-[1.12]">
+                הופכים כל חזון לאירוע <br />
                 <span className="text-[#9e751d]">
-                  דיוק מופתי, חום אנושי ושקט נפשי מלא.
+                  יוצא דופן ומרגש.
                 </span>
               </h1>
 
               <p className="text-base sm:text-xl theme-text-body font-normal leading-relaxed max-w-2xl">
-                תכנון, עיצוב והפקה אישית של חתונות ואירועי יוקרה. אנו מזמינים אתכם למסע קצר וממוקד בן 5 תחנות להגדרת החזון המושלם שלכם.
+                תכנון, עיצוב והפקה אישית של חתונות ואירועי יוקרה. אסתטיקה מאופקת, חום אנושי וליווי צמוד של נופר משלב הרעיון ועד אחרון האורחים.
               </p>
 
               {/* Scarcity Standards Bullet Grid */}
@@ -273,20 +280,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
                 </div>
               </div>
 
-              {/* Jump to Journey CTA */}
-              <div className="pt-2">
+              {/* Slide 2 Scroll Prompt */}
+              <div className="pt-2 flex items-center gap-4">
                 <button
-                  onClick={() => scrollToStation('station-1')}
-                  className="inline-flex items-center gap-2 text-sm font-bold text-[#9e751d] hover:opacity-80 transition-opacity cursor-pointer"
+                  onClick={() => scrollToSlide('slide-2')}
+                  className="inline-flex items-center gap-2 text-sm font-bold text-[#9e751d] hover:opacity-80 transition-opacity cursor-pointer theme-bg-card px-4 py-2 rounded-xl border border-theme-gold shadow-xs"
                 >
-                  <span>התחילו את המסע הקצר</span>
+                  <span>המשך לאפיון הקונספט וזרימת החלל</span>
                   <ArrowDown className="w-4 h-4 animate-bounce" />
                 </button>
               </div>
 
             </div>
 
-            {/* Left Column: Direct Fast Availability Lead Card */}
+            {/* Left Column: Direct Consultation Box */}
             <div className="lg:col-span-5">
               <div className="p-7 sm:p-9 rounded-3xl theme-bg-card border-2 border-[#9e751d] shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 left-0 h-2 bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059]" />
@@ -317,14 +324,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
                         <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#9e751d]">
                           בדיקת זמינות ופגישת אפיון
                         </span>
-                        <span className="px-2 py-0.5 rounded-full bg-[#e5c158]/30 text-[#785611] text-xs font-bold">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#e5c158]/30 text-[#785611] text-xs font-bold">
                           ללא התחייבות
                         </span>
                       </div>
                       <h3 className="text-2xl font-serif font-bold theme-text-head mt-1">
                         בדיקת תאריך פנוי ושיחה עם נופר
                       </h3>
-                      <p className="text-xs sm:text-sm theme-text-muted mt-1">
+                      <p className="text-xs sm:text-sm theme-text-muted mt-1 font-normal">
                         מלאו פרטים קצרים ושיחת הוואטסאפ תיפתח מיד.
                       </p>
                     </div>
@@ -405,267 +412,219 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
         </div>
       </section>
 
-      {/* ------------------------------------------------------------- */}
-      {/* STATION 01: זרימת החלל והאווירה (מסע החלל המקוצר)              */}
-      {/* ------------------------------------------------------------- */}
-      <section id="station-1" className="py-20 theme-bg-section border-b border-theme-gold">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full theme-bg-card border border-theme-gold text-xs font-bold text-[#9e751d] mb-3">
-              <Compass className="w-4 h-4" />
-              <span>תחנה 01 // ארכיטקטורה, תאורה וסאונד</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-serif font-bold theme-text-head">
-              זרימה מושלמת בין רגעי השיא
-            </h2>
-            <p className="text-base theme-text-body mt-3">
-              אירוע יוקרה נמדד במעברים הרמוניים, תאורת אווירה מבוקרת ואקוסטיקה שמאפשרת שיחה אינטימית לצד מסיבה עוצמתית.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            {/* Step A: Reception */}
-            <div className="p-7 rounded-3xl theme-bg-card border border-theme-gold shadow-xl flex flex-col justify-between space-y-5 text-right relative overflow-hidden">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-theme-gold pb-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-9 h-9 rounded-xl theme-bg-card-subtle flex items-center justify-center text-[#9e751d] font-bold">
-                      <Utensils className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="text-xs font-mono font-bold text-[#9e751d]">מתחם 01</span>
-                      <h3 className="text-lg font-serif font-bold theme-text-head">קבלת פנים ומפגש ראשוני</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="inline-flex items-center gap-1.5 text-xs text-[#9e751d] font-mono theme-bg-card-subtle px-3 py-1 rounded-lg border border-theme-gold font-bold">
-                  <Clock className="w-3.5 h-3.5" />
-                  <span>19:00 - 20:15 // מעבר שקיעה</span>
-                </div>
-
-                <p className="text-sm theme-text-body font-normal leading-relaxed">
-                  הרושם הראשוני. גווני אמבר חמים (2700K), עמדות שף חיות ללא שום תורים, סאונד מבוקר (עד 68dB) וקוקטייל פתיחה אישי.
-                </p>
-              </div>
-
-              <div className="pt-3 border-t border-theme-gold text-xs font-bold text-[#9e751d] flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4" />
-                <span>זרימה פתוחה ואווירה עוטפת</span>
-              </div>
-            </div>
-
-            {/* Step B: The Ceremony / Chuppah */}
-            <div className="p-7 rounded-3xl theme-bg-card border-2 border-[#9e751d] shadow-2xl flex flex-col justify-between space-y-5 text-right relative overflow-hidden">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-theme-gold pb-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-9 h-9 rounded-xl bg-[#e5c158] flex items-center justify-center text-[#121110] font-bold">
-                      <Sparkles className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="text-xs font-mono font-bold text-[#9e751d]">מתחם 02</span>
-                      <h3 className="text-lg font-serif font-bold theme-text-head">טקס החופה ומוקד המעמד</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="inline-flex items-center gap-1.5 text-xs text-[#9e751d] font-mono theme-bg-card-subtle px-3 py-1 rounded-lg border border-theme-gold font-bold">
-                  <Clock className="w-3.5 h-3.5" />
-                  <span>20:30 - 21:00 // שיא הרגש</span>
-                </div>
-
-                <p className="text-sm theme-text-body font-normal leading-relaxed">
-                  מרכז הכובד הרגשי. אלומות אור רכות ומחמיאות לצילום ללא צללים חדים, מערך הגברה צלול שבו כל מילה נשמעת בבהירות.
-                </p>
-              </div>
-
-              <div className="pt-3 border-t border-theme-gold text-xs font-bold text-[#9e751d] flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4" />
-                <span>סדר מופתי בכניסה ואפס הסחות דעת</span>
-              </div>
-            </div>
-
-            {/* Step C: Dinner & Party */}
-            <div className="p-7 rounded-3xl theme-bg-card border border-theme-gold shadow-xl flex flex-col justify-between space-y-5 text-right relative overflow-hidden">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-theme-gold pb-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-9 h-9 rounded-xl theme-bg-card-subtle flex items-center justify-center text-[#9e751d] font-bold">
-                      <Music className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="text-xs font-mono font-bold text-[#9e751d]">מתחם 03</span>
-                      <h3 className="text-lg font-serif font-bold theme-text-head">סעודת שף ורחבת ריקודים</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="inline-flex items-center gap-1.5 text-xs text-[#9e751d] font-mono theme-bg-card-subtle px-3 py-1 rounded-lg border border-theme-gold font-bold">
-                  <Clock className="w-3.5 h-3.5" />
-                  <span>21:00 ועד אחרון האורחים</span>
-                </div>
-
-                <p className="text-sm theme-text-body font-normal leading-relaxed">
-                  החגיגה בשיאה. הפרדה אקוסטית חכמה המאפשרת שיחה נינוחה בשולחנות לצד סאונד מועדוני מחשמל ברחבה ללא הגבלת שעה.
-                </p>
-              </div>
-
-              <div className="pt-3 border-t border-theme-gold text-xs font-bold text-[#9e751d] flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4" />
-                <span>זרימה מושלמת וללא לחץ זמן</span>
-              </div>
-            </div>
-
-          </div>
-
+      {/* ============================================================= */}
+      {/* SLIDE 02: אפיון הקונספט וארכיטקטורת המתחמים                    */}
+      {/* ============================================================= */}
+      <section
+        id="slide-2"
+        className="relative min-h-[92vh] flex items-center justify-center py-16 lg:py-20 border-b border-theme-gold overflow-hidden"
+      >
+        {/* Background Image with Luminous Scrim */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <img
+            src={IMAGES.wedding}
+            alt="ארכיטקטורת חלל האירוע"
+            className="w-full h-full object-cover object-center contrast-105 brightness-95"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-[var(--bg-page)]/90 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-page)] via-transparent to-[var(--bg-page)]" />
         </div>
-      </section>
 
-      {/* ------------------------------------------------------------- */}
-      {/* STATION 02: מתכנן המפרט האישי (INTERACTIVE GENERATOR)         */}
-      {/* ------------------------------------------------------------- */}
-      <section id="station-2" className="py-20 theme-bg-page border-b border-theme-gold">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full theme-bg-card border border-theme-gold text-xs font-bold text-[#9e751d] mb-3">
-              <Sparkles className="w-4 h-4" />
-              <span>תחנה 02 // אפיון המפרט שלכם ב-3 צעדים</span>
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full theme-bg-card border border-theme-gold text-xs font-bold text-[#9e751d] mb-2 shadow-xs">
+              <Sliders className="w-4 h-4" />
+              <span>שקופית 02 // מתכנן המפרט האישי & זרימת החלל</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-serif font-bold theme-text-head">
-              התאמת שפת האירוע
+              אפיון מדויק וזרימה הרמונית
             </h2>
-            <p className="text-base theme-text-body mt-3">
-              הגדירו את המאפיינים העיקריים שלכם וקבלו מתווה ראשוני מיידית.
+            <p className="text-base theme-text-body mt-2 font-normal">
+              הגדירו את מאפייני האירוע שלכם וצפו בתכנון שלושת מתחמי השיא.
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto p-6 sm:p-9 rounded-3xl theme-bg-card border border-theme-gold shadow-2xl space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            {/* Step 1: Type */}
-            <div className="space-y-3">
-              <label className="block text-sm font-bold theme-text-head uppercase tracking-wider text-right">
-                1. סוג האירוע המבוקש
-              </label>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {[
-                  { id: 'wedding', label: 'חתונת יוקרה' },
-                  { id: 'corporate', label: 'אירוע חברה / כנס' },
-                  { id: 'boutique', label: 'מסיבת VIP פרטית' },
-                ].map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => setSelectedType(item.id)}
-                    className={`p-3.5 rounded-2xl text-sm font-bold border transition-all cursor-pointer ${
-                      selectedType === item.id
-                        ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] border-[#9e751d] shadow-md'
-                        : 'theme-bg-card-subtle theme-text-head border-theme-gold hover:border-theme-gold-strong'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
+            {/* Interactive Concept Planner Box (7 cols) */}
+            <div className="lg:col-span-7 p-6 sm:p-8 rounded-3xl theme-bg-card border border-theme-gold shadow-xl space-y-6">
+              
+              {/* Step 1: Event Type */}
+              <div className="space-y-2.5">
+                <label className="block text-sm font-bold theme-text-head uppercase tracking-wider text-right">
+                  1. סוג האירוע המבוקש
+                </label>
+                <div className="grid grid-cols-3 gap-2.5">
+                  {[
+                    { id: 'wedding', label: 'חתונת יוקרה' },
+                    { id: 'corporate', label: 'אירוע חברה / כנס' },
+                    { id: 'boutique', label: 'מסיבת VIP פרטית' },
+                  ].map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => setSelectedType(item.id as any)}
+                      className={`p-3 rounded-xl text-xs sm:text-sm font-bold border transition-all cursor-pointer ${
+                        selectedType === item.id
+                          ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] border-[#9e751d] shadow-sm'
+                          : 'theme-bg-card-subtle theme-text-head border-theme-gold hover:border-theme-gold-strong'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Step 2: Guests Slider */}
-            <div className="space-y-3 text-right">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-bold theme-text-head uppercase tracking-wider">
-                  2. מספר מוזמנים משוער
-                </span>
-                <span className="text-base font-serif font-bold text-[#9e751d] theme-bg-card-subtle px-4 py-1 rounded-xl border border-theme-gold">
-                  {selectedGuests} מוזמנים
-                </span>
+              {/* Step 2: Guest Slider */}
+              <div className="space-y-2.5 text-right">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-bold theme-text-head uppercase tracking-wider">
+                    2. מספר מוזמנים
+                  </span>
+                  <span className="text-sm font-serif font-bold text-[#9e751d] theme-bg-card-subtle px-3.5 py-1 rounded-xl border border-theme-gold">
+                    {selectedGuests} מוזמנים
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="50"
+                  max="800"
+                  step="25"
+                  value={selectedGuests}
+                  onChange={(e) => setSelectedGuests(Number(e.target.value))}
+                  className="w-full h-2.5 bg-neutral-300 rounded-lg appearance-none cursor-pointer accent-[#9e751d]"
+                />
               </div>
-              <input
-                type="range"
-                min="50"
-                max="800"
-                step="25"
-                value={selectedGuests}
-                onChange={(e) => setSelectedGuests(Number(e.target.value))}
-                className="w-full h-2.5 bg-neutral-300 rounded-lg appearance-none cursor-pointer accent-[#9e751d]"
-              />
-            </div>
 
-            {/* Step 3: Style */}
-            <div className="space-y-3 text-right">
-              <label className="block text-sm font-bold theme-text-head uppercase tracking-wider">
-                3. שפה עיצובית ואווירה
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {[
-                  { label: 'זהב ושמפניה חמה', desc: 'תאורת אמבר רומנטית, נרות ונקיון אסתטי' },
-                  { label: 'טבע כפרי יוקרתי', desc: 'מרחב פתוח, פרחים אורגניים וריהוט עץ עשיר' },
-                  { label: 'אורבני מודרני מחשמל', desc: 'במה דיגיטלית, תאורת מסיבה וקוקטיילים' },
-                ].map((s) => (
-                  <button
-                    key={s.label}
-                    onClick={() => setSelectedStyle(s.label)}
-                    className={`p-4 rounded-2xl text-right border transition-all cursor-pointer ${
-                      selectedStyle === s.label
-                        ? 'border-[#9e751d] bg-[#e5c158]/25 shadow-sm'
-                        : 'theme-bg-card-subtle border-theme-gold hover:border-theme-gold-strong'
-                    }`}
-                  >
-                    <div className="font-bold text-sm theme-text-head">{s.label}</div>
-                    <div className="text-xs theme-text-muted mt-1">{s.desc}</div>
-                  </button>
-                ))}
+              {/* Step 3: Aesthetic Vibe */}
+              <div className="space-y-2.5 text-right">
+                <label className="block text-sm font-bold theme-text-head uppercase tracking-wider">
+                  3. שפה עיצובית ואווירה
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                  {[
+                    { label: 'זהב ושמפניה חמה', desc: 'תאורת אמבר רומנטית ונרות' },
+                    { label: 'טבע כפרי יוקרתי', desc: 'מרחב פתוח ופרחים אורגניים' },
+                    { label: 'אורבני מודרני', desc: 'במה דיגיטלית וקוקטיילים' },
+                  ].map((s) => (
+                    <button
+                      key={s.label}
+                      onClick={() => setSelectedStyle(s.label)}
+                      className={`p-3 rounded-xl text-right border transition-all cursor-pointer ${
+                        selectedStyle === s.label
+                          ? 'border-[#9e751d] bg-[#e5c158]/25 shadow-xs'
+                          : 'theme-bg-card-subtle border-theme-gold hover:border-theme-gold-strong'
+                      }`}
+                    >
+                      <div className="font-bold text-xs sm:text-sm theme-text-head">{s.label}</div>
+                      <div className="text-[11px] theme-text-muted mt-0.5">{s.desc}</div>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Step 4: Addons Checklist */}
-            <div className="space-y-3 text-right">
-              <label className="block text-sm font-bold theme-text-head uppercase tracking-wider">
-                4. מרכיבי הפקה מבוקשים
-              </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                {[
-                  { id: 'catering', label: 'קייטרינג שף ובר' },
-                  { id: 'design', label: 'עיצוב חלל ופרחים' },
-                  { id: 'soundLight', label: 'הגברה ותאורה' },
-                  { id: 'dayOfManagement', label: 'ניהול אירוע בשטח' },
-                ].map((addon) => (
-                  <button
-                    key={addon.id}
-                    onClick={() => toggleAddon(addon.id)}
-                    className="p-3 rounded-xl theme-bg-card-subtle border border-theme-gold flex items-center justify-between transition-all cursor-pointer text-right"
-                  >
-                    <span className="text-xs sm:text-sm theme-text-head font-medium">{addon.label}</span>
-                    <div className={`w-4 h-4 rounded border flex items-center justify-center ${
-                      selectedAddons[addon.id] ? 'bg-[#9e751d] text-white border-transparent' : 'border-neutral-400'
-                    }`}>
-                      {selectedAddons[addon.id] && <Check className="w-3 h-3 stroke-[3]" />}
-                    </div>
-                  </button>
-                ))}
+              {/* Step 4: Addons Checklist */}
+              <div className="space-y-2.5 text-right">
+                <label className="block text-sm font-bold theme-text-head uppercase tracking-wider">
+                  4. מרכיבי הפקה מבוקשים
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {[
+                    { id: 'catering', label: 'קייטרינג שף ובר' },
+                    { id: 'design', label: 'עיצוב חלל ופרחים' },
+                    { id: 'soundLight', label: 'הגברה ותאורה' },
+                    { id: 'dayOfManagement', label: 'ניהול בשטח' },
+                  ].map((addon) => (
+                    <button
+                      key={addon.id}
+                      onClick={() => toggleAddon(addon.id)}
+                      className="p-2.5 rounded-xl theme-bg-card-subtle border border-theme-gold flex items-center justify-between transition-all cursor-pointer text-right"
+                    >
+                      <span className="text-xs theme-text-head font-medium">{addon.label}</span>
+                      <div className={`w-4 h-4 rounded border flex items-center justify-center ${
+                        selectedAddons[addon.id] ? 'bg-[#9e751d] text-white border-transparent' : 'border-neutral-400'
+                      }`}>
+                        {selectedAddons[addon.id] && <Check className="w-3 h-3 stroke-[3]" />}
+                      </div>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* CTA Output Box */}
-            <div className="pt-4 border-t border-theme-gold flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-right space-y-0.5">
-                <span className="text-sm font-bold theme-text-head block">
-                  המפרט מוכן להעברה ישירה
-                </span>
-                <span className="text-xs theme-text-muted">
+              {/* Submit Button */}
+              <div className="pt-3 border-t border-theme-gold flex flex-col sm:flex-row items-center justify-between gap-3">
+                <span className="text-xs theme-text-muted text-right">
                   בלחיצה אחת נשלח את המפרט ישירות ל-WhatsApp של נופר.
                 </span>
+
+                <button
+                  onClick={handleConceptSubmit}
+                  className="w-full sm:w-auto px-6 py-3 text-xs sm:text-sm font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-105 rounded-xl shadow-md flex items-center justify-center gap-2 cursor-pointer shrink-0"
+                >
+                  <MessageSquare className="w-4 h-4 fill-[#121110]" />
+                  <span>שליחת המפרט ל-WhatsApp</span>
+                  <ArrowLeft className="w-4 h-4" />
+                </button>
               </div>
 
+            </div>
+
+            {/* Spatial Flow 3-Moments Breakdown (5 cols) */}
+            <div className="lg:col-span-5 space-y-3.5">
+              
+              {/* Space 1 */}
+              <div className="p-4 sm:p-5 rounded-2xl theme-bg-card border border-theme-gold shadow-md text-right space-y-2">
+                <div className="flex items-center justify-between border-b border-theme-gold pb-2">
+                  <div className="flex items-center gap-2">
+                    <Utensils className="w-4 h-4 text-[#9e751d]" />
+                    <span className="font-serif font-bold text-base theme-text-head">01. קבלת פנים ומפגש ראשוני</span>
+                  </div>
+                  <span className="text-[11px] font-mono text-[#9e751d] font-bold">19:00</span>
+                </div>
+                <p className="text-xs sm:text-sm theme-text-body leading-relaxed font-normal">
+                  גווני אמבר חמים (2700K), עמדות שף חיות ללא שום תורים, ואקוסטיקה מבוקרת (עד 68dB) לשיחה נינוחה.
+                </p>
+              </div>
+
+              {/* Space 2 */}
+              <div className="p-4 sm:p-5 rounded-2xl theme-bg-card border-2 border-[#9e751d] shadow-lg text-right space-y-2 bg-[#e5c158]/10">
+                <div className="flex items-center justify-between border-b border-theme-gold pb-2">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-[#9e751d]" />
+                    <span className="font-serif font-bold text-base theme-text-head">02. טקס החופה ומוקד המעמד</span>
+                  </div>
+                  <span className="text-[11px] font-mono text-[#9e751d] font-bold">20:30</span>
+                </div>
+                <p className="text-xs sm:text-sm theme-text-body leading-relaxed font-normal">
+                  שיא הרגש. אלומות תאורה רכות ומחמיאות לצילום, ומערך הגברה צלול שבו כל ברכה ומילה נשמעות בבהירות.
+                </p>
+              </div>
+
+              {/* Space 3 */}
+              <div className="p-4 sm:p-5 rounded-2xl theme-bg-card border border-theme-gold shadow-md text-right space-y-2">
+                <div className="flex items-center justify-between border-b border-theme-gold pb-2">
+                  <div className="flex items-center gap-2">
+                    <Music className="w-4 h-4 text-[#9e751d]" />
+                    <span className="font-serif font-bold text-base theme-text-head">03. סעודת אבירים ורחבת ריקודים</span>
+                  </div>
+                  <span className="text-[11px] font-mono text-[#9e751d] font-bold">21:00+</span>
+                </div>
+                <p className="text-xs sm:text-sm theme-text-body leading-relaxed font-normal">
+                  הפרדה אקוסטית חכמה: מוזיקת מועדון עוצמתית ברחבה לצד שולחנות שקטים לשיחה, ללא שום הגבלת שעה.
+                </p>
+              </div>
+
+              {/* Slide 3 Scroll Prompt */}
               <button
-                onClick={handleConceptSubmit}
-                className="w-full sm:w-auto px-7 py-3.5 text-sm font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-105 rounded-xl shadow-md flex items-center justify-center gap-2 cursor-pointer shrink-0"
+                onClick={() => scrollToSlide('slide-3')}
+                className="w-full py-3 px-4 rounded-xl border border-theme-gold theme-bg-card theme-text-head text-xs font-bold hover:border-theme-gold-strong transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
               >
-                <MessageSquare className="w-4 h-4 fill-[#121110]" />
-                <span>שליחת המפרט ל-WhatsApp</span>
-                <ArrowLeft className="w-4 h-4" />
+                <span>המשך לעוגני השקט הנפשי והתיאום האישי</span>
+                <ArrowDown className="w-4 h-4 text-[#9e751d]" />
               </button>
+
             </div>
 
           </div>
@@ -673,232 +632,164 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
         </div>
       </section>
 
-      {/* ------------------------------------------------------------- */}
-      {/* STATION 03: חתימת ההפקות והרגעים (GALLERY & TESTIMONIALS)      */}
-      {/* ------------------------------------------------------------- */}
-      <section id="station-3" className="py-20 theme-bg-section border-b border-theme-gold">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full theme-bg-card border border-theme-gold text-xs font-bold text-[#9e751d] mb-3">
-              <Star className="w-4 h-4" />
-              <span>תחנה 03 // רגעים שהפכו למציאות</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-serif font-bold theme-text-head">
-              הצצה להפקות ולחוויות
-            </h2>
-            <p className="text-base theme-text-body mt-3">
-              שילוב של עיצוב מופתי, חום אנושי ותשבוחות מכל אורח ואורחת.
-            </p>
-          </div>
-
-          {/* Gallery Showcase */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-7 mb-14">
-            {[
-              {
-                src: IMAGES.wedding,
-                title: 'חתונת יוקרה חמה ורומנטית',
-                location: 'אריאה, קיסריה',
-              },
-              {
-                src: IMAGES.corporate,
-                title: 'ערב גאלה והשקה יוקרתית',
-                location: 'האנגר 11, תל אביב',
-              },
-              {
-                src: IMAGES.boutique,
-                title: 'מסיבת קוקטייל VIP בוילה פרטית',
-                location: 'סביון',
-              },
-              {
-                src: IMAGES.hero,
-                title: 'קבלת פנים חמה תחת כיפת השמיים',
-                location: 'חוות רונית',
-              },
-            ].map((img, i) => (
-              <div
-                key={i}
-                onClick={() => setActiveGalleryImg(img)}
-                className="group relative h-80 sm:h-96 rounded-3xl overflow-hidden border border-theme-gold shadow-xl cursor-pointer bg-neutral-900"
-              >
-                <img
-                  src={img.src}
-                  alt={img.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
-                
-                <div className="absolute bottom-6 right-6 left-6 flex justify-between items-end">
-                  <div className="text-right space-y-1">
-                    <span className="text-xs font-mono font-bold text-[#f5d77f] block">
-                      {img.location}
-                    </span>
-                    <h3 className="text-2xl font-serif font-bold text-white">
-                      {img.title}
-                    </h3>
-                  </div>
-
-                  <div className="w-11 h-11 rounded-full bg-black/70 border border-white/30 flex items-center justify-center text-white group-hover:bg-[#e5c158] group-hover:text-[#121110] transition-colors shadow-lg shrink-0">
-                    <Maximize2 className="w-4 h-4" />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Quotes from couples and clients */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {TESTIMONIALS.map((t) => (
-              <div
-                key={t.id}
-                className="p-7 rounded-3xl theme-bg-card border border-theme-gold shadow-xl flex flex-col justify-between space-y-5 text-right relative"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center gap-1">
-                    {[...Array(t.rating)].map((_, idx) => (
-                      <Star key={idx} className="w-4 h-4 fill-[#e5c158] text-[#e5c158]" />
-                    ))}
-                  </div>
-                  <p className="text-sm sm:text-base theme-text-body italic leading-relaxed">
-                    &quot;{t.quote}&quot;
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-theme-gold flex items-center justify-between">
-                  <div>
-                    <h4 className="text-sm font-serif font-bold theme-text-head">{t.name}</h4>
-                    <span className="text-xs theme-text-muted">{t.role}</span>
-                  </div>
-                  <span className="text-xs font-mono font-bold text-[#9e751d]">{t.date}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
+      {/* ============================================================= */}
+      {/* SLIDE 03: עוגני השקט הנפשי, רגעים והגשמה                     */}
+      {/* ============================================================= */}
+      <section
+        id="slide-3"
+        className="relative min-h-[92vh] flex items-center justify-center py-16 lg:py-20 overflow-hidden"
+      >
+        {/* Background Image with Luminous Scrim */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <img
+            src={IMAGES.corporate}
+            alt="אירוע יוקרה חם ומרגש"
+            className="w-full h-full object-cover object-center contrast-105 brightness-95"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-[var(--bg-page)]/90 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-page)] via-transparent to-[var(--bg-page)]" />
         </div>
-      </section>
 
-      {/* ------------------------------------------------------------- */}
-      {/* STATION 04: עוגני השקט הנפשי (4 GUARANTEES & METHODOLOGY)      */}
-      {/* ------------------------------------------------------------- */}
-      <section id="station-4" className="py-20 theme-bg-page border-b border-theme-gold">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full space-y-10">
           
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full theme-bg-card border border-theme-gold text-xs font-bold text-[#9e751d] mb-3">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full theme-bg-card border border-theme-gold text-xs font-bold text-[#9e751d] shadow-xs">
               <ShieldCheck className="w-4 h-4" />
-              <span>תחנה 04 // שקט נפשי מלא</span>
+              <span>שקופית 03 // עוגני הביטחון, הרגעים והתיאום האישי</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-serif font-bold theme-text-head">
-              ארבעת עוגני הביטחון שלכם
+              שקט נפשי מלא והגשמת החלום
             </h2>
-            <p className="text-base theme-text-body mt-3">
-              המחויבות האישית של נופר מבטיחה שתוכלו להגיע ביום האירוע רגועים ומאושרים באמת.
+            <p className="text-base theme-text-body font-normal">
+              ארבעת עוגני הביטחון של נופר המבטיחים שתגיעו רגועים ומאושרים באמת.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* 4 Trust Pillars Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               {
                 title: 'אירוע יחיד ביום',
                 badge: '100% פוקוס',
-                desc: 'איננו מקבלים יותר מאירוע אחד ביום. כל תשומת הלב והאנרגיה מוקדשות אך ורק לכם.',
+                desc: 'איננו מקבלים יותר מאירוע אחד ביום. כל האנרגיה מוקדשת אך ורק לכם.',
               },
               {
                 title: 'נוכחות אישית בשטח',
                 badge: 'ליווי צמוד',
-                desc: 'נופר נוכחת באופן אישי משעות הבוקר המוקדמות ועד סיום אחרון השירים בלילה.',
+                desc: 'נופר נוכחת באופן אישי משעות הבוקר המוקדמות ועד סיום אחרון השירים.',
               },
               {
                 title: 'שקיפות תקציבית מלאה',
                 badge: 'אפס הפתעות',
-                desc: 'בקרת תקציב מדויקת, חוזים ישירים מול הספקים ללא שום עלויות נסתרות או הפתעות.',
+                desc: 'בקרת תקציב מדויקת, חוזים ישירים מול הספקים ללא שום עלויות נסתרות.',
               },
               {
-                title: 'נבחרת ספקים מובילה',
+                title: 'נבחרת יוצרים מובילה',
                 badge: 'השורה הראשונה',
-                desc: 'עבודה בלעדית מול מעצבים, שפים, אנשי סאונד וצלמים שנבחרו בקפידה ללא פשרות.',
+                desc: 'עבודה בלעדית מול מעצבים, שפים, סאונדמנים וצלמים שנבחרו בקפידה.',
               },
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="p-7 rounded-3xl theme-bg-card border border-theme-gold shadow-xl flex flex-col justify-between space-y-4 text-right"
+                className="p-5 rounded-2xl theme-bg-card border border-theme-gold shadow-md flex flex-col justify-between space-y-3 text-right"
               >
-                <div className="space-y-3">
-                  <span className="text-xs font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] to-[#c5a059] px-3 py-1 rounded-lg uppercase tracking-wider inline-block">
+                <div className="space-y-2">
+                  <span className="text-xs font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] to-[#c5a059] px-2.5 py-0.5 rounded-lg uppercase tracking-wider inline-block">
                     {item.badge}
                   </span>
-                  <h3 className="text-xl font-serif font-bold theme-text-head">
+                  <h3 className="text-lg font-serif font-bold theme-text-head">
                     {item.title}
                   </h3>
-                  <p className="text-sm theme-text-body leading-relaxed font-normal">
+                  <p className="text-xs sm:text-sm theme-text-body leading-relaxed font-normal">
                     {item.desc}
                   </p>
                 </div>
-
-                <div className="pt-3 border-t border-theme-gold flex items-center gap-2 text-xs font-bold text-[#9e751d]">
-                  <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <div className="pt-2 border-t border-theme-gold flex items-center gap-1.5 text-xs font-bold text-[#9e751d]">
+                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
                   <span>התחייבות אישית בחוזה</span>
                 </div>
               </div>
             ))}
           </div>
 
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------- */}
-      {/* STATION 05: שער ההגשמה והתיאום האישי                           */}
-      {/* ------------------------------------------------------------- */}
-      <section id="station-5" className="py-24 theme-bg-section relative overflow-hidden">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 relative z-10">
-          
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full theme-bg-card border border-theme-gold shadow-xs">
-            <Sparkles className="w-4 h-4 text-[#9e751d]" />
-            <span className="text-xs sm:text-sm font-bold theme-text-head">
-              תחנה 05 // שער ההגשמה · פגישת אפיון ראשונית
-            </span>
-          </div>
-
-          <div className="space-y-3">
-            <h2 className="text-3xl sm:text-5xl font-serif font-bold theme-text-head leading-tight">
-              מוכנים להתחיל את המסע יחד?
-            </h2>
-            <p className="text-base sm:text-xl theme-text-body max-w-xl mx-auto font-normal">
-              בואו נשב לקפה נינוח, נקשיב לחלום שלכם ונגבש מתווה הפקה מדויק.
-            </p>
-          </div>
-
-          {/* Main Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-            <a
-              href={getWhatsAppUrl('תיאום שיחת היכרות אישית עם נופר')}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto px-9 py-4 text-base font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-105 rounded-xl shadow-xl flex items-center justify-center gap-2.5 cursor-pointer transition-all"
-            >
-              <MessageSquare className="w-5 h-5 fill-[#121110]" />
-              <span>תיאום שיחה ב-WhatsApp עכשיו</span>
-            </a>
-
-            <button
-              onClick={onSwitchToFullSite}
-              className="w-full sm:w-auto px-7 py-4 rounded-xl border border-theme-gold theme-bg-card theme-text-head text-sm font-bold hover:border-theme-gold-strong transition-all cursor-pointer flex items-center justify-center gap-2 shadow-xs"
-            >
-              <Compass className="w-4 h-4 text-[#9e751d]" />
-              <span>מעבר לסיור המלא באתר</span>
-            </button>
-          </div>
-
-          {/* Direct Studio Details Pill */}
-          <div className="pt-6 border-t border-theme-gold flex flex-wrap items-center justify-center gap-6 text-xs sm:text-sm theme-text-body font-medium">
-            <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-[#9e751d]" />
-              <span>סטודיו: מגדלי עזריאלי, תל אביב</span>
+          {/* Social Proof Quote Banner */}
+          <div className="p-6 rounded-2xl theme-bg-card border border-theme-gold shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4 text-right">
+            <div className="space-y-1">
+              <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-[#e5c158] text-[#e5c158]" />
+                ))}
+                <span className="text-xs font-bold font-mono text-[#9e751d] mr-2">דירוג 5.0 כוכבים</span>
+              </div>
+              <p className="text-sm sm:text-base theme-text-body italic font-normal">
+                &quot;הבחירה בנופר הייתה ההחלטה הכי טובה שלקחנו. השקט הנפשי, הדיוק בכל פרט והחום האנושי הפכו את היום שלנו למושלם.&quot;
+              </p>
+              <span className="text-xs theme-text-muted font-bold block">שירה ויונתן // חתונת יוקרה בקיסריה</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Lock className="w-4 h-4 text-[#9e751d]" />
-              <span>ערוץ ישיר ומאובטח · ללא ספאם</span>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={() =>
+                  setActiveGalleryImg({
+                    src: IMAGES.wedding,
+                    title: 'חתונת יוקרה חמה ורומנטית',
+                    location: 'קיסריה',
+                  })
+                }
+                className="px-4 py-2 rounded-xl theme-bg-card-subtle border border-theme-gold text-xs font-bold theme-text-head flex items-center gap-1.5 cursor-pointer shadow-xs"
+              >
+                <Maximize2 className="w-3.5 h-3.5 text-[#9e751d]" />
+                <span>צפייה בגלריה</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Final Call to Action Centerpiece */}
+          <div className="p-8 rounded-3xl theme-bg-card border-2 border-[#9e751d] shadow-2xl text-center space-y-6">
+            <div className="w-12 h-12 rounded-full bg-[#e5c158] text-[#121110] flex items-center justify-center mx-auto shadow-md font-serif font-bold text-xl">
+              N
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="text-2xl sm:text-4xl font-serif font-bold theme-text-head">
+                מוכנים להפוך את החלום למציאות מרגשת?
+              </h3>
+              <p className="text-sm sm:text-base theme-text-body font-normal max-w-xl mx-auto">
+                בואו נשב לקפה נינוח, נקשיב לציפיות שלכם ונגבש מתווה הפקה מדויק ללא שום התחייבות.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-1">
+              <a
+                href={getWhatsAppUrl('תיאום שיחת היכרות אישית עם נופר')}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-8 py-4 text-sm sm:text-base font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-105 rounded-xl shadow-xl flex items-center justify-center gap-2.5 cursor-pointer transition-all"
+              >
+                <MessageSquare className="w-5 h-5 fill-[#121110]" />
+                <span>תיאום שיחה אישית ב-WhatsApp עם נופר</span>
+              </a>
+
+              {/* Link to Full Main Site */}
+              <button
+                onClick={onSwitchToFullSite}
+                className="w-full sm:w-auto px-6 py-4 rounded-xl border border-theme-gold theme-bg-card-subtle theme-text-head text-xs sm:text-sm font-bold hover:border-theme-gold-strong transition-all cursor-pointer flex items-center justify-center gap-2 shadow-xs"
+              >
+                <Compass className="w-4 h-4 text-[#9e751d]" />
+                <span>מעבר לאתר הראשי המלא</span>
+              </button>
+            </div>
+
+            <div className="pt-4 border-t border-theme-gold flex flex-wrap items-center justify-center gap-5 text-xs theme-text-body font-medium">
+              <div className="flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-[#9e751d]" />
+                <span>סטודיו: מגדלי עזריאלי, תל אביב</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Lock className="w-3.5 h-3.5 text-[#9e751d]" />
+                <span>ערוץ ישיר ומאובטח · ללא ספאם</span>
+              </div>
             </div>
           </div>
 
@@ -909,19 +800,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
       {/* STICKY MOBILE CONVERSION BAR                                  */}
       {/* ------------------------------------------------------------- */}
       <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-[var(--bg-card)] border-t border-theme-gold p-3 shadow-2xl flex items-center justify-between gap-2.5 backdrop-blur-lg">
-        <div className="text-right">
+        <button
+          onClick={onSwitchToFullSite}
+          className="text-right bg-transparent border-0 p-0 text-inherit cursor-pointer"
+        >
           <div className="text-xs font-bold theme-text-head">נופר הפקות אירועים</div>
-          <div className="text-[10px] text-[#9e751d] font-semibold">מסע קצר · מענה ישיר</div>
-        </div>
+          <div className="text-[10px] text-[#9e751d] font-semibold">לאתר הראשי ↰</div>
+        </button>
 
         <a
-          href={getWhatsAppUrl('פנייה מהירה ממסע המובייל')}
+          href={getWhatsAppUrl('פנייה מהירה מדף הנחיתה')}
           target="_blank"
           rel="noopener noreferrer"
           className="flex-1 py-3 px-4 text-xs font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] to-[#c5a059] rounded-xl shadow-md flex items-center justify-center gap-1.5"
         >
           <MessageSquare className="w-4 h-4 fill-[#121110]" />
-          <span>שיחה ב-WhatsApp עכשיו</span>
+          <span>שיחה ב-WhatsApp</span>
         </a>
       </div>
 
@@ -955,15 +849,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
       {/* ------------------------------------------------------------- */}
       <footer className="bg-[#141210] text-[#ded5cb] border-t border-theme-gold py-10 pb-20 sm:pb-10 text-center text-xs">
         <div className="max-w-7xl mx-auto px-4 space-y-3">
-          <div className="flex items-center justify-center gap-2">
-            <span className="font-serif font-bold text-white text-base">נופר הפקות אירועי יוקרה</span>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <button
+              onClick={onSwitchToFullSite}
+              className="font-serif font-bold text-white text-base hover:text-[#e5c158] transition-colors cursor-pointer bg-transparent border-0 p-0"
+            >
+              נופר הפקות אירועי יוקרה
+            </button>
             <span>·</span>
             <span>מגדלי עזריאלי, תל אביב</span>
             <span>·</span>
             <span>office@nofar-events.co.il</span>
           </div>
           <div className="text-stone-400">
-            © 2026 כל הזכויות שמורות. בוטיק אירועים אקסקלוסיבי.
+            © 2026 כל הזכויות שמורות. בוטיק אירועים אקסקלוסיבי (עד 2 אירועים בחודש).
           </div>
         </div>
       </footer>
