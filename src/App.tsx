@@ -3,10 +3,12 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
-import { TrustGuarantees } from './components/TrustGuarantees';
 import { AboutSection } from './components/AboutSection';
+import { SpaceWalkthrough } from './components/SpaceWalkthrough';
+import { TrustGuarantees } from './components/TrustGuarantees';
 import { EventTypes } from './components/EventTypes';
 import { InteractiveCalculator } from './components/InteractiveCalculator';
+import { SensoryReveal } from './components/SensoryReveal';
 import { Gallery } from './components/Gallery';
 import { ProcessTimeline } from './components/ProcessTimeline';
 import { Testimonials } from './components/Testimonials';
@@ -16,16 +18,18 @@ import { Footer } from './components/Footer';
 import { ContactModal } from './components/ContactModal';
 
 const CHAPTERS = [
-  { id: 'hero', name: 'פתיחה קולנועית', short: '00' },
+  { id: 'hero', name: 'שער הפתיחה', short: '00' },
   { id: 'about', name: 'החזון והסטנדרט', short: '01' },
-  { id: 'trust', name: 'שקט נפשי מלא', short: '02' },
-  { id: 'event-types', name: 'סוגי אירועים', short: '03' },
-  { id: 'calculator', name: 'מתכנן קונספט', short: '04' },
-  { id: 'gallery', name: 'גלריה נבחרת', short: '05' },
-  { id: 'process', name: 'מתודולוגיית הפקה', short: '06' },
-  { id: 'testimonials', name: 'רגעים ועדויות', short: '07' },
-  { id: 'faq', name: 'שאלות נפוצות', short: '08' },
-  { id: 'contact', name: 'יצירת קשר אישית', short: '09' },
+  { id: 'space-walkthrough', name: 'ארכיטקטורת החלל', short: '02' },
+  { id: 'trust', name: 'שקט נפשי מלא', short: '03' },
+  { id: 'event-types', name: 'סוגי אירועים', short: '04' },
+  { id: 'calculator', name: 'מתכנן קונספט', short: '05' },
+  { id: 'sensory', name: 'קולינריה וחושים', short: '06' },
+  { id: 'gallery', name: 'גלריה נבחרת', short: '07' },
+  { id: 'process', name: 'מתודולוגיית הפקה', short: '08' },
+  { id: 'testimonials', name: 'רגעים ועדויות', short: '09' },
+  { id: 'faq', name: 'שאלות נפוצות', short: '10' },
+  { id: 'contact', name: 'יצירת קשר אישית', short: '11' },
 ];
 
 export function App() {
@@ -40,7 +44,7 @@ export function App() {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // 1. Global Scroll Progress Bar
+      // 1. Global Scroll Progress Bar (Top)
       gsap.to(progressBarRef.current, {
         scaleX: 1,
         ease: 'none',
@@ -63,18 +67,29 @@ export function App() {
         });
       });
 
-      // 3. Staggered reveal of sections
-      const sections = ['#about', '#trust', '#event-types', '#calculator', '#gallery', '#process', '#testimonials', '#faq', '#contact'];
-      sections.forEach((secId) => {
+      // 3. Staggered gentle editorial reveal of sections
+      const animatedSections = [
+        '#about',
+        '#trust',
+        '#event-types',
+        '#calculator',
+        '#gallery',
+        '#process',
+        '#testimonials',
+        '#faq',
+        '#contact',
+      ];
+      
+      animatedSections.forEach((secId) => {
         gsap.fromTo(
           `${secId} h2, ${secId} p`,
-          { opacity: 0.2, y: 20 },
+          { opacity: 0.25, y: 18 },
           {
             opacity: 1,
             y: 0,
             duration: 0.8,
             ease: 'power2.out',
-            stagger: 0.15,
+            stagger: 0.12,
             scrollTrigger: {
               trigger: secId,
               start: 'top 75%',
@@ -126,7 +141,7 @@ export function App() {
           >
             <span>{ch.short}</span>
             {activeChapterIndex === idx && (
-              <span className="font-sans text-[11px] pr-1 hidden lg:inline truncate max-w-[120px]">
+              <span className="font-sans text-[11px] pr-1 hidden lg:inline truncate max-w-[130px]">
                 {ch.name}
               </span>
             )}
@@ -140,9 +155,9 @@ export function App() {
         activeChapterName={CHAPTERS[activeChapterIndex]?.name}
       />
 
-      {/* Main Content Sections: The Cohesive Scroll Journey */}
+      {/* The Unified Cinematic Journey Flow */}
       <main className="flex-grow">
-        {/* Act 00: Opening & Cinematic Entry */}
+        {/* Act 00: Pinned Expanding Hero Portal */}
         <div id="hero">
           <Hero onOpenContact={handleOpenContact} />
         </div>
@@ -152,42 +167,52 @@ export function App() {
           <AboutSection />
         </div>
 
-        {/* Act 02: Peace of Mind & Guarantees */}
+        {/* Act 02: Pinned Horizontal Space & Architecture Walkthrough */}
+        <div id="space-walkthrough">
+          <SpaceWalkthrough />
+        </div>
+
+        {/* Act 03: Peace of Mind & Guarantees */}
         <div id="trust">
           <TrustGuarantees onOpenContact={handleOpenContact} />
         </div>
 
-        {/* Act 03: Event Specializations */}
+        {/* Act 04: Event Specializations */}
         <div id="event-types">
           <EventTypes onOpenContact={handleOpenContact} />
         </div>
 
-        {/* Act 04: Interactive Concept & Specification Planner */}
+        {/* Act 05: Interactive Concept & Specification Planner */}
         <div id="calculator">
           <InteractiveCalculator onOpenContact={handleOpenContact} />
         </div>
 
-        {/* Act 05: Visual Gallery */}
+        {/* Act 06: Sensory Curtain Wipe & Culinary Mastery */}
+        <div id="sensory">
+          <SensoryReveal />
+        </div>
+
+        {/* Act 07: Visual Gallery */}
         <div id="gallery">
           <Gallery />
         </div>
 
-        {/* Act 06: Production Methodology & Steps */}
+        {/* Act 08: Production Methodology & Steps */}
         <div id="process">
           <ProcessTimeline onOpenContact={handleOpenContact} />
         </div>
 
-        {/* Act 07: Client Stories & Moments */}
+        {/* Act 09: Client Stories & Moments */}
         <div id="testimonials">
           <Testimonials />
         </div>
 
-        {/* Act 08: Frequently Asked Questions */}
+        {/* Act 10: Frequently Asked Questions */}
         <div id="faq">
           <FAQSection />
         </div>
 
-        {/* Act 09: Personal Connection & Consultation */}
+        {/* Act 11: Personal Connection & Consultation */}
         <div id="contact">
           <ContactSection initialSubject={modalSubject} />
         </div>
