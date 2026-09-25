@@ -6,24 +6,19 @@ import {
   Users,
   MessageSquare,
   ArrowLeft,
-  ChevronDown,
   Star,
   Maximize2,
   X,
   Compass,
   ArrowUpRight,
-  Clock,
-  Award,
-  Utensils,
-  Music,
   MapPin,
   Lock,
   ArrowDown,
-  Check,
   Sliders,
   Phone,
+  HeartHandshake,
 } from 'lucide-react';
-import { IMAGES, EVENT_TYPES, TESTIMONIALS } from '../data/eventData';
+import { IMAGES, TESTIMONIALS } from '../data/eventData';
 import { getWhatsAppUrl } from '../utils/whatsapp';
 
 interface LandingPageProps {
@@ -31,36 +26,29 @@ interface LandingPageProps {
 }
 
 const SLIDES = [
-  { id: 'slide-1', num: '01', title: 'שער החזון' },
-  { id: 'slide-2', num: '02', title: 'אפיון ומתחמים' },
-  { id: 'slide-3', num: '03', title: 'ביטחון והגשמה' },
+  { id: 'slide-1', num: '01', title: 'שער הפתיחה' },
+  { id: 'slide-2', num: '02', title: 'גלריה ואפיון' },
+  { id: 'slide-3', num: '03', title: 'המלצות ותיאום' },
 ];
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
-  // Quick Lead Form State
+  // Quick Lead Form State (Social Traffic Optimized)
   const [leadData, setLeadData] = useState({
     fullName: '',
     eventType: 'חתונה',
     guests: '200-350',
     eventDate: '',
-    notes: '',
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  // Concept Selector state in Slide 2
-  const [selectedType, setSelectedType] = useState<'wedding' | 'corporate' | 'boutique'>('wedding');
-  const [selectedGuests, setSelectedGuests] = useState(250);
+  // Rapid 3-Click Concept Selector
+  const [selectedType, setSelectedType] = useState('חתונת יוקרה');
   const [selectedStyle, setSelectedStyle] = useState('זהב ושמפניה חמה');
-  const [selectedAddons, setSelectedAddons] = useState<{ [key: string]: boolean }>({
-    catering: true,
-    design: true,
-    soundLight: true,
-    dayOfManagement: true,
-  });
+  const [selectedGuests, setSelectedGuests] = useState('200-350 אורחים');
 
-  // Lightbox modal state for gallery in Slide 3
+  // Lightbox modal state for gallery
   const [activeGalleryImg, setActiveGalleryImg] = useState<{
     src: string;
     title: string;
@@ -96,24 +84,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
   const handleLeadSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormSubmitted(true);
-    const msg = `היי נופר, הגעתי מדף הנחיתה. שמי ${leadData.fullName}. אשמח לבדוק זמינות עבור ${leadData.eventType} (${leadData.guests} מוזמנים${leadData.eventDate ? `, תאריך משוער: ${leadData.eventDate}` : ''}). ${leadData.notes ? `פרטים נוספים: ${leadData.notes}` : ''}`;
+    const msg = `היי נופר, ראיתי את הפרסום שלך ברשת החברתית. שמי ${leadData.fullName}. אשמח לבדוק זמינות עבור ${leadData.eventType} (${leadData.guests} מוזמנים${leadData.eventDate ? `, תאריך משוער: ${leadData.eventDate}` : ''}).`;
     const url = getWhatsAppUrl(msg);
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
-  const toggleAddon = (key: string) => {
-    setSelectedAddons((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
-
   const handleConceptSubmit = () => {
-    const typeLabel =
-      selectedType === 'wedding'
-        ? 'חתונה'
-        : selectedType === 'corporate'
-        ? 'אירוע חברה'
-        : 'מסיבת VIP';
-    const activeCount = Object.values(selectedAddons).filter(Boolean).length;
-    const msg = `היי נופר, בניתי מפרט בדף הנחיתה עבור ${typeLabel} ל-${selectedGuests} מוזמנים בסגנון ${selectedStyle} (${activeCount} מרכיבי הפקה). אשמח לתאם שיחת היכרות ולבדוק תאריכים פנויים.`;
+    const msg = `היי נופר, הגעתי מהרשתות ובניתי מפרט מהיר עבור ${selectedType} (${selectedGuests}) בסגנון ${selectedStyle}. אשמח לבדוק תאריכים פנויים ולקבל פרטים.`;
     const url = getWhatsAppUrl(msg);
     window.open(url, '_blank', 'noopener,noreferrer');
   };
@@ -122,37 +99,37 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
     <div className="min-h-screen theme-bg-page theme-text-body font-sans relative selection:bg-[#e5c158] selection:text-[#121110]">
       
       {/* ------------------------------------------------------------- */}
-      {/* HEADER: WITH LOGO LINKED TO MAIN SITE & SLIDE NAVIGATION      */}
+      {/* HEADER: LOGO TO HOME + QUICK ACTIONS                          */}
       {/* ------------------------------------------------------------- */}
-      <header className="sticky top-0 z-50 bg-[var(--bg-page)]/95 backdrop-blur-md border-b border-theme-gold py-3 shadow-xs">
+      <header className="sticky top-0 z-50 bg-[var(--bg-page)]/95 backdrop-blur-md border-b border-theme-gold py-2.5 sm:py-3 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           
-          {/* Logo - Linked directly to the Main Home Page */}
+          {/* Logo - Direct Link to Home */}
           <button
             onClick={onSwitchToFullSite}
-            className="flex items-center gap-3 group text-right cursor-pointer bg-transparent border-0 p-0 text-inherit focus:outline-none"
-            title="חזרה לדף הבית הראשי של נופר הפקות אירועים"
+            className="flex items-center gap-2.5 sm:gap-3 group text-right cursor-pointer bg-transparent border-0 p-0 text-inherit focus:outline-none"
+            title="חזרה לדף הבית הראשי"
           >
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#c5a059] via-[#e5c158] to-[#f7f4ed] text-[#121110] flex items-center justify-center font-serif font-bold text-xl shadow-md group-hover:scale-105 transition-transform duration-300">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-tr from-[#c5a059] via-[#e5c158] to-[#f7f4ed] text-[#121110] flex items-center justify-center font-serif font-bold text-lg sm:text-xl shadow-md group-hover:scale-105 transition-transform">
               N
             </div>
             <div className="flex flex-col">
-              <span className="text-xl sm:text-2xl font-serif tracking-wider font-bold theme-text-head uppercase leading-none group-hover:text-[#9e751d] transition-colors">
+              <span className="text-lg sm:text-xl font-serif font-bold theme-text-head uppercase leading-none group-hover:text-[#9e751d] transition-colors">
                 נופר <span className="font-light text-[#9e751d]">| הפקות אירועים</span>
               </span>
-              <span className="text-[11px] font-semibold text-[#9e751d] uppercase font-mono hidden sm:block mt-1">
+              <span className="text-[10px] sm:text-[11px] font-semibold text-[#9e751d] font-mono hidden sm:block mt-0.5">
                 חזרה לדף הבית הראשי ↰
               </span>
             </div>
           </button>
 
-          {/* 3-Slide Quick Navigator (Center) */}
+          {/* 3-Slide Navigation Pills */}
           <nav className="hidden md:flex items-center gap-1.5 p-1 rounded-full theme-bg-card border border-theme-gold shadow-xs text-xs font-bold">
             {SLIDES.map((slide, idx) => (
               <button
                 key={slide.id}
                 onClick={() => scrollToSlide(slide.id)}
-                className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer flex items-center gap-1.5 ${
+                className={`px-3 py-1.5 rounded-full transition-all cursor-pointer flex items-center gap-1.5 ${
                   currentSlideIndex === idx
                     ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] font-bold shadow-xs scale-105'
                     : 'theme-text-muted hover:theme-text-head hover:bg-theme-card-subtle'
@@ -164,14 +141,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
             ))}
           </nav>
 
-          {/* Actions: Full Site Button & WhatsApp CTA */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          {/* Direct CTA Buttons */}
+          <div className="flex items-center gap-2 sm:gap-2.5">
             <button
               onClick={onSwitchToFullSite}
-              className="flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl border border-theme-gold theme-bg-card theme-text-head text-xs sm:text-sm font-bold hover:border-theme-gold-strong transition-all cursor-pointer shadow-xs"
-              title="מעבר לסיור המלא והמעמיק באתר"
+              className="flex items-center gap-1 px-3 py-2 rounded-xl border border-theme-gold theme-bg-card theme-text-head text-xs font-bold hover:border-theme-gold-strong transition-all cursor-pointer shadow-xs"
+              title="מעבר לאתר המלא"
             >
-              <Compass className="w-4 h-4 text-[#9e751d]" />
+              <Compass className="w-3.5 h-3.5 text-[#9e751d]" />
               <span className="hidden sm:inline">לאתר המלא</span>
               <ArrowUpRight className="w-3.5 h-3.5 text-[#9e751d]" />
             </button>
@@ -180,41 +157,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
               href={getWhatsAppUrl('פנייה מהירה מדף הנחיתה')}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-wider text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-105 rounded-xl shadow-md transition-all cursor-pointer"
+              className="flex items-center gap-1.5 px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-wider text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-105 rounded-xl shadow-md transition-all cursor-pointer"
             >
-              <MessageSquare className="w-4 h-4 fill-[#121110]" />
-              <span className="hidden sm:inline">שיחה ב-WhatsApp</span>
-              <span className="sm:hidden">WhatsApp</span>
+              <MessageSquare className="w-3.5 h-3.5 fill-[#121110]" />
+              <span>שיחה ב-WhatsApp</span>
             </a>
           </div>
 
         </div>
       </header>
 
-      {/* ------------------------------------------------------------- */}
-      {/* FLOATING 3-SLIDE DOT INDICATOR                                */}
-      {/* ------------------------------------------------------------- */}
-      <div className="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-3 p-2 rounded-full theme-bg-card border border-theme-gold shadow-xl">
-        {SLIDES.map((slide, idx) => (
-          <button
-            key={slide.id}
-            onClick={() => scrollToSlide(slide.id)}
-            className={`w-3.5 h-3.5 rounded-full transition-all cursor-pointer ${
-              currentSlideIndex === idx
-                ? 'bg-[#9e751d] scale-125 ring-2 ring-[#e5c158]'
-                : 'bg-neutral-300 hover:bg-[#9e751d]/60'
-            }`}
-            title={`מעבר ל-${slide.title}`}
-          />
-        ))}
-      </div>
-
       {/* ============================================================= */}
-      {/* SLIDE 01: שער החזון ובדיקת זמינות מיידית                      */}
+      {/* SLIDE 01: THE HOOK & INSTANT WHATSAPP (מותאם לרשתות חברתיות)   */}
       {/* ============================================================= */}
       <section
         id="slide-1"
-        className="relative min-h-[92vh] flex items-center justify-center py-16 lg:py-20 border-b border-theme-gold overflow-hidden"
+        className="relative min-h-[88vh] lg:min-h-[92vh] flex items-center justify-center py-12 lg:py-16 border-b border-theme-gold overflow-hidden"
       >
         {/* Background Image with Luminous Scrim */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -224,137 +182,133 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
             className="w-full h-full object-cover object-center contrast-105 brightness-95"
             referrerPolicy="no-referrer"
           />
-          {/* Luminous Warm Scrim Layer */}
           <div className="absolute inset-0 bg-[var(--bg-page)]/88 backdrop-blur-[2px]" />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-page)] via-transparent to-[var(--bg-page)]" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            {/* Right Column: Hero Narrative */}
-            <div className="lg:col-span-7 space-y-6 text-right">
+            {/* Right Column: Punchy Marketing Copy */}
+            <div className="lg:col-span-7 space-y-5 text-right">
               
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full theme-bg-card border border-theme-gold shadow-xs">
-                <span className="w-2 h-2 rounded-full bg-[#9e751d] animate-ping" />
-                <span className="text-xs sm:text-sm font-bold theme-text-head font-sans">
-                  שקופית 01 // שער הפתיחה · שריון מוקדם לעונת 2026-2027
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full theme-bg-card border border-theme-gold shadow-xs">
+                <Sparkles className="w-4 h-4 text-[#9e751d]" />
+                <span className="text-xs sm:text-sm font-bold theme-text-head">
+                  הפקה אישית בסטנדרט בלעדי · שריון תאריכים 2026-2027
                 </span>
               </div>
 
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-bold tracking-tight theme-text-head leading-[1.12]">
-                הופכים כל חזון לאירוע <br />
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold tracking-tight theme-text-head leading-[1.15]">
+                האירוע שכולם יזכרו. <br />
                 <span className="text-[#9e751d]">
-                  יוצא דופן ומרגש.
+                  בלי לחץ, בלי פשרות ובלי הפתעות.
                 </span>
               </h1>
 
-              <p className="text-base sm:text-xl theme-text-body font-normal leading-relaxed max-w-2xl">
-                תכנון, עיצוב והפקה אישית של חתונות ואירועי יוקרה. אסתטיקה מאופקת, חום אנושי וליווי צמוד של נופר משלב הרעיון ועד אחרון האורחים.
+              <p className="text-base sm:text-lg theme-text-body font-normal leading-relaxed max-w-xl">
+                תכנון, עיצוב והפקה אישית של חתונות ואירועי יוקרה. 100% ליווי אישי של נופר מהרעיון הראשון ועד אחרון האורחים ברחבה.
               </p>
 
-              {/* Scarcity Standards Bullet Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                <div className="p-4 rounded-2xl theme-bg-card border border-theme-gold shadow-xs text-center">
-                  <div className="text-3xl font-serif font-bold text-[#9e751d]">1</div>
-                  <div className="text-sm font-bold theme-text-head mt-1">אירוע יחיד ביום</div>
-                  <div className="text-xs theme-text-muted">100% פוקוס עליכם</div>
+              {/* 4 Micro-Proof Badges */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+                <div className="p-3 rounded-2xl theme-bg-card border border-theme-gold shadow-xs text-center">
+                  <div className="text-2xl font-serif font-bold text-[#9e751d]">1</div>
+                  <div className="text-xs font-bold theme-text-head mt-0.5">אירוע יחיד ביום</div>
+                  <div className="text-[10px] theme-text-muted">100% פוקוס עליכם</div>
                 </div>
 
-                <div className="p-4 rounded-2xl theme-bg-card border border-theme-gold shadow-xs text-center">
-                  <div className="text-3xl font-serif font-bold text-[#9e751d]">100%</div>
-                  <div className="text-sm font-bold theme-text-head mt-1">ליווי אישי של נופר</div>
-                  <div className="text-xs theme-text-muted">ללא מפיקי משנה</div>
+                <div className="p-3 rounded-2xl theme-bg-card border border-theme-gold shadow-xs text-center">
+                  <div className="text-2xl font-serif font-bold text-[#9e751d]">100%</div>
+                  <div className="text-xs font-bold theme-text-head mt-0.5">ליווי של נופר</div>
+                  <div className="text-[10px] theme-text-muted">ללא מפיקי משנה</div>
                 </div>
 
-                <div className="p-4 rounded-2xl theme-bg-card border border-theme-gold shadow-xs text-center">
-                  <div className="text-3xl font-serif font-bold text-[#9e751d]">1</div>
-                  <div className="text-sm font-bold theme-text-head mt-1">כתובת לכל הספקים</div>
-                  <div className="text-xs theme-text-muted">סנכרון וניהול מושלם</div>
+                <div className="p-3 rounded-2xl theme-bg-card border border-theme-gold shadow-xs text-center">
+                  <div className="text-2xl font-serif font-bold text-[#9e751d]">1</div>
+                  <div className="text-xs font-bold theme-text-head mt-0.5">כתובת לספקים</div>
+                  <div className="text-[10px] theme-text-muted">סנכרון וניהול מושלם</div>
                 </div>
 
-                <div className="p-4 rounded-2xl theme-bg-card border border-theme-gold shadow-xs text-center">
-                  <div className="text-3xl font-serif font-bold text-[#9e751d]">0</div>
-                  <div className="text-sm font-bold theme-text-head mt-1">הפתעות בתקציב</div>
-                  <div className="text-xs theme-text-muted">שקיפות מוחלטת</div>
+                <div className="p-3 rounded-2xl theme-bg-card border border-theme-gold shadow-xs text-center">
+                  <div className="text-2xl font-serif font-bold text-[#9e751d]">0</div>
+                  <div className="text-xs font-bold theme-text-head mt-0.5">הפתעות בתקציב</div>
+                  <div className="text-[10px] theme-text-muted">שקיפות מוחלטת</div>
                 </div>
               </div>
 
-              {/* Slide 2 Scroll Prompt */}
-              <div className="pt-2 flex items-center gap-4">
+              {/* Scroll Trigger */}
+              <div className="pt-1">
                 <button
                   onClick={() => scrollToSlide('slide-2')}
-                  className="inline-flex items-center gap-2 text-sm font-bold text-[#9e751d] hover:opacity-80 transition-opacity cursor-pointer theme-bg-card px-4 py-2 rounded-xl border border-theme-gold shadow-xs"
+                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#9e751d] hover:opacity-80 transition-opacity cursor-pointer theme-bg-card px-3.5 py-1.5 rounded-xl border border-theme-gold shadow-xs"
                 >
-                  <span>המשך לאפיון הקונספט וזרימת החלל</span>
-                  <ArrowDown className="w-4 h-4 animate-bounce" />
+                  <span>צפו בגלריה ובנו מפרט מהיר ב-3 קליקים</span>
+                  <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
                 </button>
               </div>
 
             </div>
 
-            {/* Left Column: Direct Consultation Box */}
+            {/* Left Column: Direct WhatsApp Lead Card */}
             <div className="lg:col-span-5">
-              <div className="p-7 sm:p-9 rounded-3xl theme-bg-card border-2 border-[#9e751d] shadow-2xl relative overflow-hidden">
+              <div className="p-6 sm:p-8 rounded-3xl theme-bg-card border-2 border-[#9e751d] shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 left-0 h-2 bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059]" />
 
                 {formSubmitted ? (
-                  <div className="text-center py-10 space-y-4 animate-in fade-in">
-                    <div className="w-16 h-16 rounded-full bg-[#e5c158] text-[#121110] flex items-center justify-center mx-auto mb-3 shadow-xl font-bold">
-                      <CheckCircle2 className="w-8 h-8" />
+                  <div className="text-center py-8 space-y-3 animate-in fade-in">
+                    <div className="w-14 h-14 rounded-full bg-[#e5c158] text-[#121110] flex items-center justify-center mx-auto mb-2 shadow-lg font-bold">
+                      <CheckCircle2 className="w-7 h-7" />
                     </div>
-                    <h3 className="text-2xl font-serif font-bold theme-text-head">
+                    <h3 className="text-xl font-serif font-bold theme-text-head">
                       הפרטים מוכנים ב-WhatsApp!
                     </h3>
-                    <p className="text-sm theme-text-body leading-relaxed">
-                      ההודעה נפתחה ישירות מול נופר ב-WhatsApp בערוץ מאובטח.
+                    <p className="text-xs sm:text-sm theme-text-body">
+                      ההודעה נפתחה ישירות מול נופר בערוץ מאובטח.
                     </p>
                     <button
                       onClick={() => setFormSubmitted(false)}
-                      className="px-6 py-2.5 text-xs font-bold bg-[#e5c158] text-[#121110] rounded-xl shadow-md mt-2 cursor-pointer"
+                      className="px-5 py-2 text-xs font-bold bg-[#e5c158] text-[#121110] rounded-xl shadow-md cursor-pointer"
                     >
                       שליחת פרטים נוספים
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={handleLeadSubmit} className="space-y-4 text-right">
+                  <form onSubmit={handleLeadSubmit} className="space-y-3.5 text-right">
                     
                     <div>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#9e751d]">
-                          בדיקת זמינות ופגישת אפיון
+                        <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#9e751d]">
+                          בדיקת זמינות מיידית
                         </span>
-                        <span className="px-2.5 py-0.5 rounded-full bg-[#e5c158]/30 text-[#785611] text-xs font-bold">
-                          ללא התחייבות
+                        <span className="px-2 py-0.5 rounded-full bg-[#e5c158]/30 text-[#785611] text-[11px] font-bold">
+                          מענה ישיר מנופר
                         </span>
                       </div>
-                      <h3 className="text-2xl font-serif font-bold theme-text-head mt-1">
-                        בדיקת תאריך פנוי ושיחה עם נופר
+                      <h3 className="text-xl sm:text-2xl font-serif font-bold theme-text-head mt-1">
+                        בדיקת תאריך ושיחה עם נופר
                       </h3>
-                      <p className="text-xs sm:text-sm theme-text-muted mt-1 font-normal">
-                        מלאו פרטים קצרים ושיחת הוואטסאפ תיפתח מיד.
-                      </p>
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-xs sm:text-sm font-bold theme-text-head">שם מלא *</label>
+                      <label className="text-xs font-bold theme-text-head">שם מלא *</label>
                       <input
                         type="text"
                         required
                         placeholder="שם פרטי ומשפחה"
                         value={leadData.fullName}
                         onChange={(e) => setLeadData({ ...leadData, fullName: e.target.value })}
-                        className="w-full theme-bg-input border border-theme-gold focus:border-[#9e751d] rounded-xl px-4 py-3 text-base theme-text-head focus:outline-none shadow-xs"
+                        className="w-full theme-bg-input border border-theme-gold focus:border-[#9e751d] rounded-xl px-3.5 py-2.5 text-sm theme-text-head focus:outline-none shadow-xs"
                       />
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-2 gap-2.5">
                       <div className="space-y-1">
-                        <label className="text-xs sm:text-sm font-bold theme-text-head">סוג אירוע</label>
+                        <label className="text-xs font-bold theme-text-head">סוג אירוע</label>
                         <select
                           value={leadData.eventType}
                           onChange={(e) => setLeadData({ ...leadData, eventType: e.target.value })}
-                          className="w-full theme-bg-input border border-theme-gold focus:border-[#9e751d] rounded-xl px-3.5 py-3 text-base theme-text-head focus:outline-none shadow-xs"
+                          className="w-full theme-bg-input border border-theme-gold focus:border-[#9e751d] rounded-xl px-3 py-2.5 text-xs sm:text-sm theme-text-head focus:outline-none shadow-xs"
                         >
                           <option value="חתונה">חתונה</option>
                           <option value="אירוע חברה">אירוע חברה / כנס</option>
@@ -364,11 +318,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
                       </div>
 
                       <div className="space-y-1">
-                        <label className="text-xs sm:text-sm font-bold theme-text-head">כמות מוזמנים</label>
+                        <label className="text-xs font-bold theme-text-head">כמות מוזמנים</label>
                         <select
                           value={leadData.guests}
                           onChange={(e) => setLeadData({ ...leadData, guests: e.target.value })}
-                          className="w-full theme-bg-input border border-theme-gold focus:border-[#9e751d] rounded-xl px-3.5 py-3 text-base theme-text-head focus:outline-none shadow-xs"
+                          className="w-full theme-bg-input border border-theme-gold focus:border-[#9e751d] rounded-xl px-3 py-2.5 text-xs sm:text-sm theme-text-head focus:outline-none shadow-xs"
                         >
                           <option value="עד 150">עד 150 אורחים</option>
                           <option value="150-300">150-300 אורחים</option>
@@ -379,27 +333,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-xs sm:text-sm font-bold theme-text-head">תאריך משוער (אופציונלי)</label>
+                      <label className="text-xs font-bold theme-text-head">תאריך משוער (אופציונלי)</label>
                       <input
                         type="text"
-                        placeholder="עונה / חודש מבוקש"
+                        placeholder="עונה או חודש מבוקש"
                         value={leadData.eventDate}
                         onChange={(e) => setLeadData({ ...leadData, eventDate: e.target.value })}
-                        className="w-full theme-bg-input border border-theme-gold focus:border-[#9e751d] rounded-xl px-4 py-3 text-base theme-text-head focus:outline-none shadow-xs"
+                        className="w-full theme-bg-input border border-theme-gold focus:border-[#9e751d] rounded-xl px-3.5 py-2.5 text-sm theme-text-head focus:outline-none shadow-xs"
                       />
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full py-4 px-6 text-sm sm:text-base font-bold uppercase tracking-wider text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-105 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2.5 cursor-pointer mt-2"
+                      className="w-full py-3.5 px-5 text-sm font-bold uppercase tracking-wider text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-105 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer mt-1"
                     >
-                      <MessageSquare className="w-5 h-5 fill-[#121110]" />
-                      <span>בדיקת תאריך ומעבר ל-WhatsApp</span>
+                      <MessageSquare className="w-4 h-4 fill-[#121110]" />
+                      <span>בדיקת תאריך ב-WhatsApp 💬</span>
                     </button>
 
-                    <div className="flex items-center justify-center gap-1.5 text-xs text-[#785611] font-semibold pt-1">
-                      <ShieldCheck className="w-4 h-4" />
-                      <span>מענה ישיר מנופר · דיסקרטיות מלאה וללא ספאם</span>
+                    <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#785611] font-semibold pt-0.5">
+                      <ShieldCheck className="w-3.5 h-3.5" />
+                      <span>ללא שום התחייבות · דיסקרטיות מלאה</span>
                     </div>
 
                   </form>
@@ -413,17 +367,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
       </section>
 
       {/* ============================================================= */}
-      {/* SLIDE 02: אפיון הקונספט וארכיטקטורת המתחמים                    */}
+      {/* SLIDE 02: VISUAL PROOF & 3-CLICK CONCEPT SPEC BUILDER         */}
       {/* ============================================================= */}
       <section
         id="slide-2"
-        className="relative min-h-[92vh] flex items-center justify-center py-16 lg:py-20 border-b border-theme-gold overflow-hidden"
+        className="relative min-h-[88vh] lg:min-h-[92vh] flex items-center justify-center py-12 lg:py-16 border-b border-theme-gold overflow-hidden"
       >
         {/* Background Image with Luminous Scrim */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <img
             src={IMAGES.wedding}
-            alt="ארכיטקטורת חלל האירוע"
+            alt="אירוע יוקרה חם ומרגש"
             className="w-full h-full object-cover object-center contrast-105 brightness-95"
             referrerPolicy="no-referrer"
           />
@@ -433,197 +387,129 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full theme-bg-card border border-theme-gold text-xs font-bold text-[#9e751d] mb-2 shadow-xs">
-              <Sliders className="w-4 h-4" />
-              <span>שקופית 02 // מתכנן המפרט האישי & זרימת החלל</span>
+          <div className="text-center max-w-2xl mx-auto mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full theme-bg-card border border-theme-gold text-xs font-bold text-[#9e751d] mb-1.5 shadow-xs">
+              <Sliders className="w-3.5 h-3.5" />
+              <span>שקופית 02 // הגלריה והמתכנן המהיר</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-serif font-bold theme-text-head">
-              אפיון מדויק וזרימה הרמונית
+            <h2 className="text-2xl sm:text-4xl font-serif font-bold theme-text-head">
+              הסגנון שלכם, הדיוק של נופר
             </h2>
-            <p className="text-base theme-text-body mt-2 font-normal">
-              הגדירו את מאפייני האירוע שלכם וצפו בתכנון שלושת מתחמי השיא.
+            <p className="text-xs sm:text-sm theme-text-body mt-1">
+              בחרו את אופי האירוע שלכם וקבלו התאמה מיידית ל-WhatsApp.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             
-            {/* Interactive Concept Planner Box (7 cols) */}
-            <div className="lg:col-span-7 p-6 sm:p-8 rounded-3xl theme-bg-card border border-theme-gold shadow-xl space-y-6">
+            {/* Visual Photo Cards (5 cols) */}
+            <div className="lg:col-span-5 grid grid-cols-2 gap-3">
+              {[
+                { src: IMAGES.wedding, title: 'חתונת יוקרה', loc: 'קיסריה' },
+                { src: IMAGES.corporate, title: 'ערב גאלה', loc: 'תל אביב' },
+                { src: IMAGES.boutique, title: 'וילה פרטית VIP', loc: 'סביון' },
+                { src: IMAGES.hero, title: 'קבלת פנים בשקיעה', loc: 'חוות רונית' },
+              ].map((item, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => setActiveGalleryImg({ src: item.src, title: item.title, location: item.loc })}
+                  className="group relative h-36 sm:h-44 rounded-2xl overflow-hidden border border-theme-gold shadow-md cursor-pointer bg-neutral-900"
+                >
+                  <img
+                    src={item.src}
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                  <div className="absolute bottom-2.5 right-3 left-3 text-right">
+                    <span className="text-[10px] font-mono text-[#f5d77f] block font-bold">{item.loc}</span>
+                    <span className="text-xs font-serif font-bold text-white leading-tight block">{item.title}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* 3-Click Spec Box (7 cols) */}
+            <div className="lg:col-span-7 p-6 sm:p-8 rounded-3xl theme-bg-card border border-theme-gold shadow-xl space-y-5">
               
-              {/* Step 1: Event Type */}
-              <div className="space-y-2.5">
-                <label className="block text-sm font-bold theme-text-head uppercase tracking-wider text-right">
-                  1. סוג האירוע המבוקש
-                </label>
-                <div className="grid grid-cols-3 gap-2.5">
-                  {[
-                    { id: 'wedding', label: 'חתונת יוקרה' },
-                    { id: 'corporate', label: 'אירוע חברה / כנס' },
-                    { id: 'boutique', label: 'מסיבת VIP פרטית' },
-                  ].map((item) => (
+              <div className="text-right border-b border-theme-gold pb-3">
+                <span className="text-xs font-mono font-bold text-[#9e751d] uppercase">מתכנן קונספט ב-3 צעדים</span>
+                <h3 className="text-lg sm:text-xl font-serif font-bold theme-text-head mt-0.5">
+                  הגדירו את המפרט שלכם
+                </h3>
+              </div>
+
+              {/* Step 1: Type */}
+              <div className="space-y-2 text-right">
+                <label className="text-xs font-bold theme-text-head uppercase">1. סוג האירוע</label>
+                <div className="grid grid-cols-3 gap-2">
+                  {['חתונת יוקרה', 'אירוע חברה / כנס', 'מסיבת VIP'].map((t) => (
                     <button
-                      key={item.id}
-                      onClick={() => setSelectedType(item.id as any)}
-                      className={`p-3 rounded-xl text-xs sm:text-sm font-bold border transition-all cursor-pointer ${
-                        selectedType === item.id
+                      key={t}
+                      onClick={() => setSelectedType(t)}
+                      className={`p-2.5 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
+                        selectedType === t
                           ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] border-[#9e751d] shadow-sm'
-                          : 'theme-bg-card-subtle theme-text-head border-theme-gold hover:border-theme-gold-strong'
+                          : 'theme-bg-card-subtle theme-text-head border-theme-gold'
                       }`}
                     >
-                      {item.label}
+                      {t}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Step 2: Guest Slider */}
-              <div className="space-y-2.5 text-right">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-bold theme-text-head uppercase tracking-wider">
-                    2. מספר מוזמנים
-                  </span>
-                  <span className="text-sm font-serif font-bold text-[#9e751d] theme-bg-card-subtle px-3.5 py-1 rounded-xl border border-theme-gold">
-                    {selectedGuests} מוזמנים
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="50"
-                  max="800"
-                  step="25"
-                  value={selectedGuests}
-                  onChange={(e) => setSelectedGuests(Number(e.target.value))}
-                  className="w-full h-2.5 bg-neutral-300 rounded-lg appearance-none cursor-pointer accent-[#9e751d]"
-                />
-              </div>
-
-              {/* Step 3: Aesthetic Vibe */}
-              <div className="space-y-2.5 text-right">
-                <label className="block text-sm font-bold theme-text-head uppercase tracking-wider">
-                  3. שפה עיצובית ואווירה
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                  {[
-                    { label: 'זהב ושמפניה חמה', desc: 'תאורת אמבר רומנטית ונרות' },
-                    { label: 'טבע כפרי יוקרתי', desc: 'מרחב פתוח ופרחים אורגניים' },
-                    { label: 'אורבני מודרני', desc: 'במה דיגיטלית וקוקטיילים' },
-                  ].map((s) => (
+              {/* Step 2: Vibe */}
+              <div className="space-y-2 text-right">
+                <label className="text-xs font-bold theme-text-head uppercase">2. שפה עיצובית</label>
+                <div className="grid grid-cols-3 gap-2">
+                  {['זהב ושמפניה חמה', 'טבע כפרי יוקרתי', 'אורבני מודרני'].map((s) => (
                     <button
-                      key={s.label}
-                      onClick={() => setSelectedStyle(s.label)}
-                      className={`p-3 rounded-xl text-right border transition-all cursor-pointer ${
-                        selectedStyle === s.label
-                          ? 'border-[#9e751d] bg-[#e5c158]/25 shadow-xs'
-                          : 'theme-bg-card-subtle border-theme-gold hover:border-theme-gold-strong'
+                      key={s}
+                      onClick={() => setSelectedStyle(s)}
+                      className={`p-2.5 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
+                        selectedStyle === s
+                          ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] border-[#9e751d] shadow-sm'
+                          : 'theme-bg-card-subtle theme-text-head border-theme-gold'
                       }`}
                     >
-                      <div className="font-bold text-xs sm:text-sm theme-text-head">{s.label}</div>
-                      <div className="text-[11px] theme-text-muted mt-0.5">{s.desc}</div>
+                      {s}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Step 4: Addons Checklist */}
-              <div className="space-y-2.5 text-right">
-                <label className="block text-sm font-bold theme-text-head uppercase tracking-wider">
-                  4. מרכיבי הפקה מבוקשים
-                </label>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {[
-                    { id: 'catering', label: 'קייטרינג שף ובר' },
-                    { id: 'design', label: 'עיצוב חלל ופרחים' },
-                    { id: 'soundLight', label: 'הגברה ותאורה' },
-                    { id: 'dayOfManagement', label: 'ניהול בשטח' },
-                  ].map((addon) => (
+              {/* Step 3: Size */}
+              <div className="space-y-2 text-right">
+                <label className="text-xs font-bold theme-text-head uppercase">3. כמות מוזמנים</label>
+                <div className="grid grid-cols-3 gap-2">
+                  {['עד 150 אורחים', '200-350 אורחים', '400+ אורחים'].map((g) => (
                     <button
-                      key={addon.id}
-                      onClick={() => toggleAddon(addon.id)}
-                      className="p-2.5 rounded-xl theme-bg-card-subtle border border-theme-gold flex items-center justify-between transition-all cursor-pointer text-right"
+                      key={g}
+                      onClick={() => setSelectedGuests(g)}
+                      className={`p-2.5 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
+                        selectedGuests === g
+                          ? 'bg-gradient-to-r from-[#e5c158] to-[#c5a059] text-[#121110] border-[#9e751d] shadow-sm'
+                          : 'theme-bg-card-subtle theme-text-head border-theme-gold'
+                      }`}
                     >
-                      <span className="text-xs theme-text-head font-medium">{addon.label}</span>
-                      <div className={`w-4 h-4 rounded border flex items-center justify-center ${
-                        selectedAddons[addon.id] ? 'bg-[#9e751d] text-white border-transparent' : 'border-neutral-400'
-                      }`}>
-                        {selectedAddons[addon.id] && <Check className="w-3 h-3 stroke-[3]" />}
-                      </div>
+                      {g}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Submit Button */}
-              <div className="pt-3 border-t border-theme-gold flex flex-col sm:flex-row items-center justify-between gap-3">
-                <span className="text-xs theme-text-muted text-right">
-                  בלחיצה אחת נשלח את המפרט ישירות ל-WhatsApp של נופר.
-                </span>
-
+              {/* Action Button */}
+              <div className="pt-2">
                 <button
                   onClick={handleConceptSubmit}
-                  className="w-full sm:w-auto px-6 py-3 text-xs sm:text-sm font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-105 rounded-xl shadow-md flex items-center justify-center gap-2 cursor-pointer shrink-0"
+                  className="w-full py-3.5 px-5 text-xs sm:text-sm font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-105 rounded-xl shadow-md flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <MessageSquare className="w-4 h-4 fill-[#121110]" />
-                  <span>שליחת המפרט ל-WhatsApp</span>
+                  <span>שליחת המפרט לבדיקת זמינות ב-WhatsApp</span>
                   <ArrowLeft className="w-4 h-4" />
                 </button>
               </div>
-
-            </div>
-
-            {/* Spatial Flow 3-Moments Breakdown (5 cols) */}
-            <div className="lg:col-span-5 space-y-3.5">
-              
-              {/* Space 1 */}
-              <div className="p-4 sm:p-5 rounded-2xl theme-bg-card border border-theme-gold shadow-md text-right space-y-2">
-                <div className="flex items-center justify-between border-b border-theme-gold pb-2">
-                  <div className="flex items-center gap-2">
-                    <Utensils className="w-4 h-4 text-[#9e751d]" />
-                    <span className="font-serif font-bold text-base theme-text-head">01. קבלת פנים ומפגש ראשוני</span>
-                  </div>
-                  <span className="text-[11px] font-mono text-[#9e751d] font-bold">19:00</span>
-                </div>
-                <p className="text-xs sm:text-sm theme-text-body leading-relaxed font-normal">
-                  גווני אמבר חמים (2700K), עמדות שף חיות ללא שום תורים, ואקוסטיקה מבוקרת (עד 68dB) לשיחה נינוחה.
-                </p>
-              </div>
-
-              {/* Space 2 */}
-              <div className="p-4 sm:p-5 rounded-2xl theme-bg-card border-2 border-[#9e751d] shadow-lg text-right space-y-2 bg-[#e5c158]/10">
-                <div className="flex items-center justify-between border-b border-theme-gold pb-2">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-[#9e751d]" />
-                    <span className="font-serif font-bold text-base theme-text-head">02. טקס החופה ומוקד המעמד</span>
-                  </div>
-                  <span className="text-[11px] font-mono text-[#9e751d] font-bold">20:30</span>
-                </div>
-                <p className="text-xs sm:text-sm theme-text-body leading-relaxed font-normal">
-                  שיא הרגש. אלומות תאורה רכות ומחמיאות לצילום, ומערך הגברה צלול שבו כל ברכה ומילה נשמעות בבהירות.
-                </p>
-              </div>
-
-              {/* Space 3 */}
-              <div className="p-4 sm:p-5 rounded-2xl theme-bg-card border border-theme-gold shadow-md text-right space-y-2">
-                <div className="flex items-center justify-between border-b border-theme-gold pb-2">
-                  <div className="flex items-center gap-2">
-                    <Music className="w-4 h-4 text-[#9e751d]" />
-                    <span className="font-serif font-bold text-base theme-text-head">03. סעודת אבירים ורחבת ריקודים</span>
-                  </div>
-                  <span className="text-[11px] font-mono text-[#9e751d] font-bold">21:00+</span>
-                </div>
-                <p className="text-xs sm:text-sm theme-text-body leading-relaxed font-normal">
-                  הפרדה אקוסטית חכמה: מוזיקת מועדון עוצמתית ברחבה לצד שולחנות שקטים לשיחה, ללא שום הגבלת שעה.
-                </p>
-              </div>
-
-              {/* Slide 3 Scroll Prompt */}
-              <button
-                onClick={() => scrollToSlide('slide-3')}
-                className="w-full py-3 px-4 rounded-xl border border-theme-gold theme-bg-card theme-text-head text-xs font-bold hover:border-theme-gold-strong transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
-              >
-                <span>המשך לעוגני השקט הנפשי והתיאום האישי</span>
-                <ArrowDown className="w-4 h-4 text-[#9e751d]" />
-              </button>
 
             </div>
 
@@ -633,11 +519,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
       </section>
 
       {/* ============================================================= */}
-      {/* SLIDE 03: עוגני השקט הנפשי, רגעים והגשמה                     */}
+      {/* SLIDE 03: SOCIAL PROOF, PEACE OF MIND & CLOSING               */}
       {/* ============================================================= */}
       <section
         id="slide-3"
-        className="relative min-h-[92vh] flex items-center justify-center py-16 lg:py-20 overflow-hidden"
+        className="relative min-h-[88vh] lg:min-h-[92vh] flex items-center justify-center py-12 lg:py-16 overflow-hidden"
       >
         {/* Background Image with Luminous Scrim */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -651,137 +537,87 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-page)] via-transparent to-[var(--bg-page)]" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full space-y-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full space-y-7">
           
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full theme-bg-card border border-theme-gold text-xs font-bold text-[#9e751d] shadow-xs">
-              <ShieldCheck className="w-4 h-4" />
-              <span>שקופית 03 // עוגני הביטחון, הרגעים והתיאום האישי</span>
+          <div className="text-center max-w-2xl mx-auto space-y-1.5">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full theme-bg-card border border-theme-gold text-xs font-bold text-[#9e751d] shadow-xs">
+              <Star className="w-3.5 h-3.5 fill-[#e5c158]" />
+              <span>שקופית 03 // ביטחון מלא ושיחת היכרות</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-serif font-bold theme-text-head">
-              שקט נפשי מלא והגשמת החלום
+            <h2 className="text-2xl sm:text-4xl font-serif font-bold theme-text-head">
+              שקט נפשי מלא מהרגע הראשון
             </h2>
-            <p className="text-base theme-text-body font-normal">
-              ארבעת עוגני הביטחון של נופר המבטיחים שתגיעו רגועים ומאושרים באמת.
-            </p>
           </div>
 
-          {/* 4 Trust Pillars Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              {
-                title: 'אירוע יחיד ביום',
-                badge: '100% פוקוס',
-                desc: 'איננו מקבלים יותר מאירוע אחד ביום. כל האנרגיה מוקדשת אך ורק לכם.',
-              },
-              {
-                title: 'נוכחות אישית בשטח',
-                badge: 'ליווי צמוד',
-                desc: 'נופר נוכחת באופן אישי משעות הבוקר המוקדמות ועד סיום אחרון השירים.',
-              },
-              {
-                title: 'שקיפות תקציבית מלאה',
-                badge: 'אפס הפתעות',
-                desc: 'בקרת תקציב מדויקת, חוזים ישירים מול הספקים ללא שום עלויות נסתרות.',
-              },
-              {
-                title: 'נבחרת יוצרים מובילה',
-                badge: 'השורה הראשונה',
-                desc: 'עבודה בלעדית מול מעצבים, שפים, סאונדמנים וצלמים שנבחרו בקפידה.',
-              },
-            ].map((item, idx) => (
-              <div
-                key={idx}
-                className="p-5 rounded-2xl theme-bg-card border border-theme-gold shadow-md flex flex-col justify-between space-y-3 text-right"
-              >
-                <div className="space-y-2">
-                  <span className="text-xs font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] to-[#c5a059] px-2.5 py-0.5 rounded-lg uppercase tracking-wider inline-block">
-                    {item.badge}
-                  </span>
-                  <h3 className="text-lg font-serif font-bold theme-text-head">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm theme-text-body leading-relaxed font-normal">
-                    {item.desc}
-                  </p>
+          {/* Real Couple Testimonials (2 Compact Quotes) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-5 rounded-2xl theme-bg-card border border-theme-gold shadow-md text-right space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-[#e5c158] text-[#e5c158]" />
+                  ))}
                 </div>
-                <div className="pt-2 border-t border-theme-gold flex items-center gap-1.5 text-xs font-bold text-[#9e751d]">
-                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                  <span>התחייבות אישית בחוזה</span>
-                </div>
+                <span className="text-[11px] font-mono text-[#9e751d] font-bold">דירוג 5.0 ★</span>
               </div>
-            ))}
-          </div>
-
-          {/* Social Proof Quote Banner */}
-          <div className="p-6 rounded-2xl theme-bg-card border border-theme-gold shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4 text-right">
-            <div className="space-y-1">
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-[#e5c158] text-[#e5c158]" />
-                ))}
-                <span className="text-xs font-bold font-mono text-[#9e751d] mr-2">דירוג 5.0 כוכבים</span>
-              </div>
-              <p className="text-sm sm:text-base theme-text-body italic font-normal">
+              <p className="text-xs sm:text-sm theme-text-body italic font-normal">
                 &quot;הבחירה בנופר הייתה ההחלטה הכי טובה שלקחנו. השקט הנפשי, הדיוק בכל פרט והחום האנושי הפכו את היום שלנו למושלם.&quot;
               </p>
-              <span className="text-xs theme-text-muted font-bold block">שירה ויונתן // חתונת יוקרה בקיסריה</span>
+              <span className="text-xs theme-text-head font-bold block">שירה ויונתן // חתונת יוקרה בקיסריה</span>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
-              <button
-                onClick={() =>
-                  setActiveGalleryImg({
-                    src: IMAGES.wedding,
-                    title: 'חתונת יוקרה חמה ורומנטית',
-                    location: 'קיסריה',
-                  })
-                }
-                className="px-4 py-2 rounded-xl theme-bg-card-subtle border border-theme-gold text-xs font-bold theme-text-head flex items-center gap-1.5 cursor-pointer shadow-xs"
-              >
-                <Maximize2 className="w-3.5 h-3.5 text-[#9e751d]" />
-                <span>צפייה בגלריה</span>
-              </button>
+            <div className="p-5 rounded-2xl theme-bg-card border border-theme-gold shadow-md text-right space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-[#e5c158] text-[#e5c158]" />
+                  ))}
+                </div>
+                <span className="text-[11px] font-mono text-[#9e751d] font-bold">דירוג 5.0 ★</span>
+              </div>
+              <p className="text-xs sm:text-sm theme-text-body italic font-normal">
+                &quot;הפקת גאלה ל-600 איש שזרמה ללא דופי. מקצועיות בלתי מתפשרת, אסתטיקה עילאית ושליטה מוחלטת בכל רגע.&quot;
+              </p>
+              <span className="text-xs theme-text-head font-bold block">דניאל אהרוני // סמנכ״ל שיווק</span>
             </div>
           </div>
 
-          {/* Final Call to Action Centerpiece */}
-          <div className="p-8 rounded-3xl theme-bg-card border-2 border-[#9e751d] shadow-2xl text-center space-y-6">
-            <div className="w-12 h-12 rounded-full bg-[#e5c158] text-[#121110] flex items-center justify-center mx-auto shadow-md font-serif font-bold text-xl">
+          {/* Conversion Centerpiece */}
+          <div className="p-7 sm:p-9 rounded-3xl theme-bg-card border-2 border-[#9e751d] shadow-2xl text-center space-y-5">
+            <div className="w-11 h-11 rounded-full bg-[#e5c158] text-[#121110] flex items-center justify-center mx-auto shadow-md font-serif font-bold text-lg">
               N
             </div>
 
-            <div className="space-y-2">
-              <h3 className="text-2xl sm:text-4xl font-serif font-bold theme-text-head">
-                מוכנים להפוך את החלום למציאות מרגשת?
+            <div className="space-y-1.5">
+              <h3 className="text-2xl sm:text-3xl font-serif font-bold theme-text-head">
+                בואו נבדוק אם התאריך שלכם פנוי
               </h3>
-              <p className="text-sm sm:text-base theme-text-body font-normal max-w-xl mx-auto">
-                בואו נשב לקפה נינוח, נקשיב לציפיות שלכם ונגבש מתווה הפקה מדויק ללא שום התחייבות.
+              <p className="text-xs sm:text-sm theme-text-body max-w-md mx-auto">
+                שיחת היכרות קצרה ונעימה ב-WhatsApp או פגישה על כוס קפה בסטודיו בעזריאלי.
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-1">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
               <a
                 href={getWhatsAppUrl('תיאום שיחת היכרות אישית עם נופר')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto px-8 py-4 text-sm sm:text-base font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-105 rounded-xl shadow-xl flex items-center justify-center gap-2.5 cursor-pointer transition-all"
+                className="w-full sm:w-auto px-7 py-3.5 text-sm sm:text-base font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] via-[#f5d77f] to-[#c5a059] hover:brightness-105 rounded-xl shadow-xl flex items-center justify-center gap-2 cursor-pointer transition-all"
               >
-                <MessageSquare className="w-5 h-5 fill-[#121110]" />
-                <span>תיאום שיחה אישית ב-WhatsApp עם נופר</span>
+                <MessageSquare className="w-4 h-4 fill-[#121110]" />
+                <span>שיחה אישית ב-WhatsApp עם נופר 💬</span>
               </a>
 
-              {/* Link to Full Main Site */}
               <button
                 onClick={onSwitchToFullSite}
-                className="w-full sm:w-auto px-6 py-4 rounded-xl border border-theme-gold theme-bg-card-subtle theme-text-head text-xs sm:text-sm font-bold hover:border-theme-gold-strong transition-all cursor-pointer flex items-center justify-center gap-2 shadow-xs"
+                className="w-full sm:w-auto px-5 py-3.5 rounded-xl border border-theme-gold theme-bg-card-subtle theme-text-head text-xs sm:text-sm font-bold hover:border-theme-gold-strong transition-all cursor-pointer flex items-center justify-center gap-2 shadow-xs"
               >
                 <Compass className="w-4 h-4 text-[#9e751d]" />
-                <span>מעבר לאתר הראשי המלא</span>
+                <span>מעבר לסיור המלא באתר</span>
               </button>
             </div>
 
-            <div className="pt-4 border-t border-theme-gold flex flex-wrap items-center justify-center gap-5 text-xs theme-text-body font-medium">
+            <div className="pt-3 border-t border-theme-gold flex flex-wrap items-center justify-center gap-5 text-xs theme-text-body font-medium">
               <div className="flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5 text-[#9e751d]" />
                 <span>סטודיו: מגדלי עזריאלי, תל אביב</span>
@@ -804,8 +640,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
           onClick={onSwitchToFullSite}
           className="text-right bg-transparent border-0 p-0 text-inherit cursor-pointer"
         >
-          <div className="text-xs font-bold theme-text-head">נופר הפקות אירועים</div>
-          <div className="text-[10px] text-[#9e751d] font-semibold">לאתר הראשי ↰</div>
+          <div className="text-xs font-bold theme-text-head">נופר הפקות</div>
+          <div className="text-[10px] text-[#9e751d] font-semibold">לאתר המלא ↰</div>
         </button>
 
         <a
@@ -815,7 +651,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
           className="flex-1 py-3 px-4 text-xs font-bold text-[#121110] bg-gradient-to-r from-[#e5c158] to-[#c5a059] rounded-xl shadow-md flex items-center justify-center gap-1.5"
         >
           <MessageSquare className="w-4 h-4 fill-[#121110]" />
-          <span>שיחה ב-WhatsApp</span>
+          <span>בדיקת תאריך ב-WhatsApp</span>
         </a>
       </div>
 
@@ -845,14 +681,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
       )}
 
       {/* ------------------------------------------------------------- */}
-      {/* FOOTER                                                        */}
+      {/* COMPACT FOOTER                                                */}
       {/* ------------------------------------------------------------- */}
-      <footer className="bg-[#141210] text-[#ded5cb] border-t border-theme-gold py-10 pb-20 sm:pb-10 text-center text-xs">
-        <div className="max-w-7xl mx-auto px-4 space-y-3">
+      <footer className="bg-[#141210] text-[#ded5cb] border-t border-theme-gold py-8 pb-20 sm:pb-8 text-center text-xs">
+        <div className="max-w-7xl mx-auto px-4 space-y-2">
           <div className="flex flex-wrap items-center justify-center gap-2">
             <button
               onClick={onSwitchToFullSite}
-              className="font-serif font-bold text-white text-base hover:text-[#e5c158] transition-colors cursor-pointer bg-transparent border-0 p-0"
+              className="font-serif font-bold text-white text-sm hover:text-[#e5c158] transition-colors cursor-pointer bg-transparent border-0 p-0"
             >
               נופר הפקות אירועי יוקרה
             </button>
@@ -861,7 +697,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSwitchToFullSite }) 
             <span>·</span>
             <span>office@nofar-events.co.il</span>
           </div>
-          <div className="text-stone-400">
+          <div className="text-stone-400 text-[11px]">
             © 2026 כל הזכויות שמורות. בוטיק הפקות אירועי יוקרה בהתאמה אישית.
           </div>
         </div>
