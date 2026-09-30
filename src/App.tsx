@@ -189,6 +189,22 @@ export function App() {
   ]);
   const [wishlistClientName, setWishlistClientName] = useState<string>('');
 
+  // Under Construction & WhatsApp Dispatch Modal
+  const [constructionModal, setConstructionModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    subtitle: string;
+    intendedMessage: string;
+    source: string;
+  } | null>(null);
+  const [copiedFeedback, setCopiedFeedback] = useState(false);
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedFeedback(true);
+    setTimeout(() => setCopiedFeedback(false), 2500);
+  };
+
   const toggleHighlight = (item: string) => {
     if (wishlistHighlights.includes(item)) {
       setWishlistHighlights(wishlistHighlights.filter((h) => h !== item));
@@ -217,8 +233,13 @@ export function App() {
   };
 
   const handleOpenWhatsAppWishlist = () => {
-    const text = encodeURIComponent(generateWhatsAppMessage());
-    window.open(`https://wa.me/972548894231?text=${text}`, '_blank');
+    setConstructionModal({
+      isOpen: true,
+      title: 'מפרט רצונות לאירוע • Wishlist Concierge',
+      subtitle: 'מערכת האירועים מרכזת את כל הדגשים שהגדרתם',
+      intendedMessage: generateWhatsAppMessage(),
+      source: 'רצונות ומפרט אירוע',
+    });
   };
 
   // Calculate dynamic pricing and tiers
@@ -247,8 +268,8 @@ export function App() {
     tierPrep = '2-4 חודשי הפקה אישית';
   }
 
-  // Handle calculator WhatsApp dispatch (luxurious dark/gold button, no green)
-  const handleCalculatorWhatsApp = () => {
+  // Handle calculator message generation
+  const generateCalculatorMessage = () => {
     const typeLabel =
       calcType === 'wedding'
         ? 'חתונת יוקרה'
@@ -263,17 +284,23 @@ export function App() {
       .filter(Boolean)
       .join(', ');
 
-    const message = encodeURIComponent(
-      `שלום נופר, הרכבתי מפרט במחשבון הקונספט באתר:
+    return `שלום נופר, הרכבתי מפרט במחשבון הקונספט באתר:
 💎 סוג אירוע: ${typeLabel}
 👥 מוזמנים: ${guestCount} אורחים
 ✨ שדרוגים: ${upgrades || 'סטנדרט בוטיק'}
 📊 אומדן משוער: ${formattedMin} - ${formattedMax}
 
-אשמח לתאם פגישת היכרות ואפיון!`
-    );
+אשמח לתאם פגישת היכרות ואפיון!`;
+  };
 
-    window.open(`https://wa.me/972548894231?text=${message}`, '_blank');
+  const handleCalculatorWhatsApp = () => {
+    setConstructionModal({
+      isOpen: true,
+      title: 'אומדן מחשבון קונספט • Atelier Estimates',
+      subtitle: 'הערכת התקציב ומפרט ההפקה שחושב',
+      intendedMessage: generateCalculatorMessage(),
+      source: 'מחשבון קונספט',
+    });
   };
 
   // Filtered proposals
@@ -1522,12 +1549,20 @@ export function App() {
       {/* ==================== FLOATING VIP WHATSAPP BADGE ==================== */}
       <aside aria-label="VIP Concierge" className="fixed bottom-6 left-6 z-50 flex items-center">
         <a
-          href="https://wa.me/972548894231?text=%D7%94%D7%99%D7%99%20%D7%A0%D7%95%D7%A4%D7%A8,%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%94%D7%AA%D7%99%D7%99%D7%A2%D7%A5%20%D7%9C%D7%92%D7%91%D7%99%20%D7%94%D7%A4%D7%A7%D7%AA%20%D7%90%D7%99%D7%A8%D7%95%D7%A2"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="#under-construction"
+          onClick={(e) => {
+            e.preventDefault();
+            setConstructionModal({
+              isOpen: true,
+              title: 'התייעצות ישירה עם נופר • WhatsApp Concierge',
+              subtitle: 'ערוץ ההתקשרות הישיר והאישי',
+              intendedMessage: 'היי נופר, נכנסתי לאתר האטלייה ואשמח להתייעץ לגבי הפקת אירוע יוקרתי איתך!',
+              source: 'WhatsApp Concierge',
+            });
+          }}
           className="group flex items-center gap-3 bg-[#1b1c1a] hover:bg-[#775a19] text-[#fbf9f5] px-4 py-3 border border-[#c5a059]/50 shadow-2xl transition-all duration-300 cursor-pointer rounded-lg"
         >
-          <div className="w-2 h-2 rounded-full bg-[#c5a059] animate-pulse" />
+          <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.9)] animate-pulse" />
           <span className="font-label-caps text-[11px] tracking-[0.16em] uppercase hidden sm:inline-block">
             WHATSAPP CONCIERGE
           </span>
@@ -1634,17 +1669,148 @@ export function App() {
                 <span className="text-xs text-[#7f7667] font-light">
                   התאמה מומלצת: {selectedProposal.guests}
                 </span>
-                <a
-                  href={`https://wa.me/972548894231?text=${encodeURIComponent(
-                    `שלום נופר, ראיתי באתר את ${selectedProposal.opusNum} ("${selectedProposal.title}") ואשמח שנתייעץ על התאמת הקונספט לאירוע שלנו!`
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={() => {
+                    setConstructionModal({
+                      isOpen: true,
+                      title: `התייעצות על קונספט ${selectedProposal.opusNum}`,
+                      subtitle: selectedProposal.title,
+                      intendedMessage: `שלום נופר, ראיתי באתר את ${selectedProposal.opusNum} ("${selectedProposal.title}") ואשמח שנתייעץ על התאמת הקונספט לאירוע שלנו!`,
+                      source: selectedProposal.opusNum,
+                    });
+                  }}
                   className="w-full sm:w-auto px-6 py-3 bg-[#1b1c1a] hover:bg-[#775a19] text-[#fbf9f5] font-label-caps text-label-caps uppercase tracking-widest transition-all inline-flex items-center justify-center gap-2 cursor-pointer shadow-xs rounded-lg border border-[#c5a059]/40"
                 >
                   <span className="material-symbols-outlined text-base">chat</span>
                   <span>התייעצות על הקונספט ב-WhatsApp</span>
-                </a>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ==================== UNDER CONSTRUCTION & MESSAGE PREVIEW MODAL ==================== */}
+      {constructionModal && (
+        <div
+          className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
+          onClick={() => setConstructionModal(null)}
+        >
+          <div
+            className="max-w-xl w-full bg-[#fbf9f5] border border-[#c5a059]/60 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] relative text-right overflow-hidden my-6 rounded-2xl animate-in fade-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Top decorative header band */}
+            <div className="bg-gradient-to-r from-[#1b1c1a] via-[#2d2820] to-[#1b1c1a] text-[#fbf9f5] px-6 py-5 border-b border-[#c5a059]/40 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-[#c5a059]/20 border border-[#c5a059] flex items-center justify-center text-[#ffdea5]">
+                  <span className="material-symbols-outlined text-base">construction</span>
+                </div>
+                <div>
+                  <div className="font-label-caps text-xs tracking-widest text-[#ffdea5] uppercase">
+                    NOFAR ATELIER • LAUNCH PREVIEW
+                  </div>
+                  <div className="text-xs text-[#d1c5b4]/80">סטטוס: האתר בהרצה ופיתוח</div>
+                </div>
+              </div>
+              <button
+                onClick={() => setConstructionModal(null)}
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-[#fbf9f5] flex items-center justify-center transition-colors cursor-pointer"
+                aria-label="Close"
+              >
+                <span className="material-symbols-outlined text-lg">close</span>
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 sm:p-8 space-y-6">
+              {/* Status Notice */}
+              <div className="bg-[#f5f3ef] border border-[#d1c5b4]/70 p-4 rounded-xl">
+                <div className="flex items-start gap-3">
+                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981] animate-pulse mt-1 shrink-0" />
+                  <div>
+                    <h4 className="font-headline-sm text-[#1b1c1a] font-semibold text-base mb-1">
+                      האתר עדיין בבנייה לקראת השקה רשמית
+                    </h4>
+                    <p className="font-body-sm text-body-sm text-[#4e4639] leading-relaxed">
+                      תודה על התעניינותכם! חיבור ה-WhatsApp הישיר נמצא בהכנה. בינתיים, ריכזנו עבורכם את ההודעה המלאה שהורכבה ואמורה להישלח ישירות לנופר.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Subject & Source */}
+              <div>
+                <div className="flex items-center justify-between text-xs text-[#775a19] font-label-caps tracking-wider uppercase mb-1.5">
+                  <span>{constructionModal.title}</span>
+                  <span className="text-[#655e4e]">{constructionModal.source}</span>
+                </div>
+                <div className="text-xs text-[#4e4639] font-light">
+                  {constructionModal.subtitle}
+                </div>
+              </div>
+
+              {/* Message Box with WhatsApp preview style */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="font-label-caps text-xs text-[#1b1c1a] tracking-wider uppercase font-semibold flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-sm text-[#775a19]">chat</span>
+                    <span>ההודעה המיועדת להשלח לנופר:</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => copyToClipboard(constructionModal.intendedMessage)}
+                    className="inline-flex items-center gap-1.5 text-xs text-[#775a19] hover:text-[#1b1c1a] font-medium transition-colors cursor-pointer px-2.5 py-1 rounded bg-[#f5f3ef] border border-[#d1c5b4]/60"
+                  >
+                    <span className="material-symbols-outlined text-sm">
+                      {copiedFeedback ? 'done' : 'content_copy'}
+                    </span>
+                    <span>{copiedFeedback ? 'הועתק ללוח!' : 'העתקת הודעה'}</span>
+                  </button>
+                </div>
+
+                <div className="relative bg-[#efebe4] border border-[#d1c5b4] p-4 rounded-xl font-light text-xs sm:text-sm text-[#1b1c1a] leading-relaxed whitespace-pre-line shadow-inner max-h-56 overflow-y-auto select-all">
+                  {constructionModal.intendedMessage}
+                </div>
+              </div>
+
+              {/* Direct Communication Fallback */}
+              <div className="p-4 bg-[#fbf9f5] border border-[#d1c5b4]/50 rounded-xl space-y-3 text-xs text-[#4e4639]">
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-[#1b1c1a]">ליצירת קשר ישיר עם נופר:</span>
+                  <a
+                    href="tel:0548894231"
+                    className="text-[#775a19] font-medium hover:underline flex items-center gap-1"
+                  >
+                    <span className="material-symbols-outlined text-sm">call</span>
+                    <span>054-8894231</span>
+                  </a>
+                </div>
+                <div className="text-[11px] text-[#655e4e] leading-normal">
+                  ניתן להעתיק את ההודעה למעלה ולשלוח אותה ידנית בווטסאפ לנייד של נופר, או ליצור קשר טלפוני ישיר.
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-2 flex flex-col sm:flex-row gap-3">
+                <button
+                  type="button"
+                  onClick={() => copyToClipboard(constructionModal.intendedMessage)}
+                  className="flex-1 py-3 px-4 bg-[#1b1c1a] hover:bg-[#775a19] text-[#fbf9f5] font-label-caps text-label-caps uppercase tracking-widest transition-all rounded-lg cursor-pointer flex items-center justify-center gap-2 border border-[#c5a059]/40"
+                >
+                  <span className="material-symbols-outlined text-base">
+                    {copiedFeedback ? 'done' : 'content_copy'}
+                  </span>
+                  <span>{copiedFeedback ? 'התוכן הועתק בהצלחה!' : 'העתקת תוכן ההודעה'}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setConstructionModal(null)}
+                  className="py-3 px-6 bg-transparent hover:bg-[#f5f3ef] text-[#4e4639] hover:text-[#1b1c1a] font-label-caps text-label-caps uppercase tracking-widest transition-colors rounded-lg border border-[#d1c5b4] cursor-pointer"
+                >
+                  חזרה לאתר
+                </button>
               </div>
             </div>
           </div>
