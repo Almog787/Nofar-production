@@ -2,19 +2,28 @@
 
 @layer base {
   :root {
-    --color-background: #faf8f5;
-    --color-surface: #ffffff;
-    --color-surface-container-low: #f6f3ee;
-    --color-surface-container: #f1ede6;
-    --color-surface-container-high: #ebe5dc;
-    --color-on-surface: #22201d;
-    --color-on-surface-variant: #5f5b55;
-    --color-outline: #968f84;
-    --color-outline-variant: #e2dcd3;
-    --color-primary: #8a6d2b;
+    --color-background: #fbf9f5;
+    --color-surface: #fbf9f5;
+    --color-surface-container-low: #f5f3ef;
+    --color-surface-container: #efeeea;
+    --color-surface-container-high: #eae8e4;
+    --color-surface-container-highest: #e4e2de;
+    --color-surface-container-lowest: #ffffff;
+    --color-on-surface: #1b1c1a;
+    --color-on-surface-variant: #4e4639;
+    --color-outline: #7f7667;
+    --color-outline-variant: #d1c5b4;
+    --color-primary: #775a19;
     --color-primary-container: #c5a059;
-    --color-champagne: #dfc89e;
-    --color-champagne-light: #f8f5ee;
+    --color-primary-fixed: #ffdea5;
+    --color-primary-fixed-dim: #e9c176;
+    --color-on-primary: #ffffff;
+    --color-on-primary-fixed: #261900;
+    --color-secondary: #605e5c;
+    --color-secondary-container: #e6e2df;
+    --color-tertiary: #655e4e;
+    --color-tertiary-container: #aea493;
+    --color-surface-bright: #fbf9f5;
   }
 
   html {
@@ -23,9 +32,9 @@
   }
 
   body {
-    background-color: #faf8f5;
-    color: #22201d;
-    font-family: 'Plus Jakarta Sans', 'Assistant', sans-serif;
+    background-color: #fbf9f5;
+    color: #1b1c1a;
+    font-family: 'Assistant', sans-serif;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -36,7 +45,7 @@
 /* Material Symbols Outlined Icon Font */
 .material-symbols-outlined {
   font-family: 'Material Symbols Outlined', sans-serif;
-  font-weight: normal;
+  font-weight: 300;
   font-style: normal;
   font-size: 24px;
   line-height: 1;
@@ -50,66 +59,93 @@
   -webkit-font-smoothing: antialiased;
 }
 
-/* Typography tokens for high-fashion editorial styling */
-.font-cormorant {
-  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-}
-
-.font-headline {
+/* Exact typography classes from user configuration */
+.font-display-lg {
   font-family: 'Playfair Display', serif;
+  font-size: 4.5rem;
+  line-height: 5rem;
+  letter-spacing: -0.02em;
+  font-weight: 400;
 }
 
-.font-mono-label {
-  font-family: 'Montserrat', sans-serif;
+.font-display-lg-mobile {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.75rem;
+  line-height: 3.25rem;
+  letter-spacing: -0.01em;
+  font-weight: 400;
 }
 
-.editorial-border {
-  border: 1px solid #e5dfd5;
+.font-display-md {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.25rem;
+  line-height: 3.75rem;
+  letter-spacing: -0.015em;
+  font-weight: 400;
 }
 
-.hairline-b {
-  border-bottom: 1px solid #e8e3d9;
+.font-headline-lg {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.25rem;
+  line-height: 2.75rem;
+  font-weight: 400;
 }
 
-.hairline-t {
-  border-top: 1px solid #e8e3d9;
+.font-headline-md {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+  font-weight: 400;
 }
 
-/* Editorial range slider */
-.editorial-slider {
-  accent-color: #8a6d2b;
+.font-headline-sm {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 500;
 }
 
-.editorial-slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #8a6d2b;
-  cursor: pointer;
-  border: 3px solid #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
-  transition: transform 0.15s ease, background 0.15s ease;
+.font-body-lg {
+  font-family: 'Assistant', sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.85rem;
+  letter-spacing: 0.01em;
+  font-weight: 300;
 }
 
-.editorial-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.18);
-  background: #6d541e;
+.font-body-md {
+  font-family: 'Assistant', sans-serif;
+  font-size: 1rem;
+  line-height: 1.65rem;
+  letter-spacing: 0.01em;
+  font-weight: 400;
 }
 
-.editorial-slider::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #8a6d2b;
-  cursor: pointer;
-  border: 3px solid #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+.font-body-sm {
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.45rem;
+  font-weight: 400;
 }
 
-/* Soft delicate shadow */
-.luxe-card-shadow {
-  box-shadow: 0 10px 30px -10px rgba(50, 40, 30, 0.05);
+.font-label-caps {
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+}
+
+.font-label-md {
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+
+/* Custom Range Slider */
+.custom-range {
+  accent-color: #775a19;
 }
 
 /* Custom delicate scrollbar */
@@ -117,12 +153,12 @@
   width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #faf8f5;
+  background: #fbf9f5;
 }
 ::-webkit-scrollbar-thumb {
-  background: #dfc89e;
+  background: #d1c5b4;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #8a6d2b;
+  background: #775a19;
 }
