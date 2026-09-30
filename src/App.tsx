@@ -60,7 +60,7 @@ const PROPOSAL_LOOKBOOK: ConceptProposal[] = [
     id: 'opus-02',
     category: 'vip',
     opusNum: 'OPUS 02',
-    badge: 'VIP SOIRÉE',
+    badge: 'VIP LOUNGE & PARTY',
     title: "מסיבת לאונג' VIP & קוקטייל אקסקלוסיבי",
     subtitle: 'EXCLUSIVE SUNSET LOUNGE',
     guests: '60 - 160 מוזמנים',
@@ -102,7 +102,7 @@ const PROPOSAL_LOOKBOOK: ConceptProposal[] = [
     image: corporateSummitImg,
     atmosphereNotes: 'יוקרה עסקית שקטה, קווים ארכיטקטוניים נקיים, תאורה ארגונית מחמיאה, דיוק מושלם של כל שנייה בלו״ז.',
     estimatedTimeline: [
-      '18:00 — קבלת פנים, מינגלינג ונטוורקינג בליווי יין משובח',
+      '18:00 — קבלת פנים, מינגלינג ונטוורקינג בליווי ייין משובח',
       '19:15 — פתיחת האולם המרכזי ודברי פתיחה מפי ההנהלה',
       '20:00 — ארוחת ערב עסקית חגיגית בת 3 מנות',
       '21:15 — מופע מרכזי והשקת המוצר החדש',
@@ -111,7 +111,7 @@ const PROPOSAL_LOOKBOOK: ConceptProposal[] = [
   {
     id: 'opus-04',
     category: 'weddings',
-    opusNum: 'OPUS 04 • AL FRESCO',
+    opusNum: 'OPUS 04 • BOTANIC GARDEN',
     badge: 'חתונת שישי • בוסתן צפוני',
     title: 'חתונת גליל פתוחה — שולחן אבירים כפרי-יוקרתי',
     subtitle: 'GALILEAN BOTANIC WEDDING',
@@ -140,7 +140,7 @@ const PROPOSAL_LOOKBOOK: ConceptProposal[] = [
     opusNum: 'OPUS 05 • BESPOKE INTIMACY',
     badge: 'חגיגת 50 • וילה פרטית',
     title: 'סעודת סלון פרטית & שולחן אחוזת בוטיק',
-    subtitle: 'INTIMATE MILESTONE SOIREE',
+    subtitle: 'INTIMATE MILESTONE CELEBRATION',
     guests: '40 - 100 מוזמנים',
     subType: 'אירוע בוטיק משפחתי וחברים קרובים',
     description: 'ארוחת ערב אינטימית בחדר אוכל מפואר, נברשות קריסטל, סידורי פרחים מלכותיים לאניני טעם, תפריט שף 5 מנות ומוזיקה חיה.',
@@ -223,7 +223,7 @@ export function App() {
         ? `\n✨ דגשים ורצונות שחשובים לנו:\n• ${wishlistHighlights.join('\n• ')}`
         : '';
 
-    return `${nameIntro}נכנסתי לאתר האטלייה והרכבתי מפרט רצונות לאירוע:
+    return `${nameIntro}נכנסתי לאתר הסטודיו והרכבתי מפרט רצונות לאירוע:
 💎 סוג אירוע: ${wishlistEventType}
 📍 לוקיישן מועדף: ${wishlistLocation}
 🗓️ עונה משוערת: ${wishlistSeason}
@@ -254,7 +254,7 @@ export function App() {
   const formattedMin = `₪${Math.round(totalMin / 1000)}k`;
   const formattedMax = `₪${Math.round(totalMax / 1000)}k`;
 
-  let tierName = 'Couture Luxe Atelier';
+  let tierName = 'Bespoke Luxury Signature';
   let tierStaff = 'נופר + 5 מנהלי שטח';
   let tierPrep = '7-9 חודשי הפקה';
 
@@ -263,7 +263,7 @@ export function App() {
     tierStaff = 'נופר + 6 מנהלי שטח והפקה טכנית';
     tierPrep = '3-5 חודשי תכנון מואצים';
   } else if (calcType === 'vip') {
-    tierName = 'Private VIP & Villa Soirée';
+    tierName = 'Private VIP & Villa Celebration';
     tierStaff = 'נופר + 4 מנהלי אירוח צמודים';
     tierPrep = '2-4 חודשי הפקה אישית';
   }
@@ -296,7 +296,7 @@ export function App() {
   const handleCalculatorWhatsApp = () => {
     setConstructionModal({
       isOpen: true,
-      title: 'אומדן מחשבון קונספט • Atelier Estimates',
+      title: 'אומדן מחשבון קונספט • Production Estimates',
       subtitle: 'הערכת התקציב ומפרט ההפקה שחושב',
       intendedMessage: generateCalculatorMessage(),
       source: 'מחשבון קונספט',
@@ -319,7 +319,7 @@ export function App() {
               <span>NOFAR</span>
               <span className="font-light text-[#775a19] tracking-normal">|</span>
               <span className="font-label-caps text-label-caps tracking-widest uppercase text-[#655e4e] hidden sm:inline-block">
-                Atelier de Production
+                Luxury Event Productions
               </span>
             </span>
           </a>
@@ -472,7 +472,7 @@ export function App() {
               <div className="absolute bottom-6 right-6 md:bottom-8 md:right-10 text-white flex items-center gap-4">
                 <span className="w-8 h-[1px] bg-[#ffdea5]"></span>
                 <span className="font-label-caps text-label-caps tracking-widest uppercase text-[#fbf9f5]">
-                  ESTATE VILLA &amp; SUNSET POOL SOIRÉE • VOL. 24
+                  ESTATE VILLA &amp; SUNSET POOL GALA • VOL. 24
                 </span>
               </div>
             </div>
@@ -480,14 +480,14 @@ export function App() {
         </div>
       </section>
 
-      {/* ==================== SELECTED OEUVRES (PORTFOLIO -> PROPOSALS & CONCEPTS) ==================== */}
+      {/* ==================== SELECTED PORTFOLIO (PROPOSALS & CONCEPTS) ==================== */}
       <section className="py-20 md:py-28 bg-[#f5f3ef]/40" id="gallery">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           {/* Section Title Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 text-right">
             <div>
               <div className="font-label-caps text-label-caps tracking-widest uppercase text-[#775a19] mb-2">
-                SELECTED OEUVRES
+                SELECTED PORTFOLIO
               </div>
               <h2 className="font-headline-lg text-headline-lg text-[#1b1c1a]">
                 תיק הצעות וקונספטים נבחרים
@@ -589,12 +589,12 @@ export function App() {
                   onClick={() => setSelectedProposal(PROPOSAL_LOOKBOOK[1])}
                 >
                   <img
-                    alt="OPUS 02 VIP Lounge Soirée"
+                    alt="OPUS 02 VIP Lounge Party"
                     className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
                     src={vipLoungeImg}
                   />
                   <div className="absolute top-4 right-4 bg-[#fbf9f5]/90 backdrop-blur-sm px-3 py-1 rounded border border-[#d1c5b4]/40 font-label-caps text-label-caps text-[#775a19] uppercase">
-                    VIP SOIRÉE
+                    VIP LOUNGE &amp; PARTY
                   </div>
                 </div>
                 <div className="p-8">
@@ -662,17 +662,17 @@ export function App() {
                   onClick={() => setSelectedProposal(PROPOSAL_LOOKBOOK[3])}
                 >
                   <img
-                    alt="OPUS 04 Galilee Al Fresco Feast"
+                    alt="OPUS 04 Galilee Botanic Feast"
                     className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
                     src={galileeWeddingImg}
                   />
                   <div className="absolute top-4 right-4 bg-[#fbf9f5]/90 backdrop-blur-sm px-3 py-1 rounded border border-[#d1c5b4]/40 font-label-caps text-label-caps text-[#775a19] uppercase">
-                    AL FRESCO
+                    BOTANIC GARDEN
                   </div>
                 </div>
                 <div className="p-8">
                   <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase mb-1">
-                    OPUS 04 • AL FRESCO
+                    OPUS 04 • BOTANIC GARDEN
                   </div>
                   <h3 className="font-headline-md text-headline-md text-[#1b1c1a] mb-3">
                     חתונת גליל פתוחה — שולחן אבירים כפרי-יוקרתי
@@ -736,7 +736,7 @@ export function App() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="font-label-caps text-label-caps tracking-widest uppercase text-[#775a19] mb-2">
-              ATELIER SERVICES
+              STUDIO SERVICES
             </div>
             <h2 className="font-headline-lg text-headline-lg text-[#1b1c1a] mb-4">
               ארבעת עמודי התווך של ההפקה
@@ -1028,7 +1028,7 @@ export function App() {
                 <div className="flex items-center justify-between pb-6 border-b border-[#d1c5b4]/30">
                   <div>
                     <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase">
-                      PROPOSED ATELIER TIER
+                      PROPOSED PRODUCTION TIER
                     </div>
                     <h3 className="font-headline-md text-headline-md text-[#1b1c1a] mt-1">{tierName}</h3>
                   </div>
@@ -1049,7 +1049,7 @@ export function App() {
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-[#4e4639]">ליווי קונספטואלי ועיצובי:</span>
                     <span className="font-medium text-[#1b1c1a] font-mono">
-                      מלא (Full Haute Couture)
+                      מלא (Full Bespoke Production)
                     </span>
                   </div>
                 </div>
@@ -1187,7 +1187,7 @@ export function App() {
               &quot;אירוע אינו אוסף של פריטי עיצוב, אלא סימפוניה של רגש, תאורה ורגעים שנוצרים בזיכרון לעד.&quot;
             </blockquote>
             <div className="mt-6 font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase">
-              NOFAR BEN-DAVID • FOUNDER &amp; CREATIVE DIRECTOR
+              NOFAR • FOUNDER &amp; CREATIVE DIRECTOR
             </div>
           </div>
 
@@ -1210,7 +1210,7 @@ export function App() {
                   כמה זמן מראש מומלץ להתחיל בתהליך ההפקה?
                 </div>
                 <p className="font-body-md text-body-md text-[#4e4639] font-light">
-                  לאירועי יוקרה מורכבים בנחלות או שטחים פתוחים אנו ממליצים על 6 עד 9 חודשים מראש. עם זאת, צוות האטלייה ערוך גם להפקות בזק מואצות תוך 6-8 שבועות בסטנדרט חסר פשרות.
+                  לאירועי יוקרה מורכבים בנחלות או שטחים פתוחים אנו ממליצים על 6 עד 9 חודשים מראש. עם זאת, צוות ההפקה ערוך גם להפקות בזק מואצות תוך 6-8 שבועות בסטנדרט חסר פשרות.
                 </p>
               </div>
               <div className="p-6 bg-[#fbf9f5] rounded-xl border border-[#d1c5b4]/40">
@@ -1237,7 +1237,7 @@ export function App() {
                   INITIATE CONVERSATION
                 </div>
                 <h2 className="font-headline-lg text-headline-lg text-[#1b1c1a] mb-4">
-                  תיאום פגישת קונספט באטלייה
+                  תיאום פגישת קונספט בסטודיו
                 </h2>
                 <p className="font-body-lg text-body-lg text-[#4e4639] font-light leading-relaxed mb-8">
                   נשמח לארח אתכם לכוס שמפניה, להאזין לחלומות שלכם ולשרטט יחד את תוואי ההפקה הראשוני.
@@ -1281,7 +1281,7 @@ export function App() {
                         אימייל דיסקרטי
                       </div>
                       <div className="font-body-md text-body-md text-[#1b1c1a] mt-1 font-mono">
-                        concierge@nofar-atelier.com
+                        concierge@nofar-events.com
                       </div>
                     </div>
                   </div>
@@ -1487,10 +1487,10 @@ export function App() {
           {/* Brand & Studio Description */}
           <div className="max-w-md text-right">
             <div className="font-headline-md text-headline-md text-[#1b1c1a] tracking-wider font-semibold mb-3">
-              NOFAR Atelier de Production
+              NOFAR Luxury Event Productions
             </div>
             <p className="font-body-sm text-body-sm text-[#4e4639] leading-relaxed">
-              © 2026 NOFAR Atelier de Production. All rights reserved. Bespoke Curation &amp; Scenography.
+              © 2026 NOFAR Event Productions. All rights reserved. Bespoke Curation &amp; Design.
             </p>
           </div>
 
@@ -1499,13 +1499,13 @@ export function App() {
             <button
               onClick={() =>
                 setModalContent({
-                  title: 'Editorial Monograph',
-                  body: 'אטלייה נופר מתמחה באדריכלות אירועים, פיסול תאורה ובימוי רגעים בלתי נשכחים. כל הפקה מנוהלת כדיסציפלינה אמנותית ייחודית.',
+                  title: 'אודות סטודיו נופר',
+                  body: 'סטודיו נופר מתמחה באדריכלות אירועים, פיסול תאורה ובימוי רגעים בלתי נשכחים. כל הפקה מנוהלת כדיסציפלינה אמנותית ייחודית וברמת שירות ללא פשרות.',
                 })
               }
               className="text-[#4e4639] hover:text-[#775a19] duration-300 cursor-pointer"
             >
-              Editorial Monograph
+              Studio Philosophy
             </button>
             <a
               className="text-[#4e4639] hover:text-[#775a19] duration-300"
@@ -1517,12 +1517,12 @@ export function App() {
               onClick={() =>
                 setModalContent({
                   title: 'תנאי שירות והתקשרות',
-                  body: 'כל תוכניות ההפקה, לוחות ההשראה והסקיצות האדריכליות הינן קניין רוחני של אטלייה נופר. תהליך ההפקה מעוגן בהסכם עבודה מסודר המגדיר במדויק את תחומי האחריות, לוחות הזמנים והתנאים המסחריים בשקיפות מלאה.',
+                  body: 'כל תוכניות ההפקה, לוחות ההשראה והסקיצות האדריכליות הינן קניין רוחני של סטודיו נופר. תהליך ההפקה מעוגן בהסכם עבודה מסודר המגדיר במדויק את תחומי האחריות, לוחות הזמנים והתנאים המסחריים בשקיפות מלאה.',
                 })
               }
               className="text-[#4e4639] hover:text-[#775a19] duration-300 cursor-pointer"
             >
-              Atelier Terms
+              Terms of Service
             </button>
             <button
               onClick={() =>
@@ -1549,7 +1549,7 @@ export function App() {
               isOpen: true,
               title: 'התייעצות ישירה עם נופר • WhatsApp Concierge',
               subtitle: 'ערוץ ההתקשרות הישיר והאישי',
-              intendedMessage: 'היי נופר, נכנסתי לאתר האטלייה ואשמח להתייעץ לגבי הפקת אירוע יוקרתי איתך!',
+              intendedMessage: 'היי נופר, נכנסתי לאתר ואשמח להתייעץ לגבי הפקת אירוע יוקרתי איתך!',
               source: 'WhatsApp Concierge',
             });
           }}
@@ -1702,7 +1702,7 @@ export function App() {
                 </div>
                 <div>
                   <div className="font-label-caps text-xs tracking-widest text-[#ffdea5] uppercase">
-                    NOFAR ATELIER • LAUNCH PREVIEW
+                    NOFAR • LAUNCH PREVIEW
                   </div>
                   <div className="text-xs text-[#d1c5b4]/80">סטטוס: האתר בהרצה ופיתוח</div>
                 </div>
