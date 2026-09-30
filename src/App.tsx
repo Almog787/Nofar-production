@@ -434,13 +434,6 @@ export function App() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           {/* Top Subtitle Badge & Headline */}
           <div className="text-center max-w-4xl mx-auto mb-10 md:mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#f5f3ef] border border-[#d1c5b4]/50 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#c5a059]"></span>
-              <span className="font-label-caps text-label-caps tracking-widest text-[#775a19] uppercase">
-                COUTURE EVENT ARCHITECTURE • SHARON / CAESAREA / TEL AVIV / GALILEE
-              </span>
-            </div>
-
             <h1 className="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-[#1b1c1a] mb-6 font-normal tracking-tight">
               אמנות ההפקה והעיצוב העילי
             </h1>
