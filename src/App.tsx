@@ -452,12 +452,17 @@ export function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           {/* Top Subtitle Badge & Headline */}
           <div className="text-center max-w-4xl mx-auto mb-8 sm:mb-12 md:mb-14">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#775a19]/10 border border-[#c5a059]/30 text-[#775a19] font-label-caps text-[11px] sm:text-xs tracking-[0.2em] uppercase mb-4 sm:mb-6 font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c5a059]" />
+              NOFAR • LUXURY EVENT PRODUCTIONS
+            </div>
+
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-display-lg leading-tight md:leading-[1.15] font-serif text-[#1b1c1a] mb-4 sm:mb-6 font-normal tracking-tight">
-              אמנות ההפקה והעיצוב העילי
+              האירוע שלכם. הרגעים שלכם. <span className="italic text-[#775a19]">ההפקה שלנו.</span>
             </h1>
 
             <p className="text-base sm:text-lg md:text-body-lg text-[#4e4639] max-w-2xl sm:max-w-3xl mx-auto leading-relaxed font-light">
-              בריאת חוויות בלתי נשכחות בלוקיישנים מובחרים בישראל. מתרגמים חלומות לשפה אדריכלית מדויקת, קולינריה מורכבת ודייקנות אלגנטית באיפוק יוקרתי מושלם.
+              כל אירוע הוא סיפור בפני עצמו. אנו יוצרים חוויות יוקרתיות ומדויקות עד הפרט האחרון – בשילוב עיצוב מעורר השראה, קולינריה משובחת ואווירה שאי אפשר להעתיק.
             </p>
 
             {/* CTAs */}
@@ -466,13 +471,13 @@ export function App() {
                 className="inline-flex items-center justify-center bg-[#1b1c1a] text-[#fbf9f5] px-8 py-3.5 rounded-lg font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#775a19] transition-all duration-300 shadow-sm border border-transparent hover:border-[#c5a059]"
                 href="#inquiry"
               >
-                תיאום פגישת היכרות
+                התחילו לתכנן את האירוע
               </a>
               <a
                 className="inline-flex items-center justify-center bg-transparent border border-[#c5a059] text-[#1b1c1a] px-8 py-3.5 rounded-lg font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#f5f3ef] transition-all duration-300"
                 href="#gallery"
               >
-                תיק הצעות נבחר
+                לצפייה באירועים שלנו
               </a>
             </div>
           </div>
