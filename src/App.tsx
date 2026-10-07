@@ -1141,13 +1141,15 @@ export function App() {
               </div>
 
               <div className="pt-4">
-                <button
-                  onClick={handleCalculatorWhatsApp}
+                <a
+                  href={`https://wa.me/972548894231?text=${encodeURIComponent(generateCalculatorMessage())}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-full inline-flex items-center justify-center gap-3 bg-[#1b1c1a] text-[#fbf9f5] py-3.5 sm:py-4 rounded-lg font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#775a19] transition-all duration-300 shadow-sm cursor-pointer border border-[#c5a059]/40"
                 >
                   <span className="material-symbols-outlined text-lg">chat</span>
                   <span>קבלת אומדן ישיר ב-WhatsApp</span>
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -1387,7 +1389,7 @@ export function App() {
               <div className="pt-2 sm:pt-4">
                 <a
                   className="inline-flex items-center gap-2 text-[#775a19] font-label-caps text-xs sm:text-label-caps uppercase tracking-widest hover:underline"
-                  href="https://wa.me/972548894231?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A0%D7%95%D7%A4%D7%A8,%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%AA%D7%90%D7%9D%20%D7%A4%D7%92%D7%99%D7%A9%D7%AA%20%D7%A7%D7%95%D7%A0%D7%A1%D7%A4%D7%98%20%D7%9C%D7%90%D7%99%D7%A8%D7%95%D7%A2"
+                  href={`https://wa.me/972548894231?text=${encodeURIComponent('שלום נופר, אשמח לתאם פגישת קונספט בסטודיו להפקת אירוע!')}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -1546,13 +1548,15 @@ export function App() {
 
               {/* Action Button */}
               <div>
-                <button
-                  onClick={handleOpenWhatsAppWishlist}
+                <a
+                  href={`https://wa.me/972548894231?text=${encodeURIComponent(generateWhatsAppMessage())}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-full bg-[#1b1c1a] text-[#fbf9f5] py-3.5 sm:py-4 rounded-lg font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#775a19] transition-all duration-300 shadow-sm cursor-pointer border border-[#c5a059]/40 flex items-center justify-center gap-2"
                 >
                   <span className="material-symbols-outlined text-lg">chat</span>
                   <span>פתיחת שיחה ב-WhatsApp עם כל הרצונות</span>
-                </button>
+                </a>
               </div>
 
               <div className="text-center font-body-sm text-xs sm:text-body-sm text-[#655e4e]">
@@ -1624,17 +1628,9 @@ export function App() {
       {/* ==================== FLOATING VIP WHATSAPP BADGE ==================== */}
       <aside aria-label="VIP Concierge" className="fixed bottom-6 left-6 z-50 flex items-center">
         <a
-          href="#under-construction"
-          onClick={(e) => {
-            e.preventDefault();
-            setConstructionModal({
-              isOpen: true,
-              title: 'התייעצות ישירה עם נופר • WhatsApp Concierge',
-              subtitle: 'ערוץ ההתקשרות הישיר והאישי',
-              intendedMessage: 'היי נופר, נכנסתי לאתר ואשמח להתייעץ לגבי הפקת אירוע יוקרתי איתך!',
-              source: 'WhatsApp Concierge',
-            });
-          }}
+          href={`https://wa.me/972548894231?text=${encodeURIComponent('שלום נופר, נכנסתי לאתר ואשמח להתייעץ לגבי הפקת אירוע יוקרתי איתך!')}`}
+          target="_blank"
+          rel="noopener noreferrer"
           className="group flex items-center gap-3 bg-[#1b1c1a] hover:bg-[#775a19] text-[#fbf9f5] px-4 py-3 border border-[#c5a059]/50 shadow-2xl transition-all duration-300 cursor-pointer rounded-lg"
         >
           <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.9)] animate-pulse" />
@@ -1745,22 +1741,15 @@ export function App() {
                 <span className="text-xs text-[#7f7667] font-light">
                   התאמה מומלצת: {selectedProposal.guests}
                 </span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setConstructionModal({
-                      isOpen: true,
-                      title: `התייעצות על קונספט ${selectedProposal.opusNum}`,
-                      subtitle: selectedProposal.title,
-                      intendedMessage: `שלום נופר, ראיתי באתר את ${selectedProposal.opusNum} ("${selectedProposal.title}") ואשמח שנתייעץ על התאמת הקונספט לאירוע שלנו!`,
-                      source: selectedProposal.opusNum,
-                    });
-                  }}
+                <a
+                  href={`https://wa.me/972548894231?text=${encodeURIComponent(`שלום נופר, ראיתי באתר את ${selectedProposal.opusNum} ("${selectedProposal.title}") ואשמח שנתייעץ על התאמת הקונספט לאירוע שלנו!`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-full sm:w-auto px-6 py-3 bg-[#1b1c1a] hover:bg-[#775a19] text-[#fbf9f5] font-label-caps text-label-caps uppercase tracking-widest transition-all inline-flex items-center justify-center gap-2 cursor-pointer shadow-xs rounded-lg border border-[#c5a059]/40"
                 >
                   <span className="material-symbols-outlined text-base">chat</span>
                   <span>התייעצות על הקונספט ב-WhatsApp</span>
-                </button>
+                </a>
               </div>
             </div>
           </div>
