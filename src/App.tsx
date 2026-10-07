@@ -102,7 +102,7 @@ const PROPOSAL_LOOKBOOK: ConceptProposal[] = [
     image: corporateSummitImg,
     atmosphereNotes: 'יוקרה עסקית שקטה, קווים ארכיטקטוניים נקיים, תאורה ארגונית מחמיאה, דיוק מושלם של כל שנייה בלו״ז.',
     estimatedTimeline: [
-      '18:00 — קבלת פנים, מינגלינג ונטוורקינג בליווי ייין משובח',
+      '18:00 — קבלת פנים, מינגלינג ונטוורקינג בליווי יין משובח',
       '19:15 — פתיחת האולם המרכזי ודברי פתיחה מפי ההנהלה',
       '20:00 — ארוחת ערב עסקית חגיגית בת 3 מנות',
       '21:15 — מופע מרכזי והשקת המוצר החדש',
@@ -162,11 +162,32 @@ const PROPOSAL_LOOKBOOK: ConceptProposal[] = [
   },
 ];
 
+// FAQ items for interactive accordion
+const FAQ_ITEMS = [
+  {
+    q: 'באילו אזורים ולוקיישנים אתם מפיקים בארץ?',
+    a: 'אנו מתמחים בהפקות בנחלות פרטיות בשרון ובמרכז, וילות יוקרה בקיסריה, בוסתנים ושטחי טבע פתוחים בגליל ובדרום, ומתחמי בוטיק נבחרים עם מעטפת תשתית מלאה.',
+  },
+  {
+    q: 'כמה זמן מראש מומלץ להתחיל בתהליך ההפקה?',
+    a: 'לאירועי יוקרה מורכבים בנחלות או שטחים פתוחים אנו ממליצים על 6 עד 9 חודשים מראש. עם זאת, צוות ההפקה ערוך גם להפקות בזק מואצות תוך 6-8 שבועות בסטנדרט חסר פשרות.',
+  },
+  {
+    q: 'האם ניתן לשכור את שירותי העיצוב בלבד ללא הפקה כוללת?',
+    a: 'אנו מתמקדים בהפקה מלאה (Full Turnkey Production) בלבד, מתוך אמונה שעיצוב עילי אינו יכול להתקיים ללא שליטה אבסולוטית על התזמון, הקולינריה, והסאונד.',
+  },
+  {
+    q: 'כמה אירועים אתם מקבלים במקביל?',
+    a: 'על מנת להבטיח נוכחות אישית וביצוע חסר פשרות, אנו מפיקים אירוע יחיד ביום בלבד. נופר מלווה באופן אישי כל אירוע מהבוקר המוקדם ועד סגירת השערים, בריכוז מלא וללא פיזור תשומת לב.',
+  },
+];
+
 export function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<ProposalCategory>('all');
   const [selectedProposal, setSelectedProposal] = useState<ConceptProposal | null>(null);
   const [modalContent, setModalContent] = useState<{ title: string; body: string } | null>(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   // Calculator State
   const [calcType, setCalcType] = useState<'wedding' | 'corporate' | 'vip'>('wedding');
@@ -311,8 +332,8 @@ export function App() {
   return (
     <div className="bg-[#fbf9f5] text-[#1b1c1a] antialiased selection:bg-[#ffdea5] selection:text-[#261900] min-h-screen">
       {/* ==================== SHARED HEADER (TopNavBar) ==================== */}
-      <header className="sticky top-0 w-full z-50 bg-[#fbf9f5]/85 backdrop-blur-md border-b border-[#d1c5b4]/30 transition-all duration-300 ease-in-out shadow-[0_20px_40px_-15px_rgba(26,25,24,0.03)]">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-20">
+      <header className="sticky top-0 w-full z-40 bg-[#fbf9f5]/90 backdrop-blur-md border-b border-[#d1c5b4]/30 transition-all duration-300 ease-in-out shadow-[0_20px_40px_-15px_rgba(26,25,24,0.03)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between h-20">
           {/* Brand Logo Anchor */}
           <a className="flex items-center gap-3 group" href="#hero">
             <span className="font-headline-sm text-headline-sm uppercase tracking-widest text-[#1b1c1a] font-semibold flex items-center gap-2">
@@ -336,13 +357,7 @@ export function App() {
               className="font-label-caps text-label-caps uppercase tracking-widest text-[#4e4639] pb-1 transition-colors duration-300 hover:text-[#775a19]"
               href="#pillars"
             >
-              שירותי בוטיק
-            </a>
-            <a
-              className="font-label-caps text-label-caps uppercase tracking-widest text-[#4e4639] pb-1 transition-colors duration-300 hover:text-[#775a19]"
-              href="#pillars"
-            >
-              עמודי התווך
+              עמודי התווך והשירותים
             </a>
             <a
               className="font-label-caps text-label-caps uppercase tracking-widest text-[#4e4639] pb-1 transition-colors duration-300 hover:text-[#775a19]"
@@ -386,7 +401,7 @@ export function App() {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-[#fbf9f5] border-b border-[#d1c5b4]/40 px-6 py-6 space-y-4 text-right">
+          <div className="lg:hidden bg-[#fbf9f5] border-b border-[#d1c5b4]/40 px-6 py-6 space-y-4 text-right animate-in fade-in slide-in-from-top-2 duration-200">
             <a
               onClick={() => setMobileMenuOpen(false)}
               className="block font-label-caps text-xs tracking-widest text-[#775a19] font-medium py-2"
@@ -428,22 +443,22 @@ export function App() {
 
       {/* ==================== HERO SECTION ==================== */}
       <section
-        className="relative pt-12 md:pt-20 pb-16 md:pb-24 overflow-hidden border-b border-[#d1c5b4]/30"
+        className="relative pt-10 sm:pt-16 md:pt-20 pb-14 sm:pb-20 md:pb-24 overflow-hidden border-b border-[#d1c5b4]/30"
         id="hero"
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           {/* Top Subtitle Badge & Headline */}
-          <div className="text-center max-w-4xl mx-auto mb-10 md:mb-14">
-            <h1 className="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-[#1b1c1a] mb-6 font-normal tracking-tight">
+          <div className="text-center max-w-4xl mx-auto mb-8 sm:mb-12 md:mb-14">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-display-lg leading-tight md:leading-[1.15] font-serif text-[#1b1c1a] mb-4 sm:mb-6 font-normal tracking-tight">
               אמנות ההפקה והעיצוב העילי
             </h1>
 
-            <p className="font-body-lg text-body-lg text-[#4e4639] max-w-3xl mx-auto leading-relaxed font-light">
+            <p className="text-base sm:text-lg md:text-body-lg text-[#4e4639] max-w-2xl sm:max-w-3xl mx-auto leading-relaxed font-light">
               בריאת חוויות בלתי נשכחות בלוקיישנים מובחרים בישראל. מתרגמים חלומות לשפה אדריכלית מדויקת, קולינריה מורכבת ודייקנות אלגנטית באיפוק יוקרתי מושלם.
             </p>
 
             {/* CTAs */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 max-w-md sm:max-w-none mx-auto">
               <a
                 className="inline-flex items-center justify-center bg-[#1b1c1a] text-[#fbf9f5] px-8 py-3.5 rounded-lg font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#775a19] transition-all duration-300 shadow-sm border border-transparent hover:border-[#c5a059]"
                 href="#inquiry"
@@ -461,17 +476,17 @@ export function App() {
 
           {/* Hero Visual Plate */}
           <div className="relative rounded-xl overflow-hidden border border-[#d1c5b4]/40 shadow-[0_20px_40px_-15px_rgba(26,25,24,0.06),0_0_1px_rgba(197,160,89,0.25)] bg-[#f5f3ef]">
-            <div className="aspect-[16/9] md:aspect-[21/9] w-full relative overflow-hidden group">
+            <div className="aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] w-full relative overflow-hidden group">
               <img
-                alt="Luxury Villa & Sunset Pool Gala by Nofar Atelier"
+                alt="אירוע יוקרה וילה ושקיעה - נופר הפקות אירועים"
                 className="w-full h-full object-cover object-center group-hover:scale-[1.015] transition-transform duration-700 ease-out"
                 src={heroImg}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#1b1c1a]/60 via-transparent to-transparent"></div>
               {/* Bottom Floating Caption */}
-              <div className="absolute bottom-6 right-6 md:bottom-8 md:right-10 text-white flex items-center gap-4">
-                <span className="w-8 h-[1px] bg-[#ffdea5]"></span>
-                <span className="font-label-caps text-label-caps tracking-widest uppercase text-[#fbf9f5]">
+              <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 md:bottom-8 md:right-10 text-white flex items-center gap-3 sm:gap-4">
+                <span className="w-6 sm:w-8 h-[1px] bg-[#ffdea5]"></span>
+                <span className="font-label-caps text-[11px] sm:text-label-caps tracking-widest uppercase text-[#fbf9f5]">
                   ESTATE VILLA &amp; SUNSET POOL GALA • VOL. 24
                 </span>
               </div>
@@ -481,15 +496,15 @@ export function App() {
       </section>
 
       {/* ==================== SELECTED PORTFOLIO (PROPOSALS & CONCEPTS) ==================== */}
-      <section className="py-20 md:py-28 bg-[#f5f3ef]/40" id="gallery">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
+      <section className="py-16 sm:py-20 md:py-28 bg-[#f5f3ef]/40" id="gallery">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           {/* Section Title Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 text-right">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 gap-6 text-right">
             <div>
               <div className="font-label-caps text-label-caps tracking-widest uppercase text-[#775a19] mb-2">
                 SELECTED PORTFOLIO
               </div>
-              <h2 className="font-headline-lg text-headline-lg text-[#1b1c1a]">
+              <h2 className="text-2xl sm:text-3xl md:text-headline-lg font-serif text-[#1b1c1a]">
                 תיק הצעות וקונספטים נבחרים
               </h2>
               <p className="font-body-md text-body-md text-[#4e4639] mt-2 max-w-xl font-light">
@@ -498,10 +513,10 @@ export function App() {
             </div>
 
             {/* Filter Chips */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 sm:gap-2.5">
               <button
                 onClick={() => setActiveFilter('all')}
-                className={`px-4 py-2 rounded-lg font-label-caps text-label-caps uppercase tracking-wider transition-all cursor-pointer ${
+                className={`px-3.5 sm:px-4 py-2 rounded-lg font-label-caps text-xs sm:text-label-caps uppercase tracking-wider transition-all cursor-pointer ${
                   activeFilter === 'all'
                     ? 'bg-[#1b1c1a] text-[#fbf9f5] shadow-sm'
                     : 'bg-[#fbf9f5] border border-[#d1c5b4]/50 text-[#4e4639] hover:border-[#c5a059]'
@@ -511,7 +526,7 @@ export function App() {
               </button>
               <button
                 onClick={() => setActiveFilter('weddings')}
-                className={`px-4 py-2 rounded-lg font-label-caps text-label-caps uppercase tracking-wider transition-all cursor-pointer ${
+                className={`px-3.5 sm:px-4 py-2 rounded-lg font-label-caps text-xs sm:text-label-caps uppercase tracking-wider transition-all cursor-pointer ${
                   activeFilter === 'weddings'
                     ? 'bg-[#1b1c1a] text-[#fbf9f5] shadow-sm'
                     : 'bg-[#fbf9f5] border border-[#d1c5b4]/50 text-[#4e4639] hover:border-[#c5a059]'
@@ -521,7 +536,7 @@ export function App() {
               </button>
               <button
                 onClick={() => setActiveFilter('corporate')}
-                className={`px-4 py-2 rounded-lg font-label-caps text-label-caps uppercase tracking-wider transition-all cursor-pointer ${
+                className={`px-3.5 sm:px-4 py-2 rounded-lg font-label-caps text-xs sm:text-label-caps uppercase tracking-wider transition-all cursor-pointer ${
                   activeFilter === 'corporate'
                     ? 'bg-[#1b1c1a] text-[#fbf9f5] shadow-sm'
                     : 'bg-[#fbf9f5] border border-[#d1c5b4]/50 text-[#4e4639] hover:border-[#c5a059]'
@@ -531,7 +546,7 @@ export function App() {
               </button>
               <button
                 onClick={() => setActiveFilter('vip')}
-                className={`px-4 py-2 rounded-lg font-label-caps text-label-caps uppercase tracking-wider transition-all cursor-pointer ${
+                className={`px-3.5 sm:px-4 py-2 rounded-lg font-label-caps text-xs sm:text-label-caps uppercase tracking-wider transition-all cursor-pointer ${
                   activeFilter === 'vip'
                     ? 'bg-[#1b1c1a] text-[#fbf9f5] shadow-sm'
                     : 'bg-[#fbf9f5] border border-[#d1c5b4]/50 text-[#4e4639] hover:border-[#c5a059]'
@@ -542,13 +557,13 @@ export function App() {
             </div>
           </div>
 
-          {/* Bento-style Asymmetrical Showcase Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 text-right">
-            {/* OPUS 01 - Featured Lead Plate (8 cols) */}
-            {filteredProposals.some((p) => p.id === 'opus-01') && (
-              <div className="md:col-span-8 bg-[#fbf9f5] rounded-xl overflow-hidden border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-500 group flex flex-col justify-between shadow-sm">
+          {/* Adaptive Showcase Grid: Curated Bento for 'all', Balanced Dual/Single Grid when filtered */}
+          {activeFilter === 'all' ? (
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 text-right">
+              {/* OPUS 01 - Featured Lead Plate (8 cols desktop, 7 cols tablet, full on mobile) */}
+              <div className="col-span-1 md:col-span-7 lg:col-span-8 bg-[#fbf9f5] rounded-xl overflow-hidden border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-500 group flex flex-col justify-between shadow-sm">
                 <div
-                  className="aspect-[16/10] overflow-hidden relative cursor-pointer"
+                  className="aspect-[16/10] sm:aspect-[16/9] lg:aspect-[16/10] overflow-hidden relative cursor-pointer"
                   onClick={() => setSelectedProposal(PROPOSAL_LOOKBOOK[0])}
                 >
                   <img
@@ -560,32 +575,32 @@ export function App() {
                     ESTATE SIGNATURE
                   </div>
                 </div>
-                <div className="p-8">
-                  <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase mb-1">
-                    OPUS 01
+                <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
+                  <div>
+                    <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase mb-1">
+                      OPUS 01
+                    </div>
+                    <h3 className="font-headline-md text-headline-md text-[#1b1c1a] mb-3">
+                      חתונת ערב מלכותית — נחלת יוקרה
+                    </h3>
+                    <p className="font-body-md text-body-md text-[#4e4639] font-light mb-6">
+                      420 אורחים • עיצוב קונספט • מאסטר אקוסטי מותאם • מאות נרות ופמוטי קריסטל, סידורי פרחים עשירים באלביון בורדו ולבן שמנת, תאורת גרילנדות חמות 2700K וקולינריה ברמת שף.
+                    </p>
                   </div>
-                  <h3 className="font-headline-md text-headline-md text-[#1b1c1a] mb-3">
-                    חתונת ערב מלכותית — נחלת יוקרה
-                  </h3>
-                  <p className="font-body-md text-body-md text-[#4e4639] font-light mb-6">
-                    420 אורחים • עיצוב קונספט • מאסטר אקוסטי מותאם • מאות נרות ופמוטי קריסטל, סידורי פרחים עשירים באלביון בורדו ולבן שמנת, תאורת גרילנדות חמות 2700K וקולינריה ברמת שף.
-                  </p>
                   <button
                     onClick={() => setSelectedProposal(PROPOSAL_LOOKBOOK[0])}
-                    className="inline-flex items-center gap-2 text-[#775a19] font-label-caps text-label-caps tracking-widest uppercase hover:underline cursor-pointer"
+                    className="inline-flex items-center gap-2 text-[#775a19] font-label-caps text-label-caps tracking-widest uppercase hover:underline cursor-pointer self-start"
                   >
                     <span>סיור במפרט ההצעה</span>
                     <span className="material-symbols-outlined text-base">arrow_back</span>
                   </button>
                 </div>
               </div>
-            )}
 
-            {/* OPUS 02 - VIP Lounge (4 cols) */}
-            {filteredProposals.some((p) => p.id === 'opus-02') && (
-              <div className="md:col-span-4 bg-[#fbf9f5] rounded-xl overflow-hidden border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-500 group flex flex-col justify-between shadow-sm">
+              {/* OPUS 02 - VIP Lounge (4 cols desktop, 5 cols tablet, full on mobile) */}
+              <div className="col-span-1 md:col-span-5 lg:col-span-4 bg-[#fbf9f5] rounded-xl overflow-hidden border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-500 group flex flex-col justify-between shadow-sm">
                 <div
-                  className="aspect-square overflow-hidden relative cursor-pointer"
+                  className="aspect-[16/10] sm:aspect-[16/9] lg:aspect-square overflow-hidden relative cursor-pointer"
                   onClick={() => setSelectedProposal(PROPOSAL_LOOKBOOK[1])}
                 >
                   <img
@@ -597,32 +612,32 @@ export function App() {
                     VIP LOUNGE &amp; PARTY
                   </div>
                 </div>
-                <div className="p-8">
-                  <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase mb-1">
-                    OPUS 02
+                <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
+                  <div>
+                    <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase mb-1">
+                      OPUS 02
+                    </div>
+                    <h3 className="font-headline-sm text-headline-sm text-[#1b1c1a] mb-3">
+                      מסיבת לאונג' VIP &amp; קוקטייל אקסקלוסיבי
+                    </h3>
+                    <p className="font-body-sm text-body-sm text-[#4e4639] font-light mb-6">
+                      בר שיש מרכזי שקוף, עיצובי תאורה חלליים ומותאמים, מיקסולוגיה עילית ואווירת לאונג' יוקרתי בריביירה.
+                    </p>
                   </div>
-                  <h3 className="font-headline-sm text-headline-sm text-[#1b1c1a] mb-3">
-                    מסיבת לאונג' VIP &amp; קוקטייל אקסקלוסיבי
-                  </h3>
-                  <p className="font-body-sm text-body-sm text-[#4e4639] font-light mb-6">
-                    בר שיש מרכזי שקוף, עיצובי תאורה חלליים ומותאמים, מיקסולוגיה עילית ואווירת לאונג' יוקרתי בריביירה.
-                  </p>
                   <button
                     onClick={() => setSelectedProposal(PROPOSAL_LOOKBOOK[1])}
-                    className="inline-flex items-center gap-2 text-[#775a19] font-label-caps text-label-caps tracking-widest uppercase hover:underline cursor-pointer"
+                    className="inline-flex items-center gap-2 text-[#775a19] font-label-caps text-label-caps tracking-widest uppercase hover:underline cursor-pointer self-start"
                   >
                     <span>סיור במפרט ההצעה</span>
                     <span className="material-symbols-outlined text-base">arrow_back</span>
                   </button>
                 </div>
               </div>
-            )}
 
-            {/* OPUS 03 - Corporate Gala (12 cols full panorama) */}
-            {filteredProposals.some((p) => p.id === 'opus-03') && (
-              <div className="md:col-span-12 bg-[#fbf9f5] rounded-xl overflow-hidden border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-500 group grid grid-cols-1 lg:grid-cols-12 shadow-sm">
+              {/* OPUS 03 - Corporate Gala (12 cols full panorama with 2-col split on tablet and desktop) */}
+              <div className="col-span-1 md:col-span-12 bg-[#fbf9f5] rounded-xl overflow-hidden border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-500 group grid grid-cols-1 md:grid-cols-12 shadow-sm">
                 <div
-                  className="lg:col-span-7 aspect-[16/9] lg:aspect-auto overflow-hidden relative cursor-pointer"
+                  className="md:col-span-6 lg:col-span-7 aspect-[16/10] sm:aspect-[16/9] md:aspect-auto overflow-hidden relative cursor-pointer min-h-[260px] md:min-h-full"
                   onClick={() => setSelectedProposal(PROPOSAL_LOOKBOOK[2])}
                 >
                   <img
@@ -631,7 +646,7 @@ export function App() {
                     src={corporateSummitImg}
                   />
                 </div>
-                <div className="lg:col-span-5 p-8 lg:p-12 flex flex-col justify-center">
+                <div className="md:col-span-6 lg:col-span-5 p-6 sm:p-8 lg:p-12 flex flex-col justify-center">
                   <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase mb-1">
                     OPUS 03 • GLOBAL SUMMIT
                   </div>
@@ -652,13 +667,11 @@ export function App() {
                   </div>
                 </div>
               </div>
-            )}
 
-            {/* OPUS 04 - Galilee Wedding (6 cols) */}
-            {filteredProposals.some((p) => p.id === 'opus-04') && (
-              <div className="md:col-span-6 bg-[#fbf9f5] rounded-xl overflow-hidden border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-500 group flex flex-col justify-between shadow-sm">
+              {/* OPUS 04 - Galilee Wedding (6 cols) */}
+              <div className="col-span-1 md:col-span-6 lg:col-span-6 bg-[#fbf9f5] rounded-xl overflow-hidden border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-500 group flex flex-col justify-between shadow-sm">
                 <div
-                  className="aspect-[16/10] overflow-hidden relative cursor-pointer"
+                  className="aspect-[16/10] sm:aspect-[16/9] lg:aspect-[16/10] overflow-hidden relative cursor-pointer"
                   onClick={() => setSelectedProposal(PROPOSAL_LOOKBOOK[3])}
                 >
                   <img
@@ -670,32 +683,32 @@ export function App() {
                     BOTANIC GARDEN
                   </div>
                 </div>
-                <div className="p-8">
-                  <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase mb-1">
-                    OPUS 04 • BOTANIC GARDEN
+                <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
+                  <div>
+                    <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase mb-1">
+                      OPUS 04 • BOTANIC GARDEN
+                    </div>
+                    <h3 className="font-headline-md text-headline-md text-[#1b1c1a] mb-3">
+                      חתונת גליל פתוחה — שולחן אבירים כפרי-יוקרתי
+                    </h3>
+                    <p className="font-body-md text-body-md text-[#4e4639] font-light mb-6">
+                      שולחן אבירים פתוח במטע זיתים, שזירת פרי הדר וצמחי תבלין ארצישראליים, קולינריית פאר כפרית.
+                    </p>
                   </div>
-                  <h3 className="font-headline-md text-headline-md text-[#1b1c1a] mb-3">
-                    חתונת גליל פתוחה — שולחן אבירים כפרי-יוקרתי
-                  </h3>
-                  <p className="font-body-md text-body-md text-[#4e4639] font-light mb-6">
-                    שולחן אבירים פתוח במטע זיתים, שזירת פרי הדר וצמחי תבלין ארצישראליים, קולינריית פאר כפרית.
-                  </p>
                   <button
                     onClick={() => setSelectedProposal(PROPOSAL_LOOKBOOK[3])}
-                    className="inline-flex items-center gap-2 text-[#775a19] font-label-caps text-label-caps tracking-widest uppercase hover:underline cursor-pointer"
+                    className="inline-flex items-center gap-2 text-[#775a19] font-label-caps text-label-caps tracking-widest uppercase hover:underline cursor-pointer self-start"
                   >
                     <span>סיור במפרט ההצעה</span>
                     <span className="material-symbols-outlined text-base">arrow_back</span>
                   </button>
                 </div>
               </div>
-            )}
 
-            {/* OPUS 05 - Intimate Soirée (6 cols) */}
-            {filteredProposals.some((p) => p.id === 'opus-05') && (
-              <div className="md:col-span-6 bg-[#fbf9f5] rounded-xl overflow-hidden border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-500 group flex flex-col justify-between shadow-sm">
+              {/* OPUS 05 - Intimate Celebration (6 cols) */}
+              <div className="col-span-1 md:col-span-6 lg:col-span-6 bg-[#fbf9f5] rounded-xl overflow-hidden border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-500 group flex flex-col justify-between shadow-sm">
                 <div
-                  className="aspect-[16/10] overflow-hidden relative cursor-pointer"
+                  className="aspect-[16/10] sm:aspect-[16/9] lg:aspect-[16/10] overflow-hidden relative cursor-pointer"
                   onClick={() => setSelectedProposal(PROPOSAL_LOOKBOOK[4])}
                 >
                   <img
@@ -707,38 +720,90 @@ export function App() {
                     BESPOKE INTIMACY
                   </div>
                 </div>
-                <div className="p-8">
-                  <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase mb-1">
-                    OPUS 05 • BESPOKE INTIMACY
+                <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
+                  <div>
+                    <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase mb-1">
+                      OPUS 05 • BESPOKE INTIMACY
+                    </div>
+                    <h3 className="font-headline-md text-headline-md text-[#1b1c1a] mb-3">
+                      סעודת סלון פרטית &amp; שולחן אחוזת בוטיק
+                    </h3>
+                    <p className="font-body-md text-body-md text-[#4e4639] font-light mb-6">
+                      ארוחת ערב אינטימית בחדר אוכל מפואר, נברשות קריסטל, סידורי פרחים מלכותיים לאניני טעם.
+                    </p>
                   </div>
-                  <h3 className="font-headline-md text-headline-md text-[#1b1c1a] mb-3">
-                    סעודת סלון פרטית &amp; שולחן אחוזת בוטיק
-                  </h3>
-                  <p className="font-body-md text-body-md text-[#4e4639] font-light mb-6">
-                    ארוחת ערב אינטימית בחדר אוכל מפואר, נברשות קריסטל, סידורי פרחים מלכותיים לאניני טעם.
-                  </p>
                   <button
                     onClick={() => setSelectedProposal(PROPOSAL_LOOKBOOK[4])}
-                    className="inline-flex items-center gap-2 text-[#775a19] font-label-caps text-label-caps tracking-widest uppercase hover:underline cursor-pointer"
+                    className="inline-flex items-center gap-2 text-[#775a19] font-label-caps text-label-caps tracking-widest uppercase hover:underline cursor-pointer self-start"
                   >
                     <span>סיור במפרט ההצעה</span>
                     <span className="material-symbols-outlined text-base">arrow_back</span>
                   </button>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          ) : (
+            /* Balanced Grid for Filtered View (avoids ragged empty columns) */
+            <div
+              className={`grid gap-6 lg:gap-8 text-right ${
+                filteredProposals.length === 1
+                  ? 'grid-cols-1 max-w-3xl mx-auto'
+                  : 'grid-cols-1 md:grid-cols-2'
+              }`}
+            >
+              {filteredProposals.map((proposal) => (
+                <div
+                  key={proposal.id}
+                  className="bg-[#fbf9f5] rounded-xl overflow-hidden border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-500 group flex flex-col justify-between shadow-sm"
+                >
+                  <div
+                    className="aspect-[16/10] sm:aspect-[16/9] overflow-hidden relative cursor-pointer"
+                    onClick={() => setSelectedProposal(proposal)}
+                  >
+                    <img
+                      alt={proposal.title}
+                      className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
+                      src={proposal.image}
+                    />
+                    <div className="absolute top-4 right-4 bg-[#fbf9f5]/90 backdrop-blur-sm px-3 py-1 rounded border border-[#d1c5b4]/40 font-label-caps text-label-caps text-[#775a19] uppercase">
+                      {proposal.badge}
+                    </div>
+                  </div>
+                  <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
+                    <div>
+                      <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase mb-1">
+                        {proposal.opusNum}
+                      </div>
+                      <h3 className="font-headline-md text-headline-md text-[#1b1c1a] mb-3">
+                        {proposal.title}
+                      </h3>
+                      <p className="font-body-md text-body-md text-[#4e4639] font-light mb-6">
+                        {proposal.description}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setSelectedProposal(proposal)}
+                      className="inline-flex items-center gap-2 text-[#775a19] font-label-caps text-label-caps tracking-widest uppercase hover:underline cursor-pointer self-start"
+                    >
+                      <span>סיור במפרט ההצעה</span>
+                      <span className="material-symbols-outlined text-base">arrow_back</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
       {/* ==================== CORE PILLARS (SERVICES) ==================== */}
-      <section className="py-20 md:py-28 border-t border-[#d1c5b4]/30" id="pillars">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+      <section className="py-16 sm:py-20 md:py-28 border-t border-[#d1c5b4]/30" id="pillars">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <div className="font-label-caps text-label-caps tracking-widest uppercase text-[#775a19] mb-2">
               STUDIO SERVICES
             </div>
-            <h2 className="font-headline-lg text-headline-lg text-[#1b1c1a] mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-headline-lg font-serif text-[#1b1c1a] mb-4">
               ארבעת עמודי התווך של ההפקה
             </h2>
             <p className="font-body-lg text-body-lg text-[#4e4639] font-light">
@@ -746,12 +811,12 @@ export function App() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 text-right">
             {/* Pillar 01 */}
-            <div className="bg-[#f5f3ef] p-8 rounded-xl border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-300 relative group flex flex-col justify-between">
+            <div className="bg-[#f5f3ef] p-6 sm:p-7 lg:p-8 rounded-xl border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-300 relative group flex flex-col justify-between shadow-xs">
               <div>
-                <div className="flex items-center justify-between mb-8">
-                  <span className="font-display-md text-display-md text-[#d1c5b4] font-light group-hover:text-[#775a19] transition-colors">
+                <div className="flex items-center justify-between mb-6 sm:mb-8">
+                  <span className="font-display-md text-3xl sm:text-4xl lg:text-display-md text-[#d1c5b4] font-light group-hover:text-[#775a19] transition-colors">
                     01
                   </span>
                   <span className="material-symbols-outlined text-3xl text-[#775a19] font-light">
@@ -761,24 +826,24 @@ export function App() {
                 <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase mb-1">
                   3D SPATIAL RENDERINGS
                 </div>
-                <h3 className="font-headline-sm text-headline-sm text-[#1b1c1a] mb-4">
+                <h3 className="font-headline-sm text-headline-sm text-[#1b1c1a] mb-3 sm:mb-4">
                   קונספט ועיצוב אדריכלי
                 </h3>
                 <p className="font-body-sm text-body-sm text-[#4e4639] leading-relaxed font-light">
                   בניית לוחות השראה מרגשים (Moodboards), הדמיות תלת-ממד של מיקומי ההפקה, תכנון תאורה וזרימת קהל ושפה ויזואלית הרמונית ושלמה.
                 </p>
               </div>
-              <div className="mt-8 pt-4 border-t border-[#d1c5b4]/20 flex items-center justify-between text-xs text-[#655e4e]">
+              <div className="mt-6 sm:mt-8 pt-4 border-t border-[#d1c5b4]/20 flex items-center justify-between text-xs text-[#655e4e]">
                 <span>דיוק מרחבי מלא</span>
                 <span className="material-symbols-outlined text-sm">verified</span>
               </div>
             </div>
 
             {/* Pillar 02 */}
-            <div className="bg-[#f5f3ef] p-8 rounded-xl border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-300 relative group flex flex-col justify-between">
+            <div className="bg-[#f5f3ef] p-6 sm:p-7 lg:p-8 rounded-xl border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-300 relative group flex flex-col justify-between shadow-xs">
               <div>
-                <div className="flex items-center justify-between mb-8">
-                  <span className="font-display-md text-display-md text-[#d1c5b4] font-light group-hover:text-[#775a19] transition-colors">
+                <div className="flex items-center justify-between mb-6 sm:mb-8">
+                  <span className="font-display-md text-3xl sm:text-4xl lg:text-display-md text-[#d1c5b4] font-light group-hover:text-[#775a19] transition-colors">
                     02
                   </span>
                   <span className="material-symbols-outlined text-3xl text-[#775a19] font-light">
@@ -788,24 +853,24 @@ export function App() {
                 <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase mb-1">
                   EXCLUSIVE PURVEYORS
                 </div>
-                <h3 className="font-headline-sm text-headline-sm text-[#1b1c1a] mb-4">
+                <h3 className="font-headline-sm text-headline-sm text-[#1b1c1a] mb-3 sm:mb-4">
                   איתור וניהול ספקי עלית
                 </h3>
                 <p className="font-body-sm text-body-sm text-[#4e4639] leading-relaxed font-light">
                   חיבור לקייטרינג שף יוקרתי, אמני שזירה מובילים, מעצבי תאורה תיאטרליים, ספקי מוזיקה והרכבי ג'אז וקלאסיקה מהשורה הראשונה.
                 </p>
               </div>
-              <div className="mt-8 pt-4 border-t border-[#d1c5b4]/20 flex items-center justify-between text-xs text-[#655e4e]">
+              <div className="mt-6 sm:mt-8 pt-4 border-t border-[#d1c5b4]/20 flex items-center justify-between text-xs text-[#655e4e]">
                 <span>נבחרת ספקי עלית</span>
                 <span className="material-symbols-outlined text-sm">verified</span>
               </div>
             </div>
 
             {/* Pillar 03 */}
-            <div className="bg-[#f5f3ef] p-8 rounded-xl border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-300 relative group flex flex-col justify-between">
+            <div className="bg-[#f5f3ef] p-6 sm:p-7 lg:p-8 rounded-xl border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-300 relative group flex flex-col justify-between shadow-xs">
               <div>
-                <div className="flex items-center justify-between mb-8">
-                  <span className="font-display-md text-display-md text-[#d1c5b4] font-light group-hover:text-[#775a19] transition-colors">
+                <div className="flex items-center justify-between mb-6 sm:mb-8">
+                  <span className="font-display-md text-3xl sm:text-4xl lg:text-display-md text-[#d1c5b4] font-light group-hover:text-[#775a19] transition-colors">
                     03
                   </span>
                   <span className="material-symbols-outlined text-3xl text-[#775a19] font-light">
@@ -815,24 +880,24 @@ export function App() {
                 <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase mb-1">
                   TIMELINE PRECISION
                 </div>
-                <h3 className="font-headline-sm text-headline-sm text-[#1b1c1a] mb-4">
+                <h3 className="font-headline-sm text-headline-sm text-[#1b1c1a] mb-3 sm:mb-4">
                   ניהול הפקה ותקציב
                 </h3>
                 <p className="font-body-sm text-body-sm text-[#4e4639] leading-relaxed font-light">
                   בניית לוח זמנים קפדני (Master Timeline), שקיפות פיננסית מוחלטת ללא חריגות, ניהול משא ומתן וסנכרון חוזים ומערך סידורי ישיבה VIP.
                 </p>
               </div>
-              <div className="mt-8 pt-4 border-t border-[#d1c5b4]/20 flex items-center justify-between text-xs text-[#655e4e]">
+              <div className="mt-6 sm:mt-8 pt-4 border-t border-[#d1c5b4]/20 flex items-center justify-between text-xs text-[#655e4e]">
                 <span>אפס חריגות תקציב</span>
                 <span className="material-symbols-outlined text-sm">verified</span>
               </div>
             </div>
 
             {/* Pillar 04 */}
-            <div className="bg-[#f5f3ef] p-8 rounded-xl border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-300 relative group flex flex-col justify-between">
+            <div className="bg-[#f5f3ef] p-6 sm:p-7 lg:p-8 rounded-xl border border-[#d1c5b4]/40 hover:border-[#c5a059] transition-all duration-300 relative group flex flex-col justify-between shadow-xs">
               <div>
-                <div className="flex items-center justify-between mb-8">
-                  <span className="font-display-md text-display-md text-[#d1c5b4] font-light group-hover:text-[#775a19] transition-colors">
+                <div className="flex items-center justify-between mb-6 sm:mb-8">
+                  <span className="font-display-md text-3xl sm:text-4xl lg:text-display-md text-[#d1c5b4] font-light group-hover:text-[#775a19] transition-colors">
                     04
                   </span>
                   <span className="material-symbols-outlined text-3xl text-[#775a19] font-light">
@@ -842,14 +907,14 @@ export function App() {
                 <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase mb-1">
                   WHITE-GLOVE DELIVERY
                 </div>
-                <h3 className="font-headline-sm text-headline-sm text-[#1b1c1a] mb-4">
+                <h3 className="font-headline-sm text-headline-sm text-[#1b1c1a] mb-3 sm:mb-4">
                   פיקוח וניהול יום האירוע
                 </h3>
                 <p className="font-body-sm text-body-sm text-[#4e4639] leading-relaxed font-light">
                   צוות מנהלי הפקה עם אוזניות וסנכרון מלא באוויר, ליווי צמוד של בעלי השמחות, קבלת פנים מוקפדת ותגובה מיידית לכל תרחיש בזמן אמת.
                 </p>
               </div>
-              <div className="mt-8 pt-4 border-t border-[#d1c5b4]/20 flex items-center justify-between text-xs text-[#655e4e]">
+              <div className="mt-6 sm:mt-8 pt-4 border-t border-[#d1c5b4]/20 flex items-center justify-between text-xs text-[#655e4e]">
                 <span>נוכחות שקטה ומנהיגות</span>
                 <span className="material-symbols-outlined text-sm">verified</span>
               </div>
@@ -859,31 +924,31 @@ export function App() {
       </section>
 
       {/* ==================== BESPOKE EXPERIENCE CALCULATOR ==================== */}
-      <section className="py-20 md:py-28 bg-[#f5f3ef] border-t border-[#d1c5b4]/30" id="calculator">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+      <section className="py-16 sm:py-20 md:py-28 bg-[#f5f3ef] border-t border-[#d1c5b4]/30" id="calculator">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <div className="font-label-caps text-label-caps tracking-widest uppercase text-[#775a19] mb-2">
               BESPOKE EXPERIENCE CALCULATOR
             </div>
-            <h2 className="font-headline-lg text-headline-lg text-[#1b1c1a] mb-3">
-              מחשבון קונספט הערכת היקף
+            <h2 className="text-2xl sm:text-3xl md:text-headline-lg font-serif text-[#1b1c1a] mb-3">
+              מחשבון קונספט והערכת היקף
             </h2>
-            <p className="font-body-md text-body-md text-[#4e4639] font-light">
+            <p className="font-body-lg text-body-lg text-[#4e4639] font-light">
               בחרו את מאפייני האירוע כדי לקבל אומדן מותאם והמלצה ראשונית לחבילת ההפקה.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start text-right">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start text-right">
             {/* Controls Interactive Column */}
-            <div className="lg:col-span-7 bg-[#fbf9f5] p-8 md:p-10 rounded-xl border border-[#d1c5b4]/40 shadow-sm space-y-8">
+            <div className="lg:col-span-7 bg-[#fbf9f5] p-5 sm:p-8 md:p-10 rounded-xl border border-[#d1c5b4]/40 shadow-sm space-y-7 sm:space-y-8">
               {/* Event Type Radio Selection */}
               <div>
                 <label className="block font-label-caps text-label-caps text-[#655e4e] uppercase tracking-wider mb-4">
                   01 • סוג האירוע והאופי
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
                   <label
-                    className={`flex items-center gap-3 p-4 rounded-lg border cursor-pointer transition-all ${
+                    className={`flex items-center gap-3 p-3.5 sm:p-4 rounded-lg border cursor-pointer transition-all ${
                       calcType === 'wedding'
                         ? 'border-[#c5a059] bg-[#f5f3ef]'
                         : 'border-[#d1c5b4]/40 hover:border-[#c5a059] bg-[#fbf9f5]'
@@ -900,7 +965,7 @@ export function App() {
                     <span className="font-body-md text-body-md font-medium text-[#1b1c1a]">חתונת יוקרה</span>
                   </label>
                   <label
-                    className={`flex items-center gap-3 p-4 rounded-lg border cursor-pointer transition-all ${
+                    className={`flex items-center gap-3 p-3.5 sm:p-4 rounded-lg border cursor-pointer transition-all ${
                       calcType === 'corporate'
                         ? 'border-[#c5a059] bg-[#f5f3ef]'
                         : 'border-[#d1c5b4]/40 hover:border-[#c5a059] bg-[#fbf9f5]'
@@ -917,7 +982,7 @@ export function App() {
                     <span className="font-body-md text-body-md font-medium text-[#1b1c1a]">גאלה ועסקי</span>
                   </label>
                   <label
-                    className={`flex items-center gap-3 p-4 rounded-lg border cursor-pointer transition-all ${
+                    className={`flex items-center gap-3 p-3.5 sm:p-4 rounded-lg border cursor-pointer transition-all ${
                       calcType === 'vip'
                         ? 'border-[#c5a059] bg-[#f5f3ef]'
                         : 'border-[#d1c5b4]/40 hover:border-[#c5a059] bg-[#fbf9f5]'
@@ -942,12 +1007,12 @@ export function App() {
                   <label className="font-label-caps text-label-caps text-[#655e4e] uppercase tracking-wider">
                     02 • כמות מוזמנים משוערת
                   </label>
-                  <span className="font-headline-sm text-headline-sm text-[#775a19] font-semibold" id="guestCountDisplay">
+                  <span className="font-headline-sm text-base sm:text-headline-sm text-[#775a19] font-semibold" id="guestCountDisplay">
                     {guestCount} מוזמנים
                   </span>
                 </div>
                 <input
-                  className="w-full h-1.5 bg-[#d1c5b4]/50 rounded-lg appearance-none cursor-pointer custom-range"
+                  className="w-full h-2 bg-[#d1c5b4]/50 rounded-lg appearance-none cursor-pointer custom-range"
                   id="guestRange"
                   max="800"
                   min="50"
@@ -978,7 +1043,7 @@ export function App() {
                     />
                     <div>
                       <div className="font-body-md text-body-md font-medium text-[#1b1c1a]">
-                        בינוי תאורה אדריכלית וגשרי קרסול תלויים
+                        בינוי תאורה אדריכלית וגשרי טראס תלויים (Truss Rigging)
                       </div>
                       <div className="font-body-sm text-body-sm text-[#4e4639] font-light">
                         תכנון תאורה חווייתית ואינטליגנטית מותאמת שקיעה ולילה
@@ -1021,8 +1086,8 @@ export function App() {
               </div>
             </div>
 
-            {/* Dynamic Output Atelier Estimation Card */}
-            <div className="lg:col-span-5 bg-[#fbf9f5] p-8 md:p-10 rounded-xl border border-[#c5a059]/40 shadow-[0_20px_40px_-15px_rgba(26,25,24,0.06)] relative overflow-hidden flex flex-col justify-between">
+            {/* Dynamic Output Studio Estimation Card (Sticky on desktop for live feedback) */}
+            <div className="lg:col-span-5 bg-[#fbf9f5] p-6 sm:p-8 md:p-10 rounded-xl border border-[#c5a059]/40 shadow-[0_20px_40px_-15px_rgba(26,25,24,0.06)] relative overflow-hidden flex flex-col justify-between lg:sticky lg:top-24">
               <div className="absolute -top-12 -left-12 w-32 h-32 bg-[#ffdea5]/20 rounded-full blur-2xl"></div>
               <div>
                 <div className="flex items-center justify-between pb-6 border-b border-[#d1c5b4]/30">
@@ -1058,7 +1123,7 @@ export function App() {
                   <span className="font-label-caps text-label-caps text-[#655e4e] uppercase tracking-wider block mb-1">
                     היקף תקציב הפקה משוער
                   </span>
-                  <div className="font-display-md text-display-md text-[#1b1c1a] font-light tracking-tight">
+                  <div className="text-3xl sm:text-4xl lg:text-3xl xl:text-display-md text-[#1b1c1a] font-light tracking-tight">
                     {formattedMin} – {formattedMax}
                   </div>
                   <p className="font-body-sm text-body-sm text-[#4e4639] mt-2 font-light">
@@ -1070,7 +1135,7 @@ export function App() {
               <div className="pt-4">
                 <button
                   onClick={handleCalculatorWhatsApp}
-                  className="w-full inline-flex items-center justify-center gap-3 bg-[#1b1c1a] text-[#fbf9f5] py-4 rounded-lg font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#775a19] transition-all duration-300 shadow-sm cursor-pointer border border-[#c5a059]/40"
+                  className="w-full inline-flex items-center justify-center gap-3 bg-[#1b1c1a] text-[#fbf9f5] py-3.5 sm:py-4 rounded-lg font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#775a19] transition-all duration-300 shadow-sm cursor-pointer border border-[#c5a059]/40"
                 >
                   <span className="material-symbols-outlined text-lg">chat</span>
                   <span>קבלת אומדן ישיר ב-WhatsApp</span>
@@ -1082,20 +1147,20 @@ export function App() {
       </section>
 
       {/* ==================== CLIENT PRAISE / TESTIMONIALS ==================== */}
-      <section className="py-20 md:py-28 border-t border-[#d1c5b4]/30" id="testimonials">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+      <section className="py-16 sm:py-20 md:py-28 border-t border-[#d1c5b4]/30" id="testimonials">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
             <div className="font-label-caps text-label-caps tracking-widest uppercase text-[#775a19] mb-2">
               WORDS OF ESTEEM
             </div>
-            <h2 className="font-headline-lg text-headline-lg text-[#1b1c1a]">
+            <h2 className="text-2xl sm:text-3xl md:text-headline-lg font-serif text-[#1b1c1a]">
               מילים מלקוחותינו
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-right">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 text-right">
             {/* Review 1 */}
-            <div className="bg-[#fbf9f5] p-8 rounded-xl border border-[#d1c5b4]/40 shadow-sm flex flex-col justify-between">
+            <div className="bg-[#fbf9f5] p-6 sm:p-8 rounded-xl border border-[#d1c5b4]/40 shadow-sm flex flex-col justify-between">
               <div>
                 <div className="flex text-[#775a19] mb-4 gap-1">
                   {[...Array(5)].map((_, i) => (
@@ -1121,7 +1186,7 @@ export function App() {
             </div>
 
             {/* Review 2 */}
-            <div className="bg-[#fbf9f5] p-8 rounded-xl border border-[#d1c5b4]/40 shadow-sm flex flex-col justify-between">
+            <div className="bg-[#fbf9f5] p-6 sm:p-8 rounded-xl border border-[#d1c5b4]/40 shadow-sm flex flex-col justify-between">
               <div>
                 <div className="flex text-[#775a19] mb-4 gap-1">
                   {[...Array(5)].map((_, i) => (
@@ -1146,8 +1211,8 @@ export function App() {
               </div>
             </div>
 
-            {/* Review 3 */}
-            <div className="bg-[#fbf9f5] p-8 rounded-xl border border-[#d1c5b4]/40 shadow-sm flex flex-col justify-between">
+            {/* Review 3 (Spans 2 cols on tablet for harmonious balanced grid) */}
+            <div className="bg-[#fbf9f5] p-6 sm:p-8 rounded-xl border border-[#d1c5b4]/40 shadow-sm flex flex-col justify-between md:col-span-2 lg:col-span-1">
               <div>
                 <div className="flex text-[#775a19] mb-4 gap-1">
                   {[...Array(5)].map((_, i) => (
@@ -1176,74 +1241,83 @@ export function App() {
       </section>
 
       {/* ==================== MANIFEST BANNER & FAQ ==================== */}
-      <section className="py-16 md:py-24 bg-[#f5f3ef] border-t border-[#d1c5b4]/30">
-        <div className="max-w-5xl mx-auto px-6 md:px-12">
+      <section className="py-14 sm:py-20 md:py-24 bg-[#f5f3ef] border-t border-[#d1c5b4]/30">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Editorial Pull Quote */}
-          <div className="text-center py-12 px-6 border-y border-[#c5a059]/40 my-8">
-            <span className="material-symbols-outlined text-4xl text-[#775a19] mb-4 font-light">
+          <div className="text-center py-10 sm:py-12 px-4 sm:px-6 border-y border-[#c5a059]/40 my-6 sm:my-8">
+            <span className="material-symbols-outlined text-3xl sm:text-4xl text-[#775a19] mb-3 sm:mb-4 font-light">
               format_quote
             </span>
-            <blockquote className="font-display-md text-headline-lg md:text-display-md text-[#1b1c1a] italic font-normal leading-snug max-w-3xl mx-auto">
+            <blockquote className="font-serif text-xl sm:text-2xl md:text-3xl text-[#1b1c1a] italic font-normal leading-snug max-w-3xl mx-auto">
               &quot;אירוע אינו אוסף של פריטי עיצוב, אלא סימפוניה של רגש, תאורה ורגעים שנוצרים בזיכרון לעד.&quot;
             </blockquote>
-            <div className="mt-6 font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase">
+            <div className="mt-5 sm:mt-6 font-label-caps text-xs sm:text-label-caps text-[#775a19] tracking-widest uppercase">
               NOFAR • FOUNDER &amp; CREATIVE DIRECTOR
             </div>
           </div>
 
-          {/* FAQ Section */}
-          <div className="mt-16 text-right">
-            <h3 className="font-headline-md text-headline-md text-[#1b1c1a] text-center mb-10">
+          {/* Interactive FAQ Accordion */}
+          <div className="mt-12 sm:mt-16 text-right">
+            <h3 className="text-xl sm:text-2xl md:text-headline-md font-serif text-[#1b1c1a] text-center mb-8 sm:mb-10">
               שאלות נפוצות ותפיסת עולם
             </h3>
-            <div className="space-y-4">
-              <div className="p-6 bg-[#fbf9f5] rounded-xl border border-[#d1c5b4]/40">
-                <div className="font-headline-sm text-headline-sm text-[#1b1c1a] mb-2 font-medium">
-                  באילו אזורים ולוקיישנים אתם מפיקים בארץ?
-                </div>
-                <p className="font-body-md text-body-md text-[#4e4639] font-light">
-                  אנו מתמחים בהפקות בנחלות פרטיות בשרון ובמרכז, וילות יוקרה בקיסריה, בוסתנים ושטחי טבע פתוחים בגליל ובדרום, ומתחמי בוטיק נבחרים עם מעטפת תשתית מלאה.
-                </p>
-              </div>
-              <div className="p-6 bg-[#fbf9f5] rounded-xl border border-[#d1c5b4]/40">
-                <div className="font-headline-sm text-headline-sm text-[#1b1c1a] mb-2 font-medium">
-                  כמה זמן מראש מומלץ להתחיל בתהליך ההפקה?
-                </div>
-                <p className="font-body-md text-body-md text-[#4e4639] font-light">
-                  לאירועי יוקרה מורכבים בנחלות או שטחים פתוחים אנו ממליצים על 6 עד 9 חודשים מראש. עם זאת, צוות ההפקה ערוך גם להפקות בזק מואצות תוך 6-8 שבועות בסטנדרט חסר פשרות.
-                </p>
-              </div>
-              <div className="p-6 bg-[#fbf9f5] rounded-xl border border-[#d1c5b4]/40">
-                <div className="font-headline-sm text-headline-sm text-[#1b1c1a] mb-2 font-medium">
-                  האם ניתן לשכור את שירותי העיצוב בלבד ללא הפקה כוללת?
-                </div>
-                <p className="font-body-md text-body-md text-[#4e4639] font-light">
-                  אנו מתמקדים בהפקה מלאה (Full Turnkey Production) בלבד, מתוך אמונה שעיצוב עילי אינו יכול להתקיים ללא שליטה אבסולוטית על התזמון, הקולינריה, והסאונד.
-                </p>
-              </div>
+            <div className="space-y-3.5">
+              {FAQ_ITEMS.map((item, index) => {
+                const isOpen = openFaq === index;
+                return (
+                  <div
+                    key={index}
+                    className="bg-[#fbf9f5] rounded-xl border border-[#d1c5b4]/40 overflow-hidden transition-colors"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaq(isOpen ? null : index)}
+                      className="w-full p-5 sm:p-6 text-right flex items-center justify-between gap-4 cursor-pointer hover:bg-[#f5f3ef]/60 transition-colors"
+                    >
+                      <span className="font-headline-sm text-base sm:text-headline-sm text-[#1b1c1a] font-medium">
+                        {item.q}
+                      </span>
+                      <span
+                        className={`material-symbols-outlined text-[#775a19] transition-transform duration-300 shrink-0 ${
+                          isOpen ? 'rotate-180' : ''
+                        }`}
+                      >
+                        expand_more
+                      </span>
+                    </button>
+                    {isOpen && (
+                      <div className="px-5 sm:px-6 pb-5 sm:pb-6 pt-1 text-right animate-in fade-in duration-200">
+                        <p className="font-body-md text-body-md text-[#4e4639] font-light leading-relaxed">
+                          {item.a}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
       </section>
 
       {/* ==================== INITIATE CONVERSATION (CONTACT & WISHLIST) ==================== */}
-      <section className="py-20 md:py-28 border-t border-[#d1c5b4]/30 bg-[#fbf9f5]" id="inquiry">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 text-right">
+      <section className="py-16 sm:py-20 md:py-28 border-t border-[#d1c5b4]/30 bg-[#fbf9f5]" id="inquiry">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 text-right">
             {/* Left Sidebar / Studio Information */}
             <div className="lg:col-span-5 flex flex-col justify-between">
               <div>
                 <div className="font-label-caps text-label-caps tracking-widest uppercase text-[#775a19] mb-2">
                   INITIATE CONVERSATION
                 </div>
-                <h2 className="font-headline-lg text-headline-lg text-[#1b1c1a] mb-4">
+                <h2 className="text-2xl sm:text-3xl md:text-headline-lg font-serif text-[#1b1c1a] mb-4">
                   תיאום פגישת קונספט בסטודיו
                 </h2>
-                <p className="font-body-lg text-body-lg text-[#4e4639] font-light leading-relaxed mb-8">
+                <p className="font-body-lg text-body-lg text-[#4e4639] font-light leading-relaxed mb-6 sm:mb-8">
                   נשמח לארח אתכם לכוס שמפניה, להאזין לחלומות שלכם ולשרטט יחד את תוואי ההפקה הראשוני.
                 </p>
 
-                <div className="space-y-6 border-y border-[#d1c5b4]/30 py-8 my-6">
+                <div className="space-y-5 sm:space-y-6 border-y border-[#d1c5b4]/30 py-6 sm:py-8 my-6">
                   <div className="flex items-start gap-4">
                     <span className="material-symbols-outlined text-[#775a19] text-2xl mt-0.5">
                       pin_drop
@@ -1302,9 +1376,9 @@ export function App() {
                 </div>
               </div>
 
-              <div className="pt-4">
+              <div className="pt-2 sm:pt-4">
                 <a
-                  className="inline-flex items-center gap-2 text-[#775a19] font-label-caps text-label-caps uppercase tracking-widest hover:underline"
+                  className="inline-flex items-center gap-2 text-[#775a19] font-label-caps text-xs sm:text-label-caps uppercase tracking-widest hover:underline"
                   href="https://wa.me/972548894231?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A0%D7%95%D7%A4%D7%A8,%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%AA%D7%90%D7%9D%20%D7%A4%D7%92%D7%99%D7%A9%D7%AA%20%D7%A7%D7%95%D7%A0%D7%A1%D7%A4%D7%98%20%D7%9C%D7%90%D7%99%D7%A8%D7%95%D7%A2"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -1315,8 +1389,8 @@ export function App() {
               </div>
             </div>
 
-            {/* Right Form / Wishlist Builder Column (Matching exact structure) */}
-            <div className="lg:col-span-7 bg-[#f5f3ef] p-8 md:p-12 rounded-xl border border-[#d1c5b4]/40 shadow-sm space-y-7">
+            {/* Right Form / Wishlist Builder Column */}
+            <div className="lg:col-span-7 bg-[#f5f3ef] p-6 sm:p-8 md:p-10 rounded-xl border border-[#d1c5b4]/40 shadow-sm space-y-6 sm:space-y-7">
               {/* Step 1: Event Type */}
               <div>
                 <label className="block font-label-caps text-label-caps text-[#655e4e] uppercase tracking-wider mb-3">
@@ -1350,7 +1424,7 @@ export function App() {
                 <label className="block font-label-caps text-label-caps text-[#655e4e] uppercase tracking-wider mb-3">
                   02 • לוקיישן או אזור מועדף
                 </label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                   {[
                     'נחלה פרטית בשרון / מרכז',
                     'וילה יוקרתית בקיסריה',
@@ -1364,7 +1438,7 @@ export function App() {
                       onClick={() => setWishlistLocation(loc)}
                       className={`p-2.5 text-right text-xs transition-all cursor-pointer rounded-lg border ${
                         wishlistLocation === loc
-                          ? 'bg-[#775a19] text-white border-[#775a19] font-medium'
+                          ? 'bg-[#775a19] text-white border-[#775a19] font-medium shadow-xs'
                           : 'bg-[#fbf9f5] text-[#4e4639] border-[#d1c5b4]/60 hover:border-[#c5a059]'
                       }`}
                     >
@@ -1466,14 +1540,14 @@ export function App() {
               <div>
                 <button
                   onClick={handleOpenWhatsAppWishlist}
-                  className="w-full bg-[#1b1c1a] text-[#fbf9f5] py-4 rounded-lg font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#775a19] transition-all duration-300 shadow-sm cursor-pointer border border-[#c5a059]/40 flex items-center justify-center gap-2"
+                  className="w-full bg-[#1b1c1a] text-[#fbf9f5] py-3.5 sm:py-4 rounded-lg font-label-caps text-label-caps uppercase tracking-widest hover:bg-[#775a19] transition-all duration-300 shadow-sm cursor-pointer border border-[#c5a059]/40 flex items-center justify-center gap-2"
                 >
                   <span className="material-symbols-outlined text-lg">chat</span>
                   <span>פתיחת שיחה ב-WhatsApp עם כל הרצונות</span>
                 </button>
               </div>
 
-              <div className="text-center font-body-sm text-body-sm text-[#655e4e]">
+              <div className="text-center font-body-sm text-xs sm:text-body-sm text-[#655e4e]">
                 דיסקרטיות מלאה מובטחת. הפרטים אינם מועברים לשום גורם חיצוני.
               </div>
             </div>
@@ -1483,10 +1557,10 @@ export function App() {
 
       {/* ==================== SHARED FOOTER ==================== */}
       <footer className="w-full bg-[#f5f3ef] border-t border-[#d1c5b4]/30">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-10 text-right md:text-left">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-16 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 sm:gap-10 text-right">
           {/* Brand & Studio Description */}
           <div className="max-w-md text-right">
-            <div className="font-headline-md text-headline-md text-[#1b1c1a] tracking-wider font-semibold mb-3">
+            <div className="font-headline-md text-xl sm:text-headline-md text-[#1b1c1a] tracking-wider font-semibold mb-2 sm:mb-3">
               NOFAR Luxury Event Productions
             </div>
             <p className="font-body-sm text-body-sm text-[#4e4639] leading-relaxed">
@@ -1495,7 +1569,7 @@ export function App() {
           </div>
 
           {/* Footer Nav Links */}
-          <div className="flex flex-wrap gap-6 md:gap-8 font-label-caps text-label-caps uppercase tracking-widest">
+          <div className="flex flex-wrap gap-4 sm:gap-6 lg:gap-8 font-label-caps text-xs sm:text-label-caps uppercase tracking-widest justify-start md:justify-end">
             <button
               onClick={() =>
                 setModalContent({
@@ -1571,21 +1645,22 @@ export function App() {
       {/* ==================== PROPOSAL DETAILS LIGHTBOX / MODAL ==================== */}
       {selectedProposal && (
         <div
-          className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
+          className="fixed inset-0 z-[60] bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
           onClick={() => setSelectedProposal(null)}
         >
           <div
-            className="max-w-3xl w-full bg-[#fbf9f5] border border-[#d1c5b4] shadow-2xl relative text-right overflow-hidden my-8 rounded-xl"
+            className="max-w-3xl w-full bg-[#fbf9f5] border border-[#d1c5b4] shadow-2xl relative text-right overflow-hidden my-4 sm:my-8 rounded-xl max-h-[92vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setSelectedProposal(null)}
-              className="absolute top-4 left-4 z-10 w-9 h-9 bg-black/70 border border-white/20 text-white rounded-full flex items-center justify-center hover:text-[#c5a059] transition-colors cursor-pointer"
+              className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10 w-9 h-9 bg-black/70 border border-white/20 text-white rounded-full flex items-center justify-center hover:text-[#c5a059] transition-colors cursor-pointer"
+              aria-label="Close"
             >
               <span className="material-symbols-outlined text-xl">close</span>
             </button>
 
-            <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#efebe4]">
+            <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#efebe4] shrink-0">
               <img
                 src={selectedProposal.image}
                 alt={selectedProposal.title}
@@ -1597,7 +1672,7 @@ export function App() {
               </div>
             </div>
 
-            <div className="p-6 sm:p-8 space-y-6 max-h-[70vh] overflow-y-auto">
+            <div className="p-5 sm:p-8 space-y-5 sm:space-y-6 overflow-y-auto">
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <span className="font-label-caps text-xs text-[#775a19] tracking-widest uppercase font-semibold">
@@ -1606,7 +1681,7 @@ export function App() {
                   <span className="text-[#7f7667]">•</span>
                   <span className="text-xs text-[#4e4639]">{selectedProposal.subType}</span>
                 </div>
-                <h3 className="font-headline-lg text-headline-lg text-[#1b1c1a]">
+                <h3 className="text-xl sm:text-2xl md:text-headline-lg font-serif text-[#1b1c1a]">
                   {selectedProposal.title}
                 </h3>
               </div>
@@ -1687,15 +1762,15 @@ export function App() {
       {/* ==================== UNDER CONSTRUCTION & MESSAGE PREVIEW MODAL ==================== */}
       {constructionModal && (
         <div
-          className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
+          className="fixed inset-0 z-[60] bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
           onClick={() => setConstructionModal(null)}
         >
           <div
-            className="max-w-xl w-full bg-[#fbf9f5] border border-[#c5a059]/60 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] relative text-right overflow-hidden my-6 rounded-2xl animate-in fade-in zoom-in-95 duration-200"
+            className="max-w-xl w-full bg-[#fbf9f5] border border-[#c5a059]/60 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] relative text-right overflow-hidden my-4 sm:my-6 rounded-2xl animate-in fade-in zoom-in-95 duration-200 max-h-[92vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top decorative header band */}
-            <div className="bg-gradient-to-r from-[#1b1c1a] via-[#2d2820] to-[#1b1c1a] text-[#fbf9f5] px-6 py-5 border-b border-[#c5a059]/40 flex items-center justify-between">
+            <div className="bg-gradient-to-r from-[#1b1c1a] via-[#2d2820] to-[#1b1c1a] text-[#fbf9f5] px-5 sm:px-6 py-4 sm:py-5 border-b border-[#c5a059]/40 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-[#c5a059]/20 border border-[#c5a059] flex items-center justify-center text-[#ffdea5]">
                   <span className="material-symbols-outlined text-base">construction</span>
@@ -1717,7 +1792,7 @@ export function App() {
             </div>
 
             {/* Modal Body */}
-            <div className="p-6 sm:p-8 space-y-6">
+            <div className="p-5 sm:p-8 space-y-5 sm:space-y-6 overflow-y-auto">
               {/* Status Notice */}
               <div className="bg-[#f5f3ef] border border-[#d1c5b4]/70 p-4 rounded-xl">
                 <div className="flex items-start gap-3">
@@ -1813,16 +1888,17 @@ export function App() {
       {/* ==================== PRIVACY & TERMS MODAL ==================== */}
       {modalContent && (
         <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
           onClick={() => setModalContent(null)}
         >
           <div
-            className="max-w-md w-full bg-[#fbf9f5] border border-[#d1c5b4] p-7 shadow-2xl relative text-right rounded-xl"
+            className="max-w-md w-full bg-[#fbf9f5] border border-[#d1c5b4] p-6 sm:p-7 shadow-2xl relative text-right rounded-xl max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setModalContent(null)}
-              className="absolute top-4 left-4 text-[#4e4639] hover:text-[#1b1c1a] cursor-pointer"
+              className="absolute top-4 left-4 text-[#4e4639] hover:text-[#1b1c1a] cursor-pointer p-1"
+              aria-label="Close"
             >
               <span className="material-symbols-outlined text-xl">close</span>
             </button>
