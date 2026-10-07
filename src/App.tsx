@@ -276,15 +276,18 @@ export function App() {
   const formattedMax = `₪${Math.round(totalMax / 1000)}k`;
 
   let tierName = 'Bespoke Luxury Signature';
+  let tierNameHebrew = 'חבילת חתונת יוקרה & אחוזה';
   let tierStaff = 'נופר + 5 מנהלי שטח';
   let tierPrep = '7-9 חודשי הפקה';
 
   if (calcType === 'corporate') {
     tierName = 'Executive Summit & Gala';
+    tierNameHebrew = 'חבילת כנס מנהלים & גאלה';
     tierStaff = 'נופר + 6 מנהלי שטח והפקה טכנית';
     tierPrep = '3-5 חודשי תכנון מואצים';
   } else if (calcType === 'vip') {
     tierName = 'Private VIP & Villa Celebration';
+    tierNameHebrew = 'חבילת מסיבת VIP & וילה פרטית';
     tierStaff = 'נופר + 4 מנהלי אירוח צמודים';
     tierPrep = '2-4 חודשי הפקה אישית';
   }
@@ -1095,7 +1098,12 @@ export function App() {
                     <div className="font-label-caps text-label-caps text-[#775a19] tracking-widest uppercase">
                       PROPOSED PRODUCTION TIER
                     </div>
-                    <h3 className="font-headline-md text-headline-md text-[#1b1c1a] mt-1">{tierName}</h3>
+                    <h3 className="text-xl sm:text-2xl font-serif text-[#1b1c1a] mt-1 font-medium leading-snug flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2.5">
+                      <span>{tierNameHebrew}</span>
+                      <span className="text-xs font-sans text-[#775a19] tracking-wider uppercase font-semibold">
+                        • {tierName}
+                      </span>
+                    </h3>
                   </div>
                   <span className="material-symbols-outlined text-4xl text-[#775a19] font-light">
                     workspace_premium
